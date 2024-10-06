@@ -15,7 +15,7 @@ function App() {
 
   return (
     <Router>
-      <HeaderWithConditional />
+      <HeaderWithConditional section04Ref = {section04Ref}/>
       <SideBarWithConditional />
       <AppRoutes section04Ref={section04Ref} />
     </Router>

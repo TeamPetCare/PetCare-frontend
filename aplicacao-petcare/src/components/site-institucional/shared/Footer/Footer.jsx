@@ -1,5 +1,5 @@
 import styles from "./Footer.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { FaFacebookSquare, FaGithubSquare } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
@@ -8,6 +8,16 @@ import logoBrancoPetCare from "../../../../utils/assets/logos/logoBrancoPetCare.
 const Footer = ({ scrollToSection04, scrollToSection06 }) => {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const isNotMobile = useMediaQuery({ query: "(min-width: 768px)" });
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleTesteGratisClick = () => {
+    if (location.pathname === "/") scrollToSection04();
+    else  {
+      navigate("/");
+    }
+  }
 
   return (
     <div className={styles["container-bck"]}>
@@ -20,7 +30,7 @@ const Footer = ({ scrollToSection04, scrollToSection06 }) => {
               <p>PetCare</p>
               <ul>
                 <li onClick={scrollToSection06}>Funcionalidades</li>
-                <li onClick={scrollToSection04}>Teste Grátis</li>
+                <li onClick={handleTesteGratisClick}>Teste Grátis</li>
                 <Link to="/suporte" className={styles["linkLi"]}>
                   <li>Suporte</li>
                 </Link>
@@ -34,7 +44,7 @@ const Footer = ({ scrollToSection04, scrollToSection06 }) => {
             <div className={styles["container-links-donos"]}>
               <p>Donos de Pet</p>
               <ul>
-                <Link to="/aplicativoPetCare" className={styles["linkLi"]}>
+                <Link to="/aplicativoPetcare" className={styles["linkLi"]}>
                   <li>Baixe o aplicativo</li>
                 </Link>
               </ul>
@@ -88,7 +98,7 @@ const Footer = ({ scrollToSection04, scrollToSection06 }) => {
               <p>PetCare</p>
               <ul>
                 <li onClick={scrollToSection06}>Funcionalidades</li>
-                <li onClick={scrollToSection04}>Teste Grátis</li>
+                <li onClick={handleTesteGratisClick}>Teste Grátis</li>
                 <Link to="/suporte" className={styles["linkLi"]}>
                   <li>Suporte</li>
                 </Link>
@@ -103,7 +113,7 @@ const Footer = ({ scrollToSection04, scrollToSection06 }) => {
               <div className={styles["container-links-donos"]}>
                 <p>Donos de Pet</p>
                 <ul>
-                  <Link to="/aplicativoPetCare" className={styles["linkLi"]}>
+                  <Link to="/aplicativoPetcare" className={styles["linkLi"]}>
                     <li>Baixe o aplicativo</li>
                   </Link>
                 </ul>

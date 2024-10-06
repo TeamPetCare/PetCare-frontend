@@ -2,11 +2,11 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import MainHeader from "../components/site-institucional/shared/MainHeader/MainHeader.jsx";
 import SideBar from "../components/aplicacao-dono-petshop/shared/sideBar/SideBar.jsx";
 
-export const HeaderWithConditional = () => {
+export const HeaderWithConditional = ({ section04Ref }) => {
     const location = useLocation();
   
     // Define as rotas onde o MainHeader deve ser exibido
-    const showHeaderRoutes = ["/", "/sobreNos", "/suporte", "/aplicativoPetCare"];
+    const showHeaderRoutes = ["/", "/sobreNos", "/suporte", "/aplicativoPetcare"];
   
     const shouldShowHeader = showHeaderRoutes.includes(location.pathname);
   

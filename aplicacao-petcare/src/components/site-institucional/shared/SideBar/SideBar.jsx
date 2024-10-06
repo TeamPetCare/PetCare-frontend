@@ -2,13 +2,22 @@ import React from "react";
 import styles from "./SideBar.module.css";
 import iconXMobile from "../../../../utils/assets/site-institucional/header/iconXMobile.svg";
 import { PiUserCircleLight } from "react-icons/pi";
-
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const SideBar = ({ active, scrollToSection04 }) => {
   const closeSideBar = () => {
     active(false);
   };
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleTesteGratisClick = () => {
+    if (location.pathname === "/") scrollToSection04();
+    else  {
+      navigate("/");
+    }
+  }
 
   return (
     <div className={styles.container} style={{ right: active ? "0" : "-100%" }}>
@@ -25,7 +34,7 @@ const SideBar = ({ active, scrollToSection04 }) => {
           <Link to="/sobreNos" className={styles.linkLi}>
             <li>Sobre Nós</li>
           </Link>
-          <Link to="/aplicativoPetCare" className={styles.linkLi}>
+          <Link to="/aplicativoPetcare" className={styles.linkLi}>
             <li>Aplicativo PetCare</li>
           </Link>
           <Link to="/suporte" className={styles.linkLi}>
@@ -38,11 +47,7 @@ const SideBar = ({ active, scrollToSection04 }) => {
             </li>
           </Link>
         </ul>
-        <Link style={{ width: "85%" }}>
-          <button className={styles.btnTesteGratis} onClick={scrollToSection04}>
-            Teste Grátis
-          </button>
-        </Link>
+          <li className={styles.btnTesteGratis} onClick={handleTesteGratisClick}>Teste Grátis</li>
       </div>
     </div>
   );

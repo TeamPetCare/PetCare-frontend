@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Inicio from "../pages/site-institucional/inicio/Inicio.jsx";
 import SobreNos from "../pages/site-institucional/sobreNos/SobreNos.jsx";
 import Suporte from "../pages/site-institucional/suporte/Suporte.jsx";
-import AplicativoPetCare from "../pages/site-institucional/aplicativoPetCare/AplicativoPetCare.jsx";
+import AplicativoPetcare from "../pages/site-institucional/aplicativoPetCare/AplicativoPetCare.jsx";
 import DonoPetshopInicio from "../pages/aplicacao-dono-petshop/inicio/inicio.jsx";
 import Login from "../pages/aplicacao-dono-petshop/login/Login.jsx";
 
@@ -19,7 +19,7 @@ const AppRoutes = ({ section04Ref }) => {
       <Route path="/" element={<Inicio section04Ref={section04Ref} />} />
       <Route path="/sobreNos" element={<SobreNos />} />
       <Route path="/suporte" element={<Suporte />} />
-      <Route path="/aplicativoPetCare" element={<AplicativoPetCare />} />
+      <Route path="/aplicativoPetcare" element={<AplicativoPetcare />} />
 
       {/* Rotas Aplicação Dono do Petshop */}
       <Route path="/donoPetshop/login" element={<Login />} />

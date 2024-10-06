@@ -2,9 +2,18 @@ import React, { useState } from "react";
 import logoPetCare from "../../../../utils/assets/logos/logoPetCare.svg";
 import styles from "./DesktopHeader.module.css";
 import { PiUserCircleLight } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function DesktopHeader({ scrollToSection04 }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleTesteGratisClick = () => {
+    if (location.pathname === "/") scrollToSection04();
+    else  {
+      navigate("/");
+    }
+  }
   return (
     <div className={styles["container"]}>
       <div className={styles["container_desktop_subheader"]}>
@@ -45,7 +54,7 @@ function DesktopHeader({ scrollToSection04 }) {
               Sobre Nós
             </Link>
           </li>
-          <li onClick={scrollToSection04}>Teste Grátis</li>
+          <li onClick={handleTesteGratisClick}>Teste Grátis</li>
         </ul>
       </div>
     </div>

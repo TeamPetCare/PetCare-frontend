@@ -1,9 +1,10 @@
-const AplicativoPetCare = () => {
+const aplicativoPetCare = () => {
   return (
     <div>
       /* seu código aqui */
+      aplicativoPetcare
     </div>
   );
 };
 
-export default AplicativoPetCare;
+export default aplicativoPetCare;
