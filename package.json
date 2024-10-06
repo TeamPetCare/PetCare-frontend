@@ -1,0 +1,9 @@
+{
+    "name": "aplicacao-petcare",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node ./aplicacao-petcare/app.js",
+        "postinstall": "cd aplicacao-petcare && npm install"
+    }
+}
