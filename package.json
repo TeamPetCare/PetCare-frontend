@@ -3,8 +3,12 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "cd aplicacao-petcare && npm run dev",
-        "build": "cd aplicacao-petcare && npm install && npm run build",
-        "postinstall": "npm run build"
+        "start": "cd ./aplicacao-petcare && node app.js",
+        "postinstall": "cd aplicacao-petcare && npm install"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.0"
     }
 }
