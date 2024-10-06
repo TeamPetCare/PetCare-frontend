@@ -1,0 +1,157 @@
+.container-bck::before {
+  content: "";
+  position: absolute;
+  /* top: 0; */
+  /* left: 0; */
+  width: 100%;
+  height: 91%;
+  background-image: url(../../../../utils/assets/site-institucional/footer/backgroundFooterMobile.svg);
+  background-size: cover;
+  background-position: center;
+  align-self: center;
+}
+
+.container-bck {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 2em 0 0;
+  gap: 2em;
+  color: #fff;
+
+  img {
+    position: relative;
+    width: 35%;
+  }
+
+  p {
+    position: relative;
+  }
+
+  .linkLi {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.container-links {
+  z-index: 1;
+  position: relative;
+  color: #fff;
+  display: grid;
+  grid-gap: 2em 1em;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+
+  div {
+    p {
+      font-weight: 600;
+      color: var(--cor-secundaria-amarelo-claro);
+      font-size: 0.8em;
+      margin-bottom: 0.9em;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-size: 11px;
+        font-weight: 400;
+        margin-bottom: 0.3em;
+        cursor: pointer;
+      }
+    }
+
+    .container-links-icons {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      margin-top: 1em;
+
+      svg {
+        width: 1.4em;
+        height: 1.4em;
+      }
+    }
+  }
+}
+
+@media (min-width: 767px) {
+  .container-bck::before {
+    background-image: url(../../../../utils/assets/site-institucional/footer/backgroundFooterDesktop.svg);
+
+    height: 55%;
+  }
+  .container-bck {
+    padding: 0 40px;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 7em 0 0;
+    gap: 2em;
+    color: #fff;
+
+    img {
+      width: 70%;
+      margin-bottom: 1em;
+    }
+  }
+
+  .container-links {
+    display: flex;
+
+    .container-links-2 {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-bck::before {
+    height: 60%;
+    margin-bottom: -1em;
+    background-size: unset;
+  }
+  .container-bck {
+    padding: 0 90px;
+  }
+  .container {
+    padding: 10em 0 0;
+    img {
+      width: 80%;
+    }
+
+    p {
+      font-size: 0.8em;
+    }
+  }
+
+  .container-links {
+    grid-gap: 5em;
+
+    div {
+      p {
+        font-size: 0.9em;
+        margin-bottom: 0.9em;
+      }
+
+      ul {
+        li {
+          font-size: 12px;
+          margin-bottom: 0.8em;
+        }
+      }
+    }
+  }
+}

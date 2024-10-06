@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: solid 2px #d4d2e3;
+}
+
+.logo_pet_care {
+  width: 130%;
+  cursor: pointer;
+}
+
+.img_menu_mobile {
+  display: block;
+  color: var(--cor-primaria-azul-escuro);
+  cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        display: none;
+    }
+}

@@ -1,0 +1,178 @@
+.container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.beneficios {
+  position: absolute;
+  width: 100%;
+  height: 329px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarela.svg);
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  margin-top: -6em;
+  color: var(--cor-primaria-azul-escuro);
+}
+
+.item-beneficio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+  width: 85%;
+
+  div {
+    display: flex;
+    align-items: center;
+    text-align: start;
+    gap: 8px;
+
+    svg {
+      width: 1.7em;
+      height: 1.8em;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    svg:hover {
+      animation: bounce 1.3s ease-in-out;
+    }
+
+    h3 {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+  }
+
+  p {
+    font-size: 11px;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+  .item-beneficio {
+    width: 80%;
+  }
+}
+
+@media (min-width: 425px) and (max-width: 767px) {
+  .item-beneficio {
+    width: 71%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .beneficios {
+    background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktop.svg);
+    display: grid;
+    grid-template-columns: repeat(3, 32%);
+    justify-content: center;
+    height: 16em;
+    margin-top: -7em;
+  }
+
+  .item-beneficio {
+    text-align: start;
+    width: 90%;
+    div {
+      width: 95%;
+      text-align: start;
+      svg {
+        width: 2.9em;
+        height: 3em;
+      }
+
+      h3 {
+        font-size: 1em;
+        line-height: 16px;
+      }
+    }
+
+    p {
+      line-height: 1em;
+      font-size: 0.8em;
+      align-self: baseline;
+    }
+  }
+
+  .item-beneficio:first-child {
+    padding-left: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .beneficios {
+    background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktop.svg);
+    display: grid;
+    grid-template-columns: repeat(3, 32%);
+    justify-items: center;
+    height: 17em;
+    margin-top: -9em;
+  }
+
+  .item-beneficio {
+    width: 73%;
+    gap: 3px;
+
+    div {
+      svg {
+        width: 2.3em;
+        height: 2.3em;
+      }
+
+      h3 {
+        font-size: 1em;
+        line-height: 19px;
+        width: 60%;
+      }
+    }
+
+    p {
+      font-size: 0.9em;
+      text-align: start;
+      padding-left: 6px;
+    }
+  }
+}
+
+@media (min-width: 1201px) {
+  .beneficios {
+    background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktopMaior.svg);
+    height: 18em;
+    margin-top: -4em;
+  }
+
+  .item-beneficio {
+    gap: 9px;
+    & div {
+      h3 {
+        font-size: 1.1em;
+        line-height: 19px;
+        width: 70%;
+        font-weight: 700;
+      }
+    }
+
+    p {
+      width: 90%;
+      align-self: baseline;
+    }
+  }
+}

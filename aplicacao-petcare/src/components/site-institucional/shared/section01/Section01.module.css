@@ -1,0 +1,161 @@
+.container {
+    width: 100%;
+    display: flex;
+    padding-top: 5px; 
+    overflow: hidden;
+  font-family: 'Montserrat';
+
+}
+
+.container-texto {
+    width: 50%;
+    padding-left: 90px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 4em;
+    color: var(--cor-primaria-azul-escuro);
+    gap: 2em;
+
+    p {
+        font-size: 0.9em;
+    }
+
+    p:first-child {
+        font-weight: 500;
+    }
+
+    h1 {
+        font-size: 3em;
+        line-height: 46px;
+        font-weight: 900;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        width: 91%;
+        gap: 9px;
+    }
+
+    button {
+        outline: none;
+        padding: 12px 30px;
+        width: fit-content;
+        font-weight: 800;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border: none;
+        border-radius: 2em;
+        background: linear-gradient(to bottom, var(--cor-secundaria-amarelo-claro), #F3B72C);
+        cursor: pointer;
+        transition: all 0.8s ease-in-out;
+    }
+
+    button:hover {
+        padding: 12px 40px;
+    }
+}
+
+.container-img {
+    width: 65%;
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 77%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .container-texto {
+        width: fit-content;
+        padding-left: 20px;
+        margin-top: 2em;
+        gap: 1.2em;
+
+        div {
+            width: 85%;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 3em;
+            line-height: 0.9em;
+        }
+
+        button {
+            width: fit-content;
+            padding: 12px 25px;
+            font-size: 0.8em;
+        }
+
+        button:hover {
+            padding: 12px 30px;
+        }
+    }
+
+    .container-img {
+        width: auto;
+        img {
+            width: 90%;
+        }
+
+    }
+}
+
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    
+    .container-texto {
+        padding-left: 2em;
+        margin-top: 4em;
+
+        h1 {
+            font-size: 2.4em;
+            line-height: 1em;
+        }
+
+        p {
+            font-size: 0.9em;
+        }
+
+        button {
+            padding: 10px 2em;
+            width: fit-content;
+            font-size: 0.8em;
+        }
+
+        button:hover {
+            padding: 10px 3em;
+        
+        }
+    }
+
+    .container-img {
+        img{
+            width: 100%;
+        }
+    }
+}
+
+@media (min-width: 767px) and (max-width: 992px) {
+    .container-texto {
+        padding-left: 2em;
+        margin-top: 2em;
+
+        div {
+            width: 100%;
+            gap: 12px;
+        }
+    }
+}
+
+
+

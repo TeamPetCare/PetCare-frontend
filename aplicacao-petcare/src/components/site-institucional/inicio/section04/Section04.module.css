@@ -1,0 +1,182 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1.2em;
+  text-align: center;
+  gap: 1.5em;
+  min-height: 100vh;
+  overflow: hidden;
+
+  img {
+    z-index: 1;
+    width: 90%;
+  }
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 137%;
+  height: 100%;
+  background-image: url(../../../../utils/assets/site-institucional/inicio/backgroundSection03Mobile.png);
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.container-texto {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  gap: 1.5em;
+
+  .container-titulo {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5em;
+
+    h3 {
+      font-size: 1.5em;
+      font-weight: 800;
+      line-height: 1em;
+    }
+  }
+
+  button {
+    border-radius: 2em;
+    border: none;
+    padding: 0.5em 2em 0.4em;
+    font-size: 0.9em;
+    font-weight: 800;
+    background-color: var(--cor-secundaria-amarelo-claro);
+    color: var(--cor-primaria-azul-escuro);
+  }
+}
+
+.container-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+    input {
+      border-radius: 4em;
+      border: none;
+      padding: 0.8em 1.5em;
+      width: 75%;
+      font-size: 0.9em;
+      font-weight: 500;
+      transition: all 0.8s ease-in-out;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  }
+
+  p {
+    font-size: 0.7em;
+    width: 85%;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 767px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-evenly;
+    min-height: 92vh;
+
+    img {
+      width: 43%;
+    }
+  }
+
+  .container::before {
+    top: 2.6em;
+    width: 103%;
+    height: 91%;
+    background-image: url(../../../../utils/assets/site-institucional/inicio/backgroundForms.svg);
+  }
+
+  .container-texto {
+    width: 41%;
+
+    .container-titulo {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    height: 144vh;
+
+    img {
+      width: 30%;
+    }
+  }
+
+  .container::before {
+    top: 6.6em;
+    width: 101%;
+    height: 73%;
+    background-image: url(../../../../utils/assets/site-institucional/inicio/backgroundFormsDesktop.svg);
+  }
+
+  .container-texto {
+    width: 33%;
+    gap: 2.5em;
+
+    .container-titulo {
+      h3 {
+        font-size: 2.2em;
+      }
+
+      p {
+        font-size: 1.1em;
+      }
+    }
+
+    button {
+      font-size: 1.1em;
+      transition: all 0.8s ease-in-out;
+      cursor: pointer;
+    }
+
+    button:hover {
+      padding: 0.5em 2.5em 0.4em;
+      background-color: #ffe29f;
+    }
+  }
+
+  .container-form {
+    form {
+      input {
+        width: 80%;
+        font-size: 1em;
+      }
+    }
+
+    p {
+      font-size: 0.9em;
+      width: 80%;
+    }
+  }
+}
