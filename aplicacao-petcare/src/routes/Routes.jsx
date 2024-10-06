@@ -4,7 +4,7 @@ import Inicio from "../pages/site-institucional/inicio/Inicio.jsx";
 import SobreNos from "../pages/site-institucional/sobreNos/SobreNos.jsx";
 import Suporte from "../pages/site-institucional/suporte/Suporte.jsx";
 import AplicativoPetcare from "../pages/site-institucional/aplicativoPetCare/AplicativoPetCare.jsx";
-import DonoPetshopInicio from "../pages/aplicacao-dono-petshop/inicio/inicio.jsx";
+import DonoPetshopInicio from "../pages/aplicacao-dono-petshop/inicio/Inicio.jsx";
 import Login from "../pages/aplicacao-dono-petshop/login/Login.jsx";
 
 import NotFound from "../pages/shared/notFound/NotFound.jsx";
