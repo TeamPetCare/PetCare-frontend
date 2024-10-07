@@ -3,17 +3,17 @@ import cors from "cors";
 import path from "path";
 
 const app = express();
-const PORTA_APP = process.env.PORT || 8080; // Usa a variável de ambiente ou 8080
+const PORTA_APP = process.env.PORT || 8080; 
 
 // Middleware
 app.use(cors());
 
-// Serve os arquivos estáticos da sua aplicação React
-app.use(express.static(path.join(process.cwd(), 'dist'))); // Corrigido para usar a pasta correta
+// Serve os arquivos estáticos da aplicação React
+app.use(express.static(path.join(process.cwd(), 'dist'))); 
 
 // Rota para todas as requisições não tratadas
 app.get('*', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'dist', 'index.html')); // Corrigido para usar a pasta correta
+    res.sendFile(path.join(process.cwd(), 'dist', 'index.html')); 
 });
 
 // Iniciar o servidor
