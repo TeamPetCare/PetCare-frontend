@@ -1,8 +1,8 @@
+import MainHeaderApp from "../../../components/site-institucional/aplicativoPetcare/MainHeaderApp/MainHeaderApp.jsx"
 const aplicativoPetCare = () => {
   return (
     <div>
-      /* seu código aqui */
-      aplicativoPetcare
+      <MainHeaderApp/>
     </div>
   );
 };
