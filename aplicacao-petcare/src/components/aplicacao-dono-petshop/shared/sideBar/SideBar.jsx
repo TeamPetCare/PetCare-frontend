@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./SideBar.module.css";
 import logoBrancoPetCare from "../../../../utils/assets/logos/logoBrancoPetCare.svg";
 import ItemSideBar from "./components/itemSideBar/ItemSideBar.jsx";
-import { GoSidebarExpand, GoHomeFill, GoSidebarCollapse } from "react-icons/go";
+import LogOut from "../../../shared/logOut/LogOut.jsx";
+import { GoHomeFill } from "react-icons/go";
+import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb";
+import { RiSidebarFoldFill } from "react-icons/ri";
 import {
   RiUser3Fill,
   RiUser3Line,
@@ -24,105 +28,136 @@ import { BsPeople, BsPeopleFill } from "react-icons/bs";
 import { PiHeadset, PiHeadsetFill } from "react-icons/pi";
 
 const sectionsGeral = [
-  { titulo: "Início", icon: GoHomeFill },
-  { titulo: "Clientes & Pets", icon: RiUser3Line },
-  { titulo: "Agendamentos", icon: RiCalendarScheduleLine },
+  { titulo: "Início", icon: GoHomeFill, link: "/dono-petshop/inicio" },
+  {
+    titulo: "Clientes & Pets",
+    icon: RiUser3Line,
+    link: "/dono-petshop/clientes-pets",
+  },
+  {
+    titulo: "Agendamentos",
+    icon: RiCalendarScheduleLine,
+    link: "/dono-petshop/agendamentos",
+  },
 ];
 
 const sectionsFinanceiro = [
-  { titulo: "Pagamentos", icon: IoWallet },
-  { titulo: "Planos", icon: HiClipboardList },
+  { titulo: "Pagamentos", icon: IoWallet, link: "/dono-petshop/pagamentos" },
+  { titulo: "Planos", icon: HiClipboardList, link: "/dono-petshop/planos" },
 ];
 
-const sectionsGestão = [{ titulo: "Cadastros", icon: AiFillEdit }];
+const sectionsGestão = [
+  { titulo: "Cadastros", icon: AiFillEdit, link: "/dono-petshop/cadastros" },
+];
 
 const sectionsConfig = [
-  { titulo: "Gerenciar Funcionários", icon: BsPeople },
-  { titulo: "Meus Dados", icon: IoSettingsOutline },
+  {
+    titulo: "Gerenciar Funcionários",
+    icon: BsPeople,
+    link: "/dono-petshop/gerenciar-funcionarios",
+  },
+  {
+    titulo: "Meus Dados",
+    icon: IoSettingsOutline,
+    link: "/dono-petshop/meus-dados",
+  },
 ];
 
-const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const SideBar = ({ isOpen, toggleSideBar }) => {
   const [openIndex, setOpenIndex] = useState(0);
-
-  const toggleSideBar = () => {
-    setIsOpen(!isOpen);
-  };
+  const [modalSairShow, setModalSairShow] = useState(false);
 
   const handleToggleItem = (index) => {
     setOpenIndex(openIndex === index ? -1 : index);
   };
 
   return (
-    <div className={`${styles["container"]} ${!isOpen ? styles["open"] : ""}`}>
+    <div
+      className={`${styles["container"]} ${styles.sideBar} ${
+        isOpen ? "" : styles.closed
+      } ${!isOpen ? styles["open"] : ""}`}
+    >
       <div>
         <div className={styles["sidebar-top"]}>
           <img src={logoBrancoPetCare} alt="" />
-          {!isOpen ? (
-            <GoSidebarCollapse
-              size={25}
-              className={styles["icon-sidebar"]}
+          <div
+            className={`${styles["toggle-btn"]} ${
+              !isOpen ? styles["open-toggle-btn"] : ""
+            }`}
+            onClick={toggleSideBar}
+          >
+            <TbLayoutSidebarRightCollapseFilled
+              size={29}
+              className={`${styles["icon-sidebar"]} ${
+                isOpen ? styles["open"] : ""
+              }`}
               onClick={toggleSideBar}
             />
-          ) : (
-            <GoSidebarExpand
-              size={25}
-              className={styles["icon-sidebar"]}
-              onClick={toggleSideBar}
-            />
-          )}
+          </div>
         </div>
 
         <div className={styles["sidebar-middle"]}>
           <ItemSideBar
             titulo="GERAL"
             sections={sectionsGeral}
-            isOpenAtributte={openIndex === 0} // Aberto se o índice for 0
-            onToggle={() => handleToggleItem(0)} // Passa a função para o clique
+            isOpenAtributte={openIndex === 0}
+            onToggle={() => handleToggleItem(0)}
           />
 
           <ItemSideBar
             titulo="FINANCEIRO"
             sections={sectionsFinanceiro}
-            isOpenAtributte={openIndex === 1} // Aberto se o índice for 1
-            onToggle={() => handleToggleItem(1)} // Passa a função para o clique
+            isOpenAtributte={openIndex === 1}
+            onToggle={() => handleToggleItem(1)}
           />
 
           <ItemSideBar
             titulo="GESTÃO"
             sections={sectionsGestão}
-            isOpenAtributte={openIndex === 2} // Aberto se o índice for 2
-            onToggle={() => handleToggleItem(2)} // Passa a função para o clique
+            isOpenAtributte={openIndex === 2}
+            onToggle={() => handleToggleItem(2)}
           />
 
           <ItemSideBar
             titulo="CONFIGURAÇÕES"
             sections={sectionsConfig}
-            isOpenAtributte={openIndex === 3} // Aberto se o índice for 3
-            onToggle={() => handleToggleItem(3)} // Passa a função para o clique
+            isOpenAtributte={openIndex === 3}
+            onToggle={() => handleToggleItem(3)}
           />
         </div>
       </div>
 
       <div className={styles["sidebar-bottom"]}>
         <ul className={styles["sidebar-section-item"]}>
-          <li className={styles["item-sidebar"]}>
-            <div>
-              <PiHeadset size={18} className={styles["icon-section-item"]} />
-              <p>Suporte</p>
-            </div>
-          </li>
-          <li className={styles["item-sidebar"]}>
-            <div>
-              <RiLogoutCircleLine
-                size={18}
-                className={styles["icon-section-item"]}
-              />
-              <p>Sair</p>
-            </div>
-          </li>
+          <Link to="/dono-petshop/suporte" className={styles["link-section"]}>
+            <li className={styles["item-sidebar"]}>
+              <div>
+                <PiHeadset size={18} className={styles["icon-section-item"]} />
+                <p>Suporte</p>
+              </div>
+            </li>
+          </Link>
+          <Link
+            className={styles["link-section"]}
+            onClick={() => setModalSairShow(true)}
+          >
+            <li className={styles["item-sidebar"]}>
+              <div>
+                <RiLogoutCircleLine
+                  size={18}
+                  className={styles["icon-section-item"]}
+                />
+                <p>Sair</p>
+              </div>
+            </li>
+          </Link>
         </ul>
       </div>
+      {/* Modal de Sair */}
+      <LogOut
+        show={modalSairShow}
+        onHide={() => setModalSairShow(false)}
+      />
     </div>
   );
 };

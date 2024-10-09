@@ -40,7 +40,7 @@ const SideBar = ({ active, scrollToSection04 }) => {
           <Link to="/suporte" className={styles.linkLi}>
             <li>Suporte</li>
           </Link>
-          <Link to="/donoPetshop/login" className={styles.linkLi}>
+          <Link to="/dono-petshop/login" className={styles.linkLi}>
             <li>
               <PiUserCircleLight color="#005472" size="1.4em" />
               Acesso ao Sistema

@@ -9,6 +9,11 @@ p {
   font-family: "Lexend";
 }
 
+.sidebar-open {
+  width: 60px;
+  background-color: aqua; /* Largura da sidebar quando fechada */
+}
+
 @font-face {
   font-family: "Montserrat";
   src: url("../utils/fonts/montserrat/Montserrat-Thin.ttf") format("truetype");
