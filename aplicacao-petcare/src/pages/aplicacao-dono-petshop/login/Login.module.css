@@ -12,18 +12,17 @@
 
 .loginBox {
   background-color: #072838;
-  padding: 10px;
+  padding: 2%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   color: white;
-  text-align: 'center';
 }
 
 h2 {
   margin-bottom: 20px;
   font-size: 20px;
-  text-align: 'center';
+  text-align: center;
 }
 
 .inputGroup {
@@ -38,9 +37,9 @@ h2 {
 
 .inputGroup input {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .loginButton {
@@ -49,7 +48,7 @@ h2 {
   background-color: #01506a;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -60,12 +59,31 @@ h2 {
 .footer {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 20px;
+  align-items: center;
 }
 
-.forgotPassword, .voltarButton {
-  color: #ffc107;
-  text-decoration: none;
+.voltarButton {
+  display: flex; /* Permite o uso de flexbox para o alinhamento */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  padding: 7px; /* Espaçamento interno */
+  width: 70px; /* Largura do botão */
+  height: 40px; /* Altura do botão, opcional */
+  color: #000000; /* Cor do texto */
+  text-decoration: none; /* Remove sublinhado */
+  border-radius: 15px; /* Bordas arredondadas */
+  background-color: #ffc107; /* Fundo amarelo */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  border: 1px solid #ffc107; /* Borda amarela (opcional) */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transições suaves */
+}
+
+.forgotPassword {
+  color: #ffff; 
+  margin-bottom: 10px;
+  padding: 10px 0;
+  align-items: center;
 }
 
 .helpText {
@@ -77,16 +95,33 @@ h2 {
   color: #ffc107;
 }
 
-.registerButton {
-  margin-top: 20px;
-  padding: 7px;
-  width: 100%;
-  background-color: #ffc107;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.helpText2 {
+  color: #ffffff; /* Cor branca do texto */
+  margin-bottom: 10px; /* Espaçamento inferior */
+  text-decoration: none; /* Remove sublinhado (caso seja um link) */
+  padding: 2px 0; /* Espaçamento interno acima e abaixo */
+  font-size: 13px;
 }
+
+
+.registerButton {
+  font-size: 13px;
+  display: flex; /* Permite o uso de flexbox para o alinhamento */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  padding: 7px; /* Espaçamento interno */
+  width: 13 0px; /* Largura do botão */
+  height: 40px; /* Altura do botão, opcional */
+  color: #000000; /* Cor do texto */
+  text-decoration: none; /* Remove sublinhado */
+  border-radius: 15px; /* Bordas arredondadas */
+  background-color: #ffc107; /* Fundo amarelo */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  border: 1px solid #ffc107; /* Borda amarela (opcional) */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transições suaves */
+}
+
+
 
 .registerButton:hover {
   background-color: #e6a700;
