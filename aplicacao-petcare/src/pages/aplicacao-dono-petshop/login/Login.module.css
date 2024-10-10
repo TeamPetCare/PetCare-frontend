@@ -1,38 +1,42 @@
 .container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: hsl(195, 98%, 21%); 
-  background-image: url("../../../utils/assets/site-institucional/inicio/backgroundForms.svg"); 
-  background-size: cover; 
+  background-color: hsl(195, 98%, 21%);
+  background-image: url(/src/utils/assets/site-institucional/inicio/backgroundForms.svg);
+  background-size: cover;
   background-position: center;
-  padding: 20px;
+  padding: 16px;
 }
 
 .loginBox {
-  background-color: #072838;
+  background-color: rgb(0, 0, 0, 0.5);
   padding: 2%;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   color: white;
+  border: 1px solid #000;
 }
 
 h2 {
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 1em;
   text-align: center;
+  font-weight: 900;
 }
 
 .inputGroup {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .inputGroup label {
   display: block;
   margin-bottom: 5px;
-  font-size: 14px;
+  font-size: 0.75em;
 }
 
 .inputGroup input {
@@ -40,9 +44,12 @@ h2 {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 10px;
+  font-size: 0.75em;
+  margin-bottom: 1px;
 }
 
 .loginButton {
+  margin-bottom: 0.1px;
   width: 100%;
   padding: 7px;
   background-color: #01506a;
@@ -50,6 +57,8 @@ h2 {
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 1em;
+  font-weight: 900;
 }
 
 .loginButton:hover {
@@ -64,31 +73,52 @@ h2 {
 }
 
 .voltarButton {
-  display: flex; /* Permite o uso de flexbox para o alinhamento */
-  justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  align-items: center; /* Centraliza o conteúdo verticalmente */
-  padding: 7px; /* Espaçamento interno */
-  width: 70px; /* Largura do botão */
-  height: 40px; /* Altura do botão, opcional */
-  color: #000000; /* Cor do texto */
-  text-decoration: none; /* Remove sublinhado */
-  border-radius: 15px; /* Bordas arredondadas */
-  background-color: #ffc107; /* Fundo amarelo */
-  cursor: pointer; /* Muda o cursor para indicar que é clicável */
-  border: 1px solid #ffc107; /* Borda amarela (opcional) */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Transições suaves */
+  display: flex;
+  /* Permite o uso de flexbox para o alinhamento */
+  justify-content: center;
+  /* Centraliza o conteúdo horizontalmente */
+  align-items: center;
+  /* Centraliza o conteúdo verticalmente */
+  padding: 7px;
+  /* Espaçamento interno */
+  width: 70px;
+  /* Largura do botão */
+  height: 25px;
+  /* Altura do botão, opcional */
+  color: #000000;
+  /* Cor do texto */
+  text-decoration: none;
+  /* Remove sublinhado */
+  border-radius: 15px;
+  /* Bordas arredondadas */
+  background-color: #ffc107;
+  /* Fundo amarelo */
+  cursor: pointer;
+  /* Muda o cursor para indicar que é clicável */
+  border: 1px solid #ffc107;
+  /* Borda amarela (opcional) */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Transições suaves */
+  font-size: 0.90em;
+  font-weight: 800;
 }
 
 .forgotPassword {
-  color: #ffff; 
+  color: #ffff;
   margin-bottom: 10px;
   padding: 10px 0;
   align-items: center;
+  font-size: 0.75em;
 }
 
 .helpText {
   margin-top: 20px;
-  font-size: 12px;
+  font-size: 0.75em;
+}
+
+.negrito {
+  font-size: 0.95em;
+  font-weight: 900;
 }
 
 .helpText a {
@@ -96,29 +126,47 @@ h2 {
 }
 
 .helpText2 {
-  color: #ffffff; /* Cor branca do texto */
-  margin-bottom: 10px; /* Espaçamento inferior */
-  text-decoration: none; /* Remove sublinhado (caso seja um link) */
-  padding: 2px 0; /* Espaçamento interno acima e abaixo */
-  font-size: 13px;
+  color: #ffffff;
+  /* Cor branca do texto */
+  margin-bottom: 10px;
+  /* Espaçamento inferior */
+  text-decoration: none;
+  /* Remove sublinhado (caso seja um link) */
+  padding: 2px 0;
+  /* Espaçamento interno acima e abaixo */
+  font-size: 0.75em;
 }
 
 
 .registerButton {
-  font-size: 13px;
-  display: flex; /* Permite o uso de flexbox para o alinhamento */
-  justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  align-items: center; /* Centraliza o conteúdo verticalmente */
-  padding: 7px; /* Espaçamento interno */
-  width: 13 0px; /* Largura do botão */
-  height: 40px; /* Altura do botão, opcional */
-  color: #000000; /* Cor do texto */
-  text-decoration: none; /* Remove sublinhado */
-  border-radius: 15px; /* Bordas arredondadas */
-  background-color: #ffc107; /* Fundo amarelo */
-  cursor: pointer; /* Muda o cursor para indicar que é clicável */
-  border: 1px solid #ffc107; /* Borda amarela (opcional) */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Transições suaves */
+  font-size: 0.75em;
+  font-weight: 900;
+  display: flex;
+  /* Permite o uso de flexbox para o alinhamento */
+  justify-content: center;
+  /* Centraliza o conteúdo horizontalmente */
+  align-items: center;
+  /* Centraliza o conteúdo verticalmente */
+  padding: 7px;
+  /* Espaçamento interno */
+  width: 13 0px;
+  /* Largura do botão */
+  height: 25px;
+  /* Altura do botão, opcional */
+  color: #fff;
+  /* Cor do texto */
+  text-decoration: none;
+  /* Remove sublinhado */
+  border-radius: 15px;
+  /* Bordas arredondadas */
+  background-color: transparent;
+  /* Fundo amarelo */
+  cursor: pointer;
+  /* Muda o cursor para indicar que é clicável */
+  border: 0.15em solid #ffc107;
+  /* Borda amarela (opcional) */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Transições suaves */
 }
 
 
@@ -134,6 +182,111 @@ h2 {
 .imageBox img {
   border-radius: 20px;
   max-width: 350px;
-  height: 450px;
+  /* height: 450px;
+  margin-bottom: 10px; */
+  margin-left: 100px;
 }
 
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    /* Muda a direção para coluna */
+    padding: 20px;
+    /* Ajusta o padding para telas menores */
+  }
+
+  .loginBox,
+  .imageBox {
+    max-width: 100%;
+    /* Faz com que os blocos ocupem 100% da largura */
+    flex: none;
+  }
+
+  .loginBox {
+    margin-bottom: 20px;
+    /* Adiciona espaçamento entre a caixa de login e a imagem */
+  }
+
+  .imageBox img {
+    width: 100%;
+    /* Garante que a imagem ocupe a largura completa */
+    border-radius: 10px;
+  }
+}
+
+/* Ajustes para telas menores que 480px */
+@media (max-width: 480px) {
+
+  .loginButton,
+  .registerButton {
+    font-size: 14px;
+    /* Reduz o tamanho da fonte dos botões */
+    padding: 8px;
+    /* Ajusta o padding dos botões */
+  }
+
+  input {
+    padding: 8px;
+    /* Ajusta o padding dos inputs */
+    font-size: 14px;
+    /* Reduz o tamanho da fonte dos inputs */
+  }
+
+  .footer {
+    flex-direction: column;
+    /* Muda a direção dos links do rodapé para coluna */
+    align-items: center;
+  }
+
+  .footer a {
+    margin-top: 10px;
+    /* Adiciona espaçamento entre os links */
+  }
+}
+
+/* Estilo para a estrutura do input com o ícone */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  color: #999;
+  /* Cor do ícone */
+  font-size: 1.1em;
+  /* Tamanho do ícone */
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  color: #999;
+  font-size: 1.1em;
+  cursor: pointer;
+  /* Cursor clicável */
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 5px 5px 5px 35px;
+  /* Adiciona espaço à esquerda para o ícone */
+  padding-right: 35px;
+  /* Espaço à direita para o ícone de olho */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 0.75em;
+  margin-bottom: 1px;
+}
+
+.inputWrapper input:focus {
+  border-color: #01506a;
+  /* Muda a cor da borda ao focar no campo */
+}
+
+.icon i {
+  font-size: 1em;
+  /* Tamanho do ícone */
+}

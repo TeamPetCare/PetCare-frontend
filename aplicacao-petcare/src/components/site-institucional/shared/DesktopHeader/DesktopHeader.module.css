@@ -22,7 +22,7 @@ li,
 
 .container_desktop_subheader {
   background-color: var(--cor-primaria-azul-escuro);
-  padding: 10px 90px;
+  padding: 7px 90px;
 
   ul {
     display: flex;
