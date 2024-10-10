@@ -46,22 +46,24 @@ function DesktopHeaderApp({ scrollToSection04 }) {
         </Link>
         <ul>
           <li>
-            <Link to="/" className={styles["linkLi"]}>
+            <Link to="/donoPet/login" className={styles["linkLi"]}>
               Login
             </Link>
           </li>
           <li>
-            <Link to="/sobreNos" className={ `${styles["buttonLinkLi"]} ${styles["bgBtnYellow"]}`}>
+            <Link to="/donoPet/cadastro" className={ `${styles["buttonLinkLi"]} ${styles["bgBtnYellow"]}`}>
               Cadastre-se
             </Link>
           </li>
           <li>
+
+            {/* Link que redireciona para baixar o aplicativo:*/}
           <Link to="" className={ `${styles["buttonLinkLi"]} ${styles["bgBtnBlue"]}`}>
             Baixe o aplicativo
           </Link>
           </li>
           <li>
-          <Link to="/" className={styles["linkLi"]} >
+          <Link to="/suporte" className={styles["linkLi"]} >
             Central de Ajuda
           </Link>
           </li>

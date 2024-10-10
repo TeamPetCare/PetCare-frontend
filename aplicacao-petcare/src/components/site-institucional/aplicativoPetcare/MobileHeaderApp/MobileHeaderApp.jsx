@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import SideBar from "../../shared/SideBar/SideBar";
+import SideBar from "../SideBarApp/SideBarApp";
 import logoPetCare from "../../../../utils/assets/logos/logoPetCare.svg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import styles from "./MobileHeaderApp.module.css";
 
 function MobileHeaderApp({scrollToSection04}) {
-    const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
   return (
     <div className={styles["container"]}>
+
       <Link to="/">
         <img
           src={logoPetCare}

@@ -7,7 +7,11 @@ import AplicativoPetcare from "../pages/site-institucional/aplicativoPetCare/Apl
 import DonoPetshopInicio from "../pages/aplicacao-dono-petshop/inicio/Inicio.jsx";
 import Login from "../pages/aplicacao-dono-petshop/login/Login.jsx";
 
+
 import NotFound from "../pages/shared/notFound/NotFound.jsx";
+
+import LoginDonoPet from "../pages/aplicacao-dono-pet/login/Login.jsx";
+import SignUp from "../pages/aplicacao-dono-pet/signUp/SignUp.jsx"
 
 const AppRoutes = ({ section04Ref }) => {
   return (
@@ -24,6 +28,10 @@ const AppRoutes = ({ section04Ref }) => {
       {/* Rotas Aplicação Dono do Petshop */}
       <Route path="/donoPetshop/login" element={<Login />} />
       <Route path="/donoPetshop/inicio" element={<DonoPetshopInicio />} />
+
+      {/*Rotas Aplicação Dono do Pet */}
+      <Route path="/donoPet/login" element={<LoginDonoPet />} />
+      <Route path="/donoPet/cadastro" element={<SignUp />} />
     </Routes>
   );
 };
