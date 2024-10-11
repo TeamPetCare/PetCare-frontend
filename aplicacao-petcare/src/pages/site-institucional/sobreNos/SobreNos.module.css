@@ -1,0 +1,17 @@
+.sobreNos {
+    padding: 3em 1.5em;
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    .sobreNos {
+      padding: 0 3em 1.5em;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .sobreNos {
+      padding: 0 90px 90px 90px;
+    }
+  }
+  
