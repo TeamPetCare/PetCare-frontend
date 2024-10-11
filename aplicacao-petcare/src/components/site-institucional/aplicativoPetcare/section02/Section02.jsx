@@ -1,31 +1,25 @@
 import styles from "./Section02.module.css";
 import { PiPawPrintFill } from "react-icons/pi";
+import imgMulherComGolden from "../../../../utils/assets/site-institucional/aplicativo-petcare/imgMulherComGolden.png"
 
 const Section02 = () => {
   return (
     <div className={styles["container"]}>
       <div className={styles["beneficios"]}>
         <div className={styles["item-beneficio"]}>
-          <div>
-            <PiPawPrintFill />
-            <h3>Agendamentos Sem Estresse</h3>
+          <div className={styles["img"]}>
+          <img src={imgMulherComGolden}/>
           </div>
-          <p>Organize os horários de forma fácil e sem erros. Agendou? Pronto!</p>
         </div>
         <div className={styles["item-beneficio"]}>
           <div>
-            <PiPawPrintFill />
-            <h3>Dados que Fazem a Diferença</h3>
-          </div>
-          <p>Veja relatórios claros e entenda o que realmente importa para otimizar seus serviços.</p>
+            <h3>Cuide do seu Pet com Facilidade</h3>
+            <PiPawPrintFill style={{width: '60px', height: '80%'}}/>
+          </div>  
+          <p>Agende serviços, receba lembretes, e acompanhe a saúde do seu pet direto no celular. Tudo em um só lugar, sem complicações. Simplifique o cuidado com o seu bichinho.</p>
         </div>
-        <div className={styles["item-beneficio"]}>
-          <div>
-            <PiPawPrintFill />
-            <h3>Clientes Sempre Satisfeitos</h3>
-          </div>
-          <p>Com lembretes automáticos e uma interface amigável, seus clientes vão amar a conveniência.</p>
-        </div>
+      </div>
+      <div className={styles["beneficios"]} style={{ position: 'relative' , zIndex: '-1', height: '35vh', marginTop: '100px' }}>
       </div>
     </div>
   );

@@ -8,7 +8,8 @@
 .beneficios {
   position: absolute;
   width: 100%;
-  height: 329px;
+  padding: 0 55px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,11 +23,16 @@
 }
 
 .item-beneficio {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: center;
-  width: 85%;
+  row-gap: 12.5px;
+
+  .img > img{
+    width: 120%;
+  }
 
   div {
     display: flex;
@@ -46,7 +52,7 @@
 
     h3 {
       font-weight: 700;
-      font-size: 15px;
+      font-size: 12px;
       margin-bottom: 0;
     }
   }
@@ -74,23 +80,58 @@
 
 @media (min-width: 425px) and (max-width: 767px) {
   .item-beneficio {
-    width: 71%;
+    align-items: center;
   }
+
+  .beneficios{
+    margin-top: -19em;
+    padding: 0;
+    width: 100%;
+    height: 1100px;
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 40px;
+  }
+  .img{
+    width: 100%;
+    height: 100%;
+  }
+
+    .item-beneficio {
+    div {
+      width: 100%;
+      justify-content: center;
+      h3 {
+        font-size: 1.35em;
+        line-height: 10px;
+        text-align: center;
+      }
+    }
+
+    p {
+      line-height: 1.3em;
+      font-size: 0.95em;
+      text-align: center;
+    }
+  }
+
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .beneficios {
+
     background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktop.svg);
     display: grid;
-    grid-template-columns: repeat(3, 32%);
+    grid-template-columns: repeat(2, 45%);
     justify-content: center;
-    height: 16em;
+    /* height: 16em; */
     margin-top: -7em;
+    padding: 0;
   }
 
   .item-beneficio {
     text-align: start;
-    width: 90%;
+    width: 90%; 
     div {
       width: 95%;
       text-align: start;
@@ -100,15 +141,16 @@
       }
 
       h3 {
-        font-size: 1em;
-        line-height: 16px;
+        font-size: 1.7em;
+        line-height: 30px;
+        text-align: right;
       }
     }
 
     p {
-      line-height: 1em;
+      line-height: 1.4em;
       font-size: 0.8em;
-      align-self: baseline;
+      text-align: right;
     }
   }
 
@@ -121,33 +163,38 @@
   .beneficios {
     background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktop.svg);
     display: grid;
-    grid-template-columns: repeat(3, 32%);
+    grid-template-columns: repeat(2, 50%);
     justify-items: center;
-    height: 17em;
     margin-top: -9em;
   }
+
 
   .item-beneficio {
     width: 73%;
     gap: 3px;
+    
 
     div {
+      width: 100%;
+      justify-content: flex-end;
       svg {
         width: 2.3em;
         height: 2.3em;
       }
 
       h3 {
-        font-size: 1em;
-        line-height: 19px;
+        font-size: 1.3em;
+        line-height: 28.5px;
+        font-weight: 700;
+        text-align: right;
         width: 60%;
       }
     }
 
     p {
-      font-size: 0.9em;
-      text-align: start;
-      padding-left: 6px;
+      width: 100%;
+      line-height: 24.5px;
+     text-align: right;
     }
   }
 }
@@ -155,24 +202,29 @@
 @media (min-width: 1201px) {
   .beneficios {
     background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktopMaior.svg);
-    height: 18em;
-    margin-top: -4em;
+    /* height: 18em; */
+    /* margin-top: -4em; */
   }
 
   .item-beneficio {
     gap: 9px;
     & div {
+      width: 100%;
+      justify-content: flex-end;
       h3 {
-        font-size: 1.1em;
-        line-height: 19px;
-        width: 70%;
+        width: 100%;
+        font-size: 2.2em;
+        line-height: 35.5px;
         font-weight: 700;
+        text-align: right;
       }
     }
 
     p {
-      width: 90%;
-      align-self: baseline;
+      font-size: 0.85em;
+      width: 100%;
+      line-height: 24.5px;
+     text-align: right;
     }
   }
 }
