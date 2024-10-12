@@ -22,6 +22,7 @@ const Login = () => {
                 {/* Ícone de usuário */}
                 <FaUserAlt className={styles.icon} />
                 <input type="email" id="email" placeholder="Digite seu email" />
+                <PiEyeSlashFill className={styles.eyeIcon} />
               </div>
             </div>
 
