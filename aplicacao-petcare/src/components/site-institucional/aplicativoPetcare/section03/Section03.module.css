@@ -26,7 +26,7 @@
 
     h1 {
         font-size: 1.90em;
-        line-height: 28px;
+        line-height: 35px;
         font-weight: 900;
     }
 
@@ -91,12 +91,12 @@
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
-        gap: 12px;
+        gap: 40px;
     }
     .container-texto {
         width: fit-content;
         padding-left: 20px;
-        margin-top: 2em;
+        margin-top: 0em;
         gap: 1.2em;
 
         div {
@@ -105,38 +105,33 @@
         }
 
         h1 {
-            font-size: 2.2em;
-            line-height: 0.9em;
+            font-size: 2.3em;
+            line-height: 1.1em;
         }
 
         p{
-            font-size: 1.15em;
+            font-size: 1.1em;
         }
 
         .accessContainer > p{
-            font-size: 0.75em;
+            font-size: 0.85em;
         }
 
         button {
             width: fit-content;
-            padding: 8px 10px;
+            padding: 12px 25px;
             font-size: 0.8em;
         }
 
         button:hover {
-            padding: 8px 10px;
-        }
-
-        .bold{
-            font-size: 1em;
+            padding: 12px 30px;
         }
     }
 
     .container-img {
         width: auto;
         img {
-            width: 100%;
-            height: 450px;
+            width: 90%;
         }
 
     }
@@ -160,13 +155,13 @@
         }
 
         button {
-            padding: 10px 5px;
+            padding: 10px 2em;
             width: fit-content;
-            font-size: 0.50em;
+            font-size: 0.43em;
         }
 
         button:hover {
-            padding: 10px 5px;
+            padding: 10px 3em;
         
         }
     }
@@ -187,9 +182,7 @@
             width: 100%;
             gap: 12px;
         }
-
     }
-
 }
 
 

@@ -31,7 +31,7 @@
   row-gap: 12.5px;
 
   .img > img{
-    width: 120%;
+    width: 100%;
   }
 
   div {
@@ -76,6 +76,10 @@
   .item-beneficio {
     width: 80%;
   }
+
+  .beneficios{
+    flex-direction: column-reverse;
+  }
 }
 
 @media (min-width: 425px) and (max-width: 767px) {
@@ -102,15 +106,15 @@
       width: 100%;
       justify-content: center;
       h3 {
-        font-size: 1.35em;
+        font-size: 1.3em;
         line-height: 10px;
         text-align: center;
       }
     }
 
     p {
-      line-height: 1.3em;
-      font-size: 0.95em;
+      line-height: 1.5em;
+      font-size: 1.1em;
       text-align: center;
     }
   }
