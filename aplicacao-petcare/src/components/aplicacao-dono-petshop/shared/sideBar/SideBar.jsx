@@ -6,60 +6,81 @@ import ItemSideBar from "./components/itemSideBar/ItemSideBar.jsx";
 import LogOut from "../../../shared/logOut/LogOut.jsx";
 import { GoHomeFill } from "react-icons/go";
 import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb";
-import { RiSidebarFoldFill } from "react-icons/ri";
-import {
-  RiUser3Fill,
-  RiUser3Line,
-  RiCalendarScheduleFill,
-  RiCalendarScheduleLine,
-  RiLogoutCircleLine,
-  RiArrowDropDownLine,
-  RiArrowDropUpLine,
-} from "react-icons/ri";
-import {
-  IoWalletOutline,
-  IoWallet,
-  IoSettingsOutline,
-  IoSettingsSharp,
-} from "react-icons/io5";
-import { HiOutlineClipboardList, HiClipboardList } from "react-icons/hi";
-import { AiFillEdit, AiOutlineEdit } from "react-icons/ai";
-import { BsPeople, BsPeopleFill } from "react-icons/bs";
-import { PiHeadset, PiHeadsetFill } from "react-icons/pi";
+import { RiLogoutCircleLine } from "react-icons/ri";
+import { RiUser3Fill, RiCalendarScheduleFill } from "react-icons/ri";
+import { IoWallet, IoSettingsSharp } from "react-icons/io5";
+import { HiClipboardList } from "react-icons/hi";
+import { AiFillEdit } from "react-icons/ai";
+import { BsPeopleFill } from "react-icons/bs";
+import { PiHeadsetFill } from "react-icons/pi";
+
+const icons = {
+  general: GoHomeFill,
+  clientsPets: RiUser3Fill,
+  appointments: RiCalendarScheduleFill,
+  payments: IoWallet,
+  plans: HiClipboardList,
+  registrations: AiFillEdit,
+  employees: BsPeopleFill,
+  myData: IoSettingsSharp,
+  support: PiHeadsetFill,
+  logout: RiLogoutCircleLine,
+};
 
 const sectionsGeral = [
-  { titulo: "Início", icon: GoHomeFill, link: "/dono-petshop/inicio" },
+  {
+    titulo: "Início",
+    icon: icons.general,
+    link: "/dono-petshop/inicio",
+  },
   {
     titulo: "Clientes & Pets",
-    icon: RiUser3Line,
+    icon: icons.clientsPets,
     link: "/dono-petshop/clientes-pets",
   },
   {
     titulo: "Agendamentos",
-    icon: RiCalendarScheduleLine,
+    icon: icons.appointments,
     link: "/dono-petshop/agendamentos",
   },
 ];
 
 const sectionsFinanceiro = [
-  { titulo: "Pagamentos", icon: IoWallet, link: "/dono-petshop/pagamentos" },
-  { titulo: "Planos", icon: HiClipboardList, link: "/dono-petshop/planos" },
+  {
+    titulo: "Pagamentos",
+    icon: icons.payments,
+    link: "/dono-petshop/pagamentos",
+  },
+  {
+    titulo: "Planos",
+    icon: icons.plans,
+    link: "/dono-petshop/planos",
+  },
 ];
 
 const sectionsGestão = [
-  { titulo: "Cadastros", icon: AiFillEdit, link: "/dono-petshop/cadastros" },
+  {
+    titulo: "Cadastros",
+    icon: icons.registrations,
+    link: "/dono-petshop/cadastros",
+  },
 ];
 
 const sectionsConfig = [
   {
-    titulo: "Gerenciar Funcionários",
-    icon: BsPeople,
+    titulo: "Funcionários",
+    icon: icons.employees,
     link: "/dono-petshop/gerenciar-funcionarios",
   },
   {
     titulo: "Meus Dados",
-    icon: IoSettingsOutline,
+    icon: icons.myData,
     link: "/dono-petshop/meus-dados",
+  },
+  {
+    titulo: "Suporte",
+    icon: icons.support,
+    link: "/dono-petshop/suporte",
   },
 ];
 
@@ -73,9 +94,9 @@ const SideBar = ({ isOpen, toggleSideBar }) => {
 
   return (
     <div
-      className={`${styles["container"]} ${styles.sideBar} ${
+      className={`${styles.container} ${styles.sideBar} ${
         isOpen ? "" : styles.closed
-      } ${!isOpen ? styles["open"] : ""}`}
+      } ${!isOpen ? styles.open : ""}`}
     >
       <div>
         <div className={styles["sidebar-top"]}>
@@ -89,7 +110,7 @@ const SideBar = ({ isOpen, toggleSideBar }) => {
             <TbLayoutSidebarRightCollapseFilled
               size={29}
               className={`${styles["icon-sidebar"]} ${
-                isOpen ? styles["open"] : ""
+                isOpen ? styles.open : ""
               }`}
               onClick={toggleSideBar}
             />
@@ -129,35 +150,25 @@ const SideBar = ({ isOpen, toggleSideBar }) => {
 
       <div className={styles["sidebar-bottom"]}>
         <ul className={styles["sidebar-section-item"]}>
-          <Link to="/dono-petshop/suporte" className={styles["link-section"]}>
-            <li className={styles["item-sidebar"]}>
-              <div>
-                <PiHeadset size={18} className={styles["icon-section-item"]} />
-                <p>Suporte</p>
-              </div>
-            </li>
-          </Link>
           <Link
             className={styles["link-section"]}
             onClick={() => setModalSairShow(true)}
           >
             <li className={styles["item-sidebar"]}>
               <div>
-                <RiLogoutCircleLine
-                  size={18}
-                  className={styles["icon-section-item"]}
-                />
+                {React.createElement(icons.logout, {
+                  size: 18,
+                  className: styles["icon-section-item"],
+                })}
                 <p>Sair</p>
               </div>
             </li>
           </Link>
         </ul>
       </div>
+
       {/* Modal de Sair */}
-      <LogOut
-        show={modalSairShow}
-        onHide={() => setModalSairShow(false)}
-      />
+      <LogOut show={modalSairShow} onHide={() => setModalSairShow(false)} />
     </div>
   );
 };

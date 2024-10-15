@@ -20,12 +20,7 @@ function App() {
   };
 
   return (
-    <Router>
-      {/* <SideBarWithConditional
-        isOpen={isSidebarOpen}
-        toggleSideBar={toggleSideBar}
-      /> */}
-     
+    <Router>     
         <HeaderWithConditional
           section04Ref={section04Ref}
           className={styles["container-menor"]}

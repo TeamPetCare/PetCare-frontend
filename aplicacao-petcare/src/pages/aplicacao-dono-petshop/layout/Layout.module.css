@@ -10,7 +10,7 @@
 
 .content {
   transition: padding 0.8s ease-in-out;
-  padding: 25px;
+  padding: 27px 25px 0;
   background-color: white;
 }
 

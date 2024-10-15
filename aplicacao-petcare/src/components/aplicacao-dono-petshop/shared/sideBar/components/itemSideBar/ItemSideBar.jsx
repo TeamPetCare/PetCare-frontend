@@ -1,22 +1,27 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./ItemSideBar.module.css";
-import {
-  RiUser3Fill,
-  RiUser3Line,
-  RiCalendarScheduleFill,
-  RiCalendarScheduleLine,
-  RiLogoutCircleLine,
-  RiArrowDropDownLine,
-  RiArrowDropUpLine,
-} from "react-icons/ri";
+import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 
 const ItemSideBar = ({ titulo, sections, isOpenAtributte, onToggle }) => {
   const [isOpen, setIsOpen] = useState(isOpenAtributte);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentSectionIndex = sections.findIndex(
+      (section) => section.link === location.pathname
+    );
+    setActiveIndex(currentSectionIndex !== -1 ? currentSectionIndex : null);
+  }, [location, sections]);
 
   const toogleSideBar = () => {
     setIsOpen(!isOpen);
     onToggle();
+  };
+
+  const handleItemClick = (index) => {
+    setActiveIndex(index);
   };
 
   return (
@@ -36,7 +41,13 @@ const ItemSideBar = ({ titulo, sections, isOpenAtributte, onToggle }) => {
         }`}
       >
         {sections.map((section, index) => (
-          <li className={styles["item-sidebar"]} key={index}>
+          <li
+            className={`${styles["item-sidebar"]} ${
+              activeIndex === index ? styles["active"] : ""
+            }`}
+            key={index}
+            onClick={() => handleItemClick(index)}
+          >
             <Link to={section.link} className={styles["link-section"]}>
               <div>
                 <section.icon
