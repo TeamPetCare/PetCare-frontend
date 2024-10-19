@@ -9,6 +9,9 @@ import Login from "../pages/aplicacao-dono-petshop/login/Login.jsx";
 
 import NotFound from "../pages/shared/notFound/NotFound.jsx";
 
+import UserCreateTest from '../components/user-test/UserCreateTest'; // Ajuste o caminho conforme necessário
+
+
 const AppRoutes = ({ section04Ref }) => {
   return (
     <Routes>
@@ -24,6 +27,10 @@ const AppRoutes = ({ section04Ref }) => {
       {/* Rotas Aplicação Dono do Petshop */}
       <Route path="/donoPetshop/login" element={<Login />} />
       <Route path="/donoPetshop/inicio" element={<DonoPetshopInicio />} />
+
+     {/* Rota para criar usuário */}
+     <Route path="/create-user" element={<UserCreateTest />} />
+
     </Routes>
   );
 };
