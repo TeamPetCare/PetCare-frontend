@@ -1,37 +1,79 @@
 .sidebar-section-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .sidebar-section-item {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    transition: display 0.8s ease-in-out; /* Transição suave usando transform */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  transition: display 0.8s ease-in-out; /* Transição suave usando transform */
 
+  .item-sidebar {
+    div {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0.8em 0;
 
-    .item-sidebar {
-        div {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            padding: 0.8em 0;
+      p {
+        font-size: 0.95em;
+        font-family: "Montserrat";
+        font-weight: 500;
+      }
 
-            p {
-                font-size: 0.95em;
-                font-family: 'Montserrat';
-                font-weight: 500;
-            }
-
-            .icon-section-item, p {
-                cursor: pointer;
-            }
-        }
+      .icon-section-item,
+      p {
+        cursor: pointer;
+      }
     }
+  }
 }
 
 .close {
-    display: none;
+  display: none;
+}
+
+.link-section {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.4s ease-in-out;
+}
+
+.link-section:hover {
+    color: var(--cor-secundaria-amarelo-claro);
+}
+
+.item-sidebar.active {
+  /* Animação suave no item ativo */
+  transition: all 0.5s ease;
+
+  .icon-section-item {
+    fill: var(--cor-secundaria-amarelo-claro);
+    transition: fill 0.4s ease-in-out;
+  }
+
+  /* Adiciona uma cor ou efeito ao texto quando ativo */
+  p {
+    color: var(--cor-secundaria-amarelo-claro);
+    transition: all 0.4s ease-in-out;
+  }
+}
+
+/* Indicador de seleção com animação suave */
+.item-sidebar.active::before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  transform: translateY(17%);
+  width: 9px;
+  height: 5%;
+  background-color: var(--cor-secundaria-amarelo-claro);
+  border-radius: 0 15px 15px 0;
+
+  /* Animação na largura e altura do indicador */
+  transition: all 0.4s ease-in-out;
 }

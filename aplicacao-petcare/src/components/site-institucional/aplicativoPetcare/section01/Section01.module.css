@@ -1,0 +1,198 @@
+.container {
+    width: 100%;
+    display: flex;
+    padding-top: 5px; 
+    overflow: hidden;
+  font-family: 'Montserrat';
+
+}
+
+.container-texto {
+    width: 50%;
+    padding-left: 90px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 4em;
+    color: var(--cor-primaria-azul-escuro);
+    gap: 2em;
+
+    p {
+        font-size: 0.75em;
+    }
+
+    p:first-child {
+        font-weight: 500;
+    }
+
+    h1 {
+        font-size: 1.90em;
+        line-height: 28px;
+        font-weight: 900;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        width: 91%;
+        gap: 9px;
+    }
+
+    .accessContainer{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .accessContainer > p{
+        font-size: 0.82em;
+    }
+
+    .bold{
+        font-weight:800;
+    }
+
+
+
+    button {
+        color: white;
+        outline: none;
+        padding: 12px 30px;
+        width: fit-content;
+        font-weight: 800;
+        font-size: 0.8em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border: none;
+        border-radius: 2em;
+        background: var(--cor-destaque-verde-claro);
+        cursor: pointer;
+        transition: all 0.8s ease-in-out;
+    }
+
+    button:hover {
+        padding: 12px 32.5px;
+    }
+}
+
+.container-img {
+    width: 65%;
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 77%;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .container-texto {
+        width: fit-content;
+        padding-left: 20px;
+        margin-top: 2em;
+        gap: 1.2em;
+
+        div {
+            width: 85%;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            line-height: 0.9em;
+        }
+
+        p{
+            font-size: 1.15em;
+        }
+
+        .accessContainer > p{
+            font-size: 0.75em;
+        }
+
+        button {
+            width: fit-content;
+            padding: 8px 10px;
+            font-size: 0.8em;
+        }
+
+        button:hover {
+            padding: 8px 10px;
+        }
+
+        .bold{
+            font-size: 1em;
+        }
+    }
+
+    .container-img {
+        width: auto;
+        img {
+            width: 100%;
+            height: 450px;
+        }
+
+    }
+}
+
+
+@media (min-width: 769px) and (max-width: 1200px) {
+
+    
+    .container-texto {
+        margin-bottom: 5em;
+        padding-left: 2em;
+
+        h1 {
+            font-size: 2.4em;
+            line-height: 1em;
+        }
+
+        p {
+            font-size: 0.9em;
+        }
+
+        button {
+            padding: 10px 5px;
+            width: fit-content;
+            font-size: 0.50em;
+        }
+
+        button:hover {
+            padding: 10px 5px;
+        
+        }
+    }
+
+    .container-img {
+        img{
+            width: 100%;
+        }
+    }
+}
+
+@media (min-width: 767px) and (max-width: 992px) {
+    .container-texto {
+        padding-left: 2em;
+        margin-top: 2em;
+
+        div {
+            width: 100%;
+            gap: 12px;
+        }
+
+    }
+
+}
+
+
+
+
+

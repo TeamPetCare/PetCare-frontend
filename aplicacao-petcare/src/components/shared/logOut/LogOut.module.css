@@ -1,0 +1,49 @@
+
+
+.logo-petcare {
+    width: 125%;
+}
+
+.container-body {
+    h2 {
+        font-weight: 700;
+        font-size: 1.4em;
+    }
+
+    p {
+        font-size: 0.9em;
+    }
+}
+
+.container-body-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer {
+    justify-content: space-around;
+}
+
+.btn-cancelar, .btn-sair {
+    font-weight: 600;
+    font-size: 0.9em;
+    border-radius: 6px;
+    width: 45%;
+    padding: 7px 0;
+}
+
+.btn-cancelar {
+    background-color: #FFF;
+    color: #344054;
+}
+
+.btn-sair {
+    background-color: #CE0000;
+    color: #FFF;
+}
+
+.btn-sair:hover {
+    background-color: var(--cor-primaria-azul-escuro);
+    color: #FFF;
+}

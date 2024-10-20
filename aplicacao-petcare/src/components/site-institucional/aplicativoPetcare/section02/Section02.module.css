@@ -1,0 +1,234 @@
+.container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.beneficios {
+  position: absolute;
+  width: 100%;
+  padding: 0 55px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarela.svg);
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  margin-top: -6em;
+  color: var(--cor-primaria-azul-escuro);
+}
+
+.item-beneficio {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+  row-gap: 12.5px;
+
+  .img > img{
+    width: 100%;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    text-align: start;
+    gap: 8px;
+
+    svg {
+      width: 1.7em;
+      height: 1.8em;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    svg:hover {
+      animation: bounce 1.3s ease-in-out;
+    }
+
+    h3 {
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+  }
+
+  p {
+    font-size: 11px;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+  .item-beneficio {
+    width: 80%;
+  }
+
+  .beneficios{
+    flex-direction: column-reverse;
+  }
+}
+
+@media (min-width: 425px) and (max-width: 767px) {
+  .item-beneficio {
+    align-items: center;
+  }
+
+  .beneficios{
+    margin-top: -19em;
+    padding: 0;
+    width: 100%;
+    height: 1100px;
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 40px;
+  }
+  .img{
+    width: 100%;
+    height: 100%;
+  }
+
+    .item-beneficio {
+    div {
+      width: 100%;
+      justify-content: center;
+      h3 {
+        font-size: 1.3em;
+        line-height: 10px;
+        text-align: center;
+      }
+    }
+
+    p {
+      line-height: 1.5em;
+      font-size: 1.1em;
+      text-align: center;
+    }
+  }
+
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .beneficios {
+
+    background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktop.svg);
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+    justify-content: center;
+    /* height: 16em; */
+    margin-top: -7em;
+    padding: 0;
+  }
+
+  .item-beneficio {
+    text-align: start;
+    width: 90%; 
+    div {
+      width: 95%;
+      text-align: start;
+      svg {
+        width: 2.9em;
+        height: 3em;
+      }
+
+      h3 {
+        font-size: 1.7em;
+        line-height: 30px;
+        text-align: right;
+      }
+    }
+
+    p {
+      line-height: 1.4em;
+      font-size: 0.8em;
+      text-align: right;
+    }
+  }
+
+  .item-beneficio:first-child {
+    padding-left: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .beneficios {
+    background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktop.svg);
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    justify-items: center;
+    margin-top: -9em;
+  }
+
+
+  .item-beneficio {
+    width: 73%;
+    gap: 3px;
+    
+
+    div {
+      width: 100%;
+      justify-content: flex-end;
+      svg {
+        width: 2.3em;
+        height: 2.3em;
+      }
+
+      h3 {
+        font-size: 1.3em;
+        line-height: 28.5px;
+        font-weight: 700;
+        text-align: right;
+        width: 60%;
+      }
+    }
+
+    p {
+      width: 100%;
+      line-height: 24.5px;
+     text-align: right;
+    }
+  }
+}
+
+@media (min-width: 1201px) {
+  .beneficios {
+    background-image: url(../../../../utils/assets/site-institucional/inicio/waveAmarelaDesktopMaior.svg);
+    /* height: 18em; */
+    /* margin-top: -4em; */
+  }
+
+  .item-beneficio {
+    gap: 9px;
+    & div {
+      width: 100%;
+      justify-content: flex-end;
+      h3 {
+        width: 100%;
+        font-size: 2.2em;
+        line-height: 35.5px;
+        font-weight: 700;
+        text-align: right;
+      }
+    }
+
+    p {
+      font-size: 0.85em;
+      width: 100%;
+      line-height: 24.5px;
+     text-align: right;
+    }
+  }
+}

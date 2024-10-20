@@ -1,0 +1,57 @@
+.container-div {
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  position: absolute;
+  width: 100%; 
+  border-radius: 5px;
+  padding: 5px;
+  color: black;
+  box-sizing: border-box; 
+}
+
+.container-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box; 
+
+  h3, p {
+    text-align: start;
+  }
+}
+
+.container-icon {
+  background-color: #fff;
+  padding: 2px 5px;
+  border: 1px solid var(--cor-primaria-azul-escuro);
+  border-radius: 50%;
+  position: absolute;
+  right: 6px;
+  top: 63%;
+}
+
+.container-hours {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+}
+
+.concluido {
+  background-color: #73d673;
+}
+
+.agendado {
+  background-color: #afdded;
+}
+
+.cancelado {
+  background-color: #ffd269;
+}
+
+td {
+  text-align: start;
+}

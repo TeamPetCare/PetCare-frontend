@@ -1,0 +1,75 @@
+.sectionSobreNos {
+    padding: 2em;
+    display: flex;
+    align-items: flex-start;
+    background-color: #fff;
+}
+
+h1 {
+    font-size: 2em;
+    color: var(--cor-primaria-azul-escuro);
+    font-weight: 900;
+    text-align: right;
+}
+
+p {
+    font-size: 0.7em;
+    line-height: 1.5;
+    color: #333;
+    text-align: right;
+}
+
+.imageContainer {
+    flex: 1.2;
+    display: flex;
+    justify-content: center;
+}
+
+.textContainer {
+    flex: 1;
+    padding-left: 2em;
+}
+
+.imagem {
+    width: 100%;
+    height: auto;
+}
+
+h4 {
+    font-weight: 900;
+    color: var(--cor-primaria-azul-escuro);
+    margin-top: 1.3rem;
+    text-align: right;
+}
+
+.valoresContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 1em;
+    margin-top: -0.3rem;
+}
+
+.button {
+    background-color: #FFDC8A;
+    color: var(--cor-primaria-azul-escuro);
+    font-weight: bold;
+    padding: 0.5em 1em;
+    border-radius: 15px;
+    font-size: 0.8em;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    border: none;
+
+}
+
+.button img{
+    width: 15px;
+    height: 15px;
+    margin-right: 0.5em;
+}
+
+/* .button:hover {
+    background-color: var(--cor-secundaria);
+} */

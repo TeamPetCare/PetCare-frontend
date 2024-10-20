@@ -1,0 +1,23 @@
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr; 
+  height: 100vh;
+}
+
+.sidebar {
+  transition: width 0.8s ease-in-out;
+}
+
+.content {
+  transition: padding 0.8s ease-in-out;
+  padding: 27px 25px 0;
+  background-color: white;
+}
+
+.content.sidebar-open {
+  padding-left: 17vw; 
+}
+
+.content.sidebar-closed {
+  padding-left: 4vw; 
+}
