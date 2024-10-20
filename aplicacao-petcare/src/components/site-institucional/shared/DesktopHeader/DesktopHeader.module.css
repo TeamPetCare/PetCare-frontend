@@ -20,6 +20,31 @@ li,
   font-size: 0.9rem;
 }
 
+.container_desktop_subheader {
+  background-color: var(--cor-primaria-azul-escuro);
+  padding: 10px 90px;
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2em;
+    li,
+    .linkLi {
+      list-style: none;
+      font-size: 0.8rem;
+      display: flex;
+      gap: 6px;
+    }
+
+    li::last-child {
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
 
 .linkLi {
   display: flex;

@@ -118,7 +118,7 @@
 
 @media (min-width: 1024px) {
   .container-bck::before {
-    height: 60%;
+    height: 55%;
     margin-bottom: -1em;
     background-size: unset;
   }

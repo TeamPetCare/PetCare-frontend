@@ -74,7 +74,7 @@ const AppRoutes = ({ section04Ref }) => {
       />
 
      {/* Rota para criar usuário */}
-     <Route path="/create-user" element={<UserCreateTest />} /
+     <Route path="/create-user" element={<UserCreateTest />} />
     </Routes>
   );
 };
