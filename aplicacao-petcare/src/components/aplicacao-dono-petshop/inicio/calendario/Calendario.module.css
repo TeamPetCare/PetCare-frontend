@@ -1,4 +1,39 @@
-.Calendario {
-    
-	text-align: center;
+.calendario {
+  text-align: center;
+  width: 75%;
 }
+
+::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cor-primaria-azul-escuro);
+  border-radius: 10px;
+}
+
+/* Estilizando o cabeçalho principal (incluindo a navegação e título) */
+.rbc-toolbar {
+	font-size: 14px; /* Diminua o valor conforme necessário */
+	font-weight: normal;
+  }
+  
+  /* Estilizando os botões de navegação (Hoje, Anterior, Próximo) */
+  .rbc-btn-group button {
+	font-size: 12px; /* Tamanho da fonte dos botões */
+  }
+  
+  /* Estilizando o intervalo da data (15 de setembro – 21 de setembro) */
+  .rbc-toolbar-label {
+	font-size: 14px; /* Diminua o tamanho da fonte do título da semana */
+  }
+  
+  /* Estilizando as opções de visualização (Mês, Semana, Dia, Agenda) */
+  .rbc-btn-group button {
+	font-size: 12px; /* Diminua o tamanho da fonte dos botões de visualização */
+  }
+
+  
+  .rbc-month-row {
+	height: 150px; /* Ajuste o tamanho da célula */
+  }

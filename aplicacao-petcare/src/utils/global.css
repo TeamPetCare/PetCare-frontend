@@ -8,10 +8,114 @@
 p {
   font-family: "Lexend";
 }
+.custom-popup {
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  z-index: 1000;
+}
 
-.sidebar-open {
-  width: 60px;
-  background-color: aqua; /* Largura da sidebar quando fechada */
+.rbc-event {
+  position: relative;
+  width: 100%;
+  height: 3em;
+  box-sizing: border-box;
+  background-color: transparent;
+  padding: 0;
+}
+.rbc-show-more {
+  display: block;
+  background-color: var(--cor-primaria-azul-escuro);
+  color: white;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.4s ease-in-out;
+  font-size: 0.8em;
+  margin-top: 8px;
+  font-weight: 600;
+  padding: 3px 5px;
+}
+
+.rbc-event-label {
+  display: none;
+}
+
+.rbc-show-more:active,
+.rbc-show-more:hover,
+.rbc-show-more:focus {
+  background-color: var(--cor-secundaria-amarelo-claro);
+  color: var(--cor-primaria-azul-escuro);
+}
+
+.rbc-event.rbc-selected,
+.rbc-day-slot .rbc-selected.rbc-background-event {
+  background-color: transparent;
+}
+
+.rbc-overlay .rbc-event .rbc-event-content .container {
+  border-radius: 5px;
+  padding: 5px;
+  color: black;
+  position: absolute;
+  width: 100% !important;
+}
+
+.rbc-btn-group,
+.rbc-toolbar-label {
+  font-size: 0.8em;
+}
+
+.rbc-toolbar button {
+  padding: 0.3rem 0.7rem;
+}
+
+.rbc-time-content {
+  overflow-x: hidden;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.9em 0.2em;
+}
+
+.btn-check:focus + .btn-primary,
+.btn-check:hover + .btn-primary,
+.btn-check:active + .btn-primary,
+.btn-check:checked + .btn-primary,
+.btn-primary.active,
+.btn-primary:active,
+.show > .btn-primary.dropdown-toggle {
+  color: var(--cor-secundaria-amarelo-claro);
+  background-color: var(--cor-primaria-azul-escuro);
+  border-color: var(--cor-primaria-azul-escuro);
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  color: var(--cor-primaria-azul-escuro);
+  background-color: var(--cor-secundaria-amarelo-claro);
+}
+
+.dropdown-item {
+  font-size: 0.8em;
+}
+
+.progress-bar{
+  width: 55%;
+  border-radius: 5px;
+}
+
+.bg-danger {
+  background-color: var(--cor-vermelho) !important;
+}
+
+.modal-content {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.rbc-overlay > * + * {
+  margin: .7em 0;
 }
 
 @font-face {
@@ -23,21 +127,24 @@ p {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-ThinItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-ThinItalic.ttf")
+    format("truetype");
   font-weight: 100;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-ExtraLight.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-ExtraLight.ttf")
+    format("truetype");
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-ExtraLightItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-ExtraLightItalic.ttf")
+    format("truetype");
   font-weight: 200;
   font-style: italic;
 }
@@ -51,49 +158,56 @@ p {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-LightItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-LightItalic.ttf")
+    format("truetype");
   font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-Regular.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-Regular.ttf")
+    format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-RegularItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-RegularItalic.ttf")
+    format("truetype");
   font-weight: 400;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-Medium.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-Medium.ttf")
+    format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-MediumItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-MediumItalic.ttf")
+    format("truetype");
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-SemiBold.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-SemiBold.ttf")
+    format("truetype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-SemiBoldItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-SemiBoldItalic.ttf")
+    format("truetype");
   font-weight: 600;
   font-style: italic;
 }
@@ -107,21 +221,24 @@ p {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-BoldItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-BoldItalic.ttf")
+    format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-ExtraBold.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-ExtraBold.ttf")
+    format("truetype");
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-ExtraBoldItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-ExtraBoldItalic.ttf")
+    format("truetype");
   font-weight: 800;
   font-style: italic;
 }
@@ -135,7 +252,8 @@ p {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../utils/fonts/montserrat//Montserrat-BlackItalic.ttf") format("truetype");
+  src: url("../utils/fonts/montserrat//Montserrat-BlackItalic.ttf")
+    format("truetype");
   font-weight: 900;
   font-style: italic;
 }
