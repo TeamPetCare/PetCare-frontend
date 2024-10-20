@@ -1,0 +1,44 @@
+.container-section05 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    padding: 2.5em 1.5em;
+    gap: 0.5em;
+  
+    h1 {
+      font-size: 2.3em;
+      font-weight: 800;
+      color: var(--cor-primaria-azul-escuro);
+    }
+  
+    .container-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+      grid-auto-rows: auto;
+      gap: 20px;
+    }
+  }
+
+  .buttonMore {
+    background-color: #FFD269;
+    font-weight: 700;
+    border: none;
+    border-radius: 2em;
+    padding: 0.7em 2em;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    font-size: 0.8em;
+  }
+
+  .buttonMore:hover {
+    padding: 0.9em 2em;
+  }
+
+ @media (max-width: 767px)   {
+    .container-section05{
+        margin-top: 325px;
+    }
+ }
+
+ 
