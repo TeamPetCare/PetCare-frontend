@@ -17,7 +17,7 @@
     gap: 2em;
 
     p {
-        font-size: 0.9em;
+        font-size: 0.75em;
     }
 
     p:first-child {
@@ -25,8 +25,8 @@
     }
 
     h1 {
-        font-size: 3em;
-        line-height: 46px;
+        font-size: 1.90em;
+        line-height: 35px;
         font-weight: 900;
     }
 
@@ -37,25 +37,42 @@
         gap: 9px;
     }
 
+    .accessContainer{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .accessContainer > p{
+        font-size: 0.82em;
+    }
+
+    .bold{
+        font-weight:800;
+    }
+
+
+
     button {
+        color: white;
         outline: none;
         padding: 12px 30px;
         width: fit-content;
         font-weight: 800;
-        font-size: 0.9em;
+        font-size: 0.8em;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5em;
         border: none;
         border-radius: 2em;
-        background: linear-gradient(to bottom, var( --cor-secundaria-amarelo-claro), #F3B72C);
+        background: var(--cor-destaque-verde-claro);
         cursor: pointer;
         transition: all 0.8s ease-in-out;
     }
 
     button:hover {
-        padding: 12px 40px;
+        padding: 12px 32.5px;
     }
 }
 
@@ -69,15 +86,17 @@
     }
 }
 
+
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
-        gap: 12px;
+        gap: 40px;
     }
     .container-texto {
         width: fit-content;
         padding-left: 20px;
-        margin-top: 2em;
+        margin-top: 0em;
         gap: 1.2em;
 
         div {
@@ -86,8 +105,16 @@
         }
 
         h1 {
-            font-size: 3em;
-            line-height: 0.9em;
+            font-size: 2.3em;
+            line-height: 1.1em;
+        }
+
+        p{
+            font-size: 1.1em;
+        }
+
+        .accessContainer > p{
+            font-size: 0.85em;
         }
 
         button {
@@ -112,10 +139,11 @@
 
 
 @media (min-width: 769px) and (max-width: 1200px) {
+
     
     .container-texto {
+        margin-bottom: 5em;
         padding-left: 2em;
-        margin-top: 4em;
 
         h1 {
             font-size: 2.4em;
@@ -129,7 +157,7 @@
         button {
             padding: 10px 2em;
             width: fit-content;
-            font-size: 0.8em;
+            font-size: 0.43em;
         }
 
         button:hover {
@@ -156,6 +184,8 @@
         }
     }
 }
+
+
 
 
 

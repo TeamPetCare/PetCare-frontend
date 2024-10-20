@@ -17,7 +17,7 @@
     gap: 2em;
 
     p {
-        font-size: 0.9em;
+        font-size: 0.75em;
     }
 
     p:first-child {
@@ -25,8 +25,8 @@
     }
 
     h1 {
-        font-size: 3em;
-        line-height: 46px;
+        font-size: 1.90em;
+        line-height: 28px;
         font-weight: 900;
     }
 
@@ -37,25 +37,42 @@
         gap: 9px;
     }
 
+    .accessContainer{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .accessContainer > p{
+        font-size: 0.82em;
+    }
+
+    .bold{
+        font-weight:800;
+    }
+
+
+
     button {
+        color: white;
         outline: none;
         padding: 12px 30px;
         width: fit-content;
         font-weight: 800;
-        font-size: 0.9em;
+        font-size: 0.8em;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5em;
         border: none;
         border-radius: 2em;
-        background: linear-gradient(to bottom, var( --cor-secundaria-amarelo-claro), #F3B72C);
+        background: var(--cor-destaque-verde-claro);
         cursor: pointer;
         transition: all 0.8s ease-in-out;
     }
 
     button:hover {
-        padding: 12px 40px;
+        padding: 12px 32.5px;
     }
 }
 
@@ -68,6 +85,8 @@
         width: 77%;
     }
 }
+
+
 
 @media (max-width: 768px) {
     .container {
@@ -86,25 +105,38 @@
         }
 
         h1 {
-            font-size: 3em;
+            font-size: 2.2em;
             line-height: 0.9em;
+        }
+
+        p{
+            font-size: 1.15em;
+        }
+
+        .accessContainer > p{
+            font-size: 0.75em;
         }
 
         button {
             width: fit-content;
-            padding: 12px 25px;
+            padding: 8px 10px;
             font-size: 0.8em;
         }
 
         button:hover {
-            padding: 12px 30px;
+            padding: 8px 10px;
+        }
+
+        .bold{
+            font-size: 1em;
         }
     }
 
     .container-img {
         width: auto;
         img {
-            width: 90%;
+            width: 100%;
+            height: 450px;
         }
 
     }
@@ -112,10 +144,11 @@
 
 
 @media (min-width: 769px) and (max-width: 1200px) {
+
     
     .container-texto {
+        margin-bottom: 5em;
         padding-left: 2em;
-        margin-top: 4em;
 
         h1 {
             font-size: 2.4em;
@@ -127,13 +160,13 @@
         }
 
         button {
-            padding: 10px 2em;
+            padding: 10px 5px;
             width: fit-content;
-            font-size: 0.8em;
+            font-size: 0.50em;
         }
 
         button:hover {
-            padding: 10px 3em;
+            padding: 10px 5px;
         
         }
     }
@@ -154,8 +187,12 @@
             width: 100%;
             gap: 12px;
         }
+
     }
+
 }
+
+
 
 
 
