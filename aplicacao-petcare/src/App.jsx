@@ -27,7 +27,6 @@ function App() {
     <Router>
       <HeaderWithConditional section04Ref = {section04Ref} className={styles["container-menor"]}/>
       <AppRoutes section04Ref={section04Ref} />
-      <UserCreateTest />
     </Router>
   );
 }

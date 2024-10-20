@@ -11,7 +11,6 @@ import { PiEyeSlashFill } from "react-icons/pi";
 const Login = () => {
   return (
     <div>
-      <MainHeader />
       <div className={styles.container}>
         <div className={styles.loginBox}>
           <h2>Faça seu login!</h2>

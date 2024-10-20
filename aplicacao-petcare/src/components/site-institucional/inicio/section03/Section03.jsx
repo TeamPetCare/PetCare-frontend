@@ -38,10 +38,7 @@ const Section03 = () => {
 
       {selectedButton !== null && (
         <div className={styles["container-beneficio"]}>
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+          <div
           >
             <h2>{buttonData[selectedButton - 1].titulo}</h2>
             <ul>
@@ -49,7 +46,7 @@ const Section03 = () => {
                 <li key={index}>{line}</li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           <motion.img
             initial={{ opacity: 0, x: -50 }}
