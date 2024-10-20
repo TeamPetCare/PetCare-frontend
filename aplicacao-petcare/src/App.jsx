@@ -11,6 +11,9 @@ import "./utils/variables.css";
 import "./utils/global.css";
 import styles from "./App.module.css";
 
+import UserCreateTest from './components/user-test/UserCreateTest.jsx'; 
+
+
 function App() {
   const section04Ref = useRef(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -20,12 +23,11 @@ function App() {
   };
 
   return (
-    <Router>     
-        <HeaderWithConditional
-          section04Ref={section04Ref}
-          className={styles["container-menor"]}
-        />
-        <AppRoutes section04Ref={section04Ref} />
+
+    <Router>
+      <HeaderWithConditional section04Ref = {section04Ref} className={styles["container-menor"]}/>
+      <AppRoutes section04Ref={section04Ref} />
+      <UserCreateTest />
     </Router>
   );
 }

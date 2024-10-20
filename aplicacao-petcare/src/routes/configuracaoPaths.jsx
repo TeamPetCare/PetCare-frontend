@@ -7,7 +7,7 @@ export const HeaderWithConditional = ({ section04Ref }) => {
     const location = useLocation();
   
     // Define as rotas onde o MainHeader deve ser exibido
-    const showHeaderRoutes = ["/", "/sobreNos", "/suporte", "/aplicativoPetcare"];
+    const showHeaderRoutes = ["/", "/sobreNos", "/suporte"];
   
     const shouldShowHeader = showHeaderRoutes.includes(location.pathname);
   
