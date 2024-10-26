@@ -29,7 +29,7 @@ function DesktopHeader({ scrollToSection04 }) {
             </Link>
           </li>
           <li>
-            <Link to="/donoPetshop/login" className={styles["linkLi"]}>
+            <Link to="/dono-petshop/login" className={styles["linkLi"]}>
               <PiUserCircleLight
                 size="1.4em"
                 className={styles["iconUserCircle"]}

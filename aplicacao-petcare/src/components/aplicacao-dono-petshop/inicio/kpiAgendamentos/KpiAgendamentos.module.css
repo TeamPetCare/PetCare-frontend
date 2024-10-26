@@ -1,0 +1,135 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: .4em;
+}
+
+.container-status-agendamentos,
+.container-atendimentos-agendados {
+  display: flex;
+  background-color: var(--cor-secundaria-amarelo-claro);
+  justify-content: space-between;
+  padding: 0.5em 0.9em;
+  border-radius: 0.6em;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+.container-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+
+.container-title,
+.container-dados,
+.container-dados-first {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.2em;
+
+  p {
+    font-family: "Montserrat";
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--cor-primaria-azul-escuro);
+  }
+}
+
+.container-dados,
+.container-dados-first {
+  p {
+    font-size: 1em;
+    color: #000;
+  }
+}
+
+.container-dados-first {
+  justify-content: space-between;
+}
+
+.icon {
+  fill: var(--cor-primaria-azul-escuro);
+}
+
+.icon-i {
+  fill: var(--cor-primaria-azul-escuro);
+  cursor: pointer;
+}
+
+.container-atendimentos-agendados {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--cor-secundaria-amarelo-claro);
+  padding: 1em;
+  border-radius: 0.6em;
+}
+
+.container-atendimentos-title {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  p {
+    font-family: "Montserrat";
+    font-size: 0.75em;
+    font-weight: 700;
+    color: var(--cor-primaria-azul-escuro);
+    width: min-content;
+  }
+}
+
+.progress-container {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.progress-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0.5em;
+}
+
+.progress-title {
+  font-size: 0.65em;
+  font-weight: 500;
+  font-style: italic;
+  color: #000;
+  font-family: "Montserrat";
+}
+
+.progress-number-red {
+  color: var(--cor-vermelho);
+  font-size: 0.8em;
+  font-weight: 700;
+  font-family: "Montserrat";
+}
+
+.progress-number-green {
+  color: var(--cor-verde);
+  font-size: 0.8em;
+  font-weight: 700;
+  font-family: "Montserrat";
+}
+
+.progress-bar-red,.progress-bar-green {
+  height: 1.4em;
+  width: 100%;
+  border-radius: 0.5em;
+  background-color: transparent;
+}
+.icon-i {
+  fill: var(--cor-primaria-azul-escuro);
+  cursor: pointer;
+}
