@@ -3,28 +3,24 @@
   color: var(--cor-primaria-azul-escuro);
 }
 
-
-
 .super-colors .dropdown-item {
-  color: var(
-    --cor-primaria-azul-escuro
-  );
+  color: var(--cor-primaria-azul-escuro);
 }
 
 .super-colors .dropdown-item.active {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
   color: var(--cor-primaria-azul-escuro);
 }
 
 .super-colors .dropdown-item:hover {
-  background-color: #e0e0e0; 
+  background-color: #e0e0e0;
   color: var(--cor-primaria-azul-escuro);
 }
 
 .custom-btn {
   background-color: var(--cor-secundaria-amarelo-claro);
   color: var(--cor-primaria-azul-escuro);
-  border: none; 
+  border: none;
   font-family: "Montserrat";
   font-weight: 700;
   font-size: 0.8em;
@@ -43,4 +39,8 @@
 
 .filter-display {
   margin-top: 20px;
+}
+
+.dropdown-filter {
+  width: auto;
 }

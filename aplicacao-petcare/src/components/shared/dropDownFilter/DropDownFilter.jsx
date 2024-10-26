@@ -14,7 +14,7 @@ function DropDownFilter({ options }) {
 
   return (
     <>
-      <Dropdown as={ButtonGroup} onSelect={handleSelect}>
+      <Dropdown as={ButtonGroup} onSelect={handleSelect} className={styles["dropdown-filter"]}>
         <Dropdown.Toggle id="dropdown-custom-1" className={styles["custom-btn"]}>
           {selectedFilter}
         </Dropdown.Toggle>

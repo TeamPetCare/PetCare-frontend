@@ -123,20 +123,12 @@
   font-family: "Montserrat";
 }
 
-.progress-bar-red {
-  height: 1em;
+.progress-bar-red,.progress-bar-green {
+  height: 1.4em;
   width: 100%;
-  border-radius: 0.3em;
+  border-radius: 0.5em;
   background-color: transparent;
 }
-
-.progress-bar-green {
-  height: 1em;
-  width: 100%;
-  border-radius: 0.3em;
-  background-color: transparent;
-}
-
 .icon-i {
   fill: var(--cor-primaria-azul-escuro);
   cursor: pointer;

@@ -3,8 +3,12 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { MdOutlineDownloadDone, MdCancel } from "react-icons/md";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi2";
+import { useState } from "react";
 
 const KpiAgendamentos = () => {
+  const [porcenNaoPagos, setPorcenNaoPagos] = useState(40);
+  const [porcenPagos, setPorcenPagos] = useState(70);
+
   return (
     <div className={styles["container"]}>
       <div className={styles["container-status-agendamentos"]}>
@@ -62,23 +66,23 @@ const KpiAgendamentos = () => {
           <div className={styles["progress-item"]}>
             <div className={styles["progress-details"]}>
               <p className={styles["progress-title"]}>Não Pagos</p>
-              <div className={styles["progress-number-red"]}>4</div>
             </div>
             <ProgressBar
               className={styles["progress-bar-red"]}
               variant="danger"
-              now={40}
+              now={porcenNaoPagos}
+              label={`${porcenNaoPagos}%`}
             />
           </div>
           <div className={styles["progress-item"]}>
             <div className={styles["progress-details"]}>
               <p className={styles["progress-title"]}>Pagos</p>
-              <div className={styles["progress-number-green"]}>7</div>
             </div>
             <ProgressBar
               className={styles["progress-bar-green"]}
               variant="success"
-              now={70}
+              now={porcenPagos}
+              label={`${porcenPagos}%`}
             />
           </div>
         </div>
