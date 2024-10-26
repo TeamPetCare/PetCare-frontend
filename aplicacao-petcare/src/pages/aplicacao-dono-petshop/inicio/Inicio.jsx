@@ -96,6 +96,16 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 8, 30, 0, 0),
       end: new Date(2024, 9, 1, 9, 30, 0, 0),
       status: "Concluído",
+      cliente: {
+        nome: "Julia Cunha",
+        whatsapp: "11912345678", // Removido +55 e espaços
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        pet: {
+          nome: "Thor",
+          teste: "Labrador",
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
+        }
+      }
     },
     {
       id: "2",
@@ -105,6 +115,16 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 10, 30, 0, 0),
       end: new Date(2024, 9, 1, 11, 30, 0, 0),
       status: "Cancelado",
+      cliente: {
+        nome: "José",
+        whatsapp: "11987654321", // Removido +55 e espaços
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        pet: {
+          nome: "Maria",
+          teste: "Poodle",
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
+        }
+      }
     },
     {
       id: "3",
@@ -114,6 +134,16 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 14, 30, 0, 0),
       end: new Date(2024, 9, 1, 15, 30, 0, 0),
       status: "Agendado",
+      cliente: {
+        nome: "Heitor Lima",
+        whatsapp: "11923456789", // Removido +55 e espaços
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        pet: {
+          nome: "Madonna",
+          teste: "Bulldog",
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
+        }
+      }
     },
     {
       id: "4",
@@ -123,6 +153,16 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 17, 30, 0, 0),
       end: new Date(2024, 9, 1, 18, 0, 0, 0),
       status: "Concluído",
+      cliente: {
+        nome: "Leo",
+        whatsapp: "11934567890", // Removido +55 e espaços
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        pet: {
+          nome: "Bobby",
+          teste: "Beagle",
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
+        }
+      }
     },
     {
       id: "5",
@@ -132,6 +172,16 @@ const Inicio = () => {
       start: new Date(2024, 9, 7, 10, 30, 0, 0),
       end: new Date(2024, 9, 7, 12, 30, 0, 0),
       status: "Agendado",
+      cliente: {
+        nome: "Julia Cunha",
+        whatsapp: "11912345678", // Removido +55 e espaços
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        pet: {
+          nome: "Thor",
+          teste: "Labrador",
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
+        }
+      }
     },
     {
       id: "6",
@@ -141,8 +191,20 @@ const Inicio = () => {
       start: new Date(2024, 9, 12, 10, 35, 0, 0),
       end: new Date(2024, 9, 12, 12, 30, 0, 0),
       status: "Cancelado",
-    },
+      cliente: {
+        nome: "Heitor Lima",
+        whatsapp: "11923456789", // Removido +55 e espaços
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        pet: {
+          nome: "Madonna",
+          teste: "Bulldog",
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
+        }
+      }
+    }
   ];
+  
+  
 
   const filterOptions = [
     { label: "Tudo" },

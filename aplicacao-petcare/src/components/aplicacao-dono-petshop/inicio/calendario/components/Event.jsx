@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Event.module.css";
 import { FaPix, FaCreditCard, FaCashRegister } from "react-icons/fa6";
-import EventModal from "./eventModal/EditEventModal";
+import EventModal from "./editEventModal/EditEventModal";
 
 const paymentIcons = {
   Pix: <FaPix color="#005472" size={14} />,
