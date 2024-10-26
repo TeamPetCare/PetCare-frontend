@@ -145,9 +145,9 @@ const TableData = ({ dados, columnNames, sortableColumns }) => {
           </tbody>
         </Table>
       </div>
-      <button onClick={handleBtnClick}>
+      {/* <button onClick={handleBtnClick}>
         Exibir dados selecionados no console
-      </button>
+      </button> */}
     </div>
   );
 };
