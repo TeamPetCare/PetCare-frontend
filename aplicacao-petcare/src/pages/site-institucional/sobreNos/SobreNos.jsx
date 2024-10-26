@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./SobreNos.module.css"; // Estilos para SobreNos
 import SectionSobreNos from "../../../components/site-institucional/sobrenos/SectionSobreNos.jsx"; 
 import imagem from "../../../utils/assets/site-institucional/sobrenos/mulhersobrenos.svg";
+import TeamSection from "../../../components/site-institucional/sobrenos/TeamSection/TeamSection.jsx"; // Importação corrigida
 
 const SobreNos = () => {
   return (
@@ -17,6 +18,7 @@ const SobreNos = () => {
         valores3="Inovação"
         valores4="Cuidado e Bem-Estar Animal"
       />
+      <TeamSection />
     </div>
   );
 };
