@@ -166,7 +166,9 @@ p {
 
 }
 
-
+.react-datepicker-wrapper {
+  width: 100%;
+}
 @font-face {
   font-family: "Montserrat";
   src: url("../utils/fonts/montserrat/Montserrat-Thin.ttf") format("truetype");

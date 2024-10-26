@@ -1,0 +1,24 @@
+.container {
+  label {
+    font-size: 0.76em;
+    font-weight: 700;
+    color: #545a67;
+  }
+
+  input {
+    font-size: 0.8em;
+    /* font-family: INHERIT; */
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #d0d5dd;
+    border-radius: 7px;
+    font-weight: 500;
+    color: #5c6577;
+    padding: 0.4em 0.6em;
+    text-align-last: start;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    width: 100%;
+  }
+}
