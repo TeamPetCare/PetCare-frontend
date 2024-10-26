@@ -1,22 +1,41 @@
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import styles from "./DropDown.module.css";
 
-function DropDown({ agendamento, options, titulo, icon: Icon, selectedItem, exibirInformacao }) {
+function DropDown({
+  agendamento,
+  options,
+  titulo,
+  icon: Icon,
+  selectedItem,
+  exibirInformacao,
+  isDisabled, // Renomeado para isDisabled para melhorar a legibilidade
+}) {
   const [selectedOption, setSelectedOption] = useState(selectedItem);
+
+  // Atualiza selectedOption quando selectedItem mudar
+  useEffect(() => {
+    setSelectedOption(selectedItem);
+  }, [selectedItem]);
 
   const handleSelectItem = (option) => {
     setSelectedOption(option);
+    console.log("isDisabled:", isDisabled);
+    // Aqui você pode adicionar qualquer lógica adicional que precisar
   };
 
   return (
     <div className={styles["container"]}>
-      <Dropdown data-bs-theme="light" as={ButtonGroup} className={styles["dropdown"]}>
+      <Dropdown
+        data-bs-theme="light"
+        as={ButtonGroup}
+        className={styles["dropdown"]}
+      >
         <Dropdown.Toggle
           id="dropdown-custom-1"
           className={styles["custom-btn-dropdown"]}
+          disabled={isDisabled} // Define disabled corretamente aqui
         >
           <div className={styles["user-selected"]}>
             <Icon size={17} />
@@ -27,7 +46,7 @@ function DropDown({ agendamento, options, titulo, icon: Icon, selectedItem, exib
           {options.map((option, index) => (
             <Dropdown.Item 
               key={index} 
-              onClick={() => handleSelectItem(option)}
+              onClick={() => !isDisabled && handleSelectItem(option)}
             >
               {option}
             </Dropdown.Item>
