@@ -4,6 +4,10 @@ import SectionSobreNos from "../../../components/site-institucional/sobrenos/Sec
 import imagem from "../../../utils/assets/site-institucional/sobrenos/mulhersobrenos.svg";
 import TeamSection from "../../../components/site-institucional/sobrenos/TeamSection/TeamSection.jsx"; // Importação corrigida
 
+import MissionSection  from "../../../components/site-institucional/sobrenos/MissionSection/MissionSection.jsx";
+
+import Footer from "../../../components/site-institucional/shared/Footer/Footer.jsx";
+
 const SobreNos = () => {
   return (
     <div className={styles.sobreNos}>
@@ -19,6 +23,11 @@ const SobreNos = () => {
         valores4="Cuidado e Bem-Estar Animal"
       />
       <TeamSection />
+      <MissionSection />
+      <Footer
+        scrollToSection04={() => scrollToSection(section04Ref)}
+        scrollToSection06={() => scrollToSection(section06Ref)}
+      />
     </div>
   );
 };
