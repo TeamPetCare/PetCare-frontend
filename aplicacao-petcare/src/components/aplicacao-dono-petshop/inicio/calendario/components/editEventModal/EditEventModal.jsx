@@ -24,7 +24,7 @@ const EditEventModal = ({
   };
 
   const items = [
-    { label: 'Cadastrar Agendamento' }
+    { label: 'Editar Agendamento' }
   ];
 
   return (
