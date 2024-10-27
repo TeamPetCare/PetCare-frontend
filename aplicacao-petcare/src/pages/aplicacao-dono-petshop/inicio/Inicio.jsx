@@ -91,16 +91,16 @@ const Inicio = () => {
     {
       id: "1",
       title: "Tosa",
-      paymentStatus: false,
-      paymentMethod: "Dinheiro",
-      start: new Date(2024, 9, 1, 8, 30, 0, 0),
-      end: new Date(2024, 9, 1, 9, 30, 0, 0),
+      paymentStatus: false, //ADICIONAR INFORMAÇÃO
+      paymentMethod: "Dinheiro", //ADICIONAR INFORMAÇÃO ENUM
+      start: new Date(2024, 9, 1, 8, 30, 0, 0),//ADICIONAR INFORMAÇÃO 
+      end: new Date(2024, 9, 1, 9, 30, 0, 0), //ADICIONAR INFORMAÇÃO 
       status: "Concluído",
-      funcionario: "Jaqueline",
+      funcionario: "Jaqueline", //MANIPULAR INFORMAÇÕES PARA SEPARA USER CLIENTE E CUSTOOMER (GET_ROLE)
       cliente: {
         nome: "Julia Cunha",
-        whatsapp: "11912345678", // Removido +55 e espaços
-        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
+        whatsapp: "11912345678", //TELEFONE
+        foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg", //ADICIONAR INFORMAÇÃO 
         pet: {
           nome: "Thor",
           raca: "Labrador",
