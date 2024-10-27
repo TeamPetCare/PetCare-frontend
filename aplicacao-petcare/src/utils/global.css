@@ -7,6 +7,7 @@
 
 p {
   font-family: "Lexend";
+  color: inherit;
 }
 .custom-popup {
   background-color: white;
@@ -166,6 +167,19 @@ p {
 
 }
 
+.modal-body {
+  padding: 0 1rem 1rem 1rem;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: inherit;
+  background-color: inherit;
+  border-color: #d0d5dd;
+}
 
 @font-face {
   font-family: "Montserrat";
