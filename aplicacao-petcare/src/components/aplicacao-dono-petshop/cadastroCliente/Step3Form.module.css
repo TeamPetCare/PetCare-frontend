@@ -1,35 +1,73 @@
 .formContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  
-  .checkboxGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .checkboxLabel {
-    font-size: 1rem;
-    color: #444;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #0056b3;
-    text-align: right;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  gap: 16px; /* Espaçamento entre as colunas */
+}
+
+.column {
+  flex: 1; /* Para que ambas as colunas ocupem o mesmo espaço */
+}
+
+.label {
+  font-weight: bold; /* Para destacar o texto */
+  margin-bottom: 8px; /* Espaçamento abaixo da label */
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkboxLabel {
+  font-size: 1rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.petImage {
+  width: 40px; /* Ajuste o tamanho da imagem do pet */
+  height: 40px; /* Ajuste o tamanho da imagem do pet */
+  border-radius: 50%; /* Para deixar a imagem redonda */
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0056b3;
+  text-align: right;
+}
+
+
+
+.petInfo {
+  display: flex; /* Alinha a imagem e os detalhes do pet lado a lado */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 8px; /* Espaçamento entre a imagem e os detalhes */
+}
+
+.petDetails {
+  display: flex;
+  flex-direction: column; /* Para empilhar o nome e a raça */
+}
+
+.petImage {
+  width: 40px; /* Ajuste o tamanho da imagem do pet */
+  height: 40px; /* Ajuste o tamanho da imagem do pet */
+  border-radius: 50%; /* Para deixar a imagem redonda */
+}

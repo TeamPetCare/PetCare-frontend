@@ -6,28 +6,30 @@ import styles from './ModalWrapper.module.css';
 
 const ModalWrapper = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isOpen, setIsOpen] = useState(true); // Novo estado para controlar a visibilidade do modal
 
-  const goToNextStep = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
-    }
+  const goToNextStep = () => setCurrentStep(currentStep + 1);
+  const goToPreviousStep = () => setCurrentStep(currentStep - 1);
+  
+  const closeModal = () => {
+    setIsOpen(false); // Fecha o modal
+    setCurrentStep(1); // Redefine o passo inicial para 1 quando o modal é fechado
+    window.location.reload();
+
   };
 
-  const goToPreviousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+  if (!isOpen) return null; // Não renderiza o modal se ele estiver fechado
 
   return (
-    <div className={styles.backdrop} onClick={() => setCurrentStep(0)}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}> {/* Previne o clique do backdrop */}
+    <>
+      <div className={styles.modal}>
         <div className={styles.stepIndicator}>Passo {currentStep}</div>
         {currentStep === 1 && <Step1Form onNext={goToNextStep} />}
         {currentStep === 2 && <Step2Form onNext={goToNextStep} onBack={goToPreviousStep} />}
         {currentStep === 3 && <Step3Form onBack={goToPreviousStep} />}
       </div>
-    </div>
+      <div className={styles.backdrop} onClick={closeModal} />
+    </>
   );
 };
 

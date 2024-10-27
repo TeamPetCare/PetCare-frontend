@@ -20,7 +20,7 @@ const Step1Form = ({ onNext }) => (
     </div>
     
     {/* Endereço */}
-    <h3>Endereço</h3>
+    <h5>Endereço</h5>
     <div className={styles.addressContainer}>
       <input type="text" placeholder="CEP" />
       <input type="text" placeholder="Logradouro" />

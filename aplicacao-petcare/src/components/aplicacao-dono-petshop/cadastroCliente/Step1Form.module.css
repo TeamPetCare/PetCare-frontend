@@ -6,17 +6,13 @@
 
 input, select {
   padding: 5px;
-  font-size: 0.5rem;
+  font-size: 0.5rem; /* Aumenta o tamanho da fonte para evitar corte */
   border: 1px solid #ddd;
   border-radius: 4px;
-  width: 100%; /* Faz os inputs ocuparem 100% do container */
+  width: 100%;
 }
 
-input, select{
-  height: 2.3rem;
-}
-
-option{
+option {
   color: white;
   background-color: var(--cor-primaria-azul-escuro);
 }
@@ -27,28 +23,14 @@ input:focus, select:focus {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #333;
   margin-bottom: 16px;
   text-align: center;
 }
 
-/* Estilos para a container de contato */
-.contactContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-/* Estilos para a container de endereço */
-.addressContainer {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.additionalInfoContainer {
+.contactContainer, .addressContainer, .additionalInfoContainer {
   display: flex;
   justify-content: space-between;
   gap: 16px;
