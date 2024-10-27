@@ -13,13 +13,13 @@ const Step3Form = ({ onBack }) => (
         <label className={styles.label}>Selecione o Plano</label>
         <div className={styles.checkboxGroup}>
           <label className={styles.checkboxLabel}>
-            <input type="checkbox" /> Plano Mensal
+            <input type="radio" />Mensal
           </label>
           <label className={styles.checkboxLabel}>
-            <input type="checkbox" /> Plano Quinzenal
+            <input type="radio" />Quinzenal
           </label>
           <label className={styles.checkboxLabel}>
-            <input type="checkbox" /> Nenhum
+            <input type="radio" />Nenhum
           </label>
         </div>
       </div>

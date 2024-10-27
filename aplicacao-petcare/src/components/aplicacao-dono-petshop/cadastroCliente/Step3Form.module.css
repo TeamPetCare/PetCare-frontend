@@ -18,7 +18,10 @@ h2 {
 }
 
 .column {
-  flex: 1; /* Para que ambas as colunas ocupem o mesmo espaço */
+  flex: 1; 
+  display: flex; /* Adicionado para garantir o uso do flexbox */
+  flex-direction: column; /* Para empilhar os elementos verticalmente */
+  align-items: flex-start; /* Alinhamento à esquerda */
 }
 
 .label {
@@ -29,15 +32,15 @@ h2 {
 .checkboxGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px; /* Ajuste o gap para menor espaçamento entre as checkboxes */
 }
 
 .checkboxLabel {
   font-size: 1rem;
   color: #444;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: center; /* Alinha a checkbox e o texto verticalmente */
+  gap: 5px; /* Espaçamento entre a checkbox e o texto */
 }
 
 .petImage {
@@ -50,10 +53,8 @@ h2 {
   font-size: 1.2rem;
   font-weight: bold;
   color: var(--cor-primaria-azul-escuro);
-  text-align: right;
+  text-align: left;
 }
-
-
 
 .petInfo {
   display: flex; /* Alinha a imagem e os detalhes do pet lado a lado */
@@ -66,8 +67,19 @@ h2 {
   flex-direction: column; /* Para empilhar o nome e a raça */
 }
 
-.petImage {
-  width: 40px; /* Ajuste o tamanho da imagem do pet */
-  height: 40px; /* Ajuste o tamanho da imagem do pet */
-  border-radius: 50%; /* Para deixar a imagem redonda */
+/* Ajuste adicional para os labels da checkbox */
+.checkboxLabel input {
+  text-align: left;
+
+  margin: 0; /* Remove margens adicionais para evitar desalinhamento */
 }
+.label {
+  margin-bottom: 8px; /* Espaçamento abaixo da label */
+  text-align: left; /* Alinha o texto à esquerda */
+  font-size: 0.9rem; /* Ajuste o tamanho da fonte conforme necessário */
+}
+
+.checkboxLabel{
+  text-align: left;
+}
+
