@@ -142,7 +142,6 @@ const EditEventModalCampos = ({
   const formasPagamento = [
     ...new Set(events.map((event) => event.paymentMethod)),
   ];
-
   return (
     <>
       <div className={styles["row1"]}>
@@ -154,6 +153,7 @@ const EditEventModalCampos = ({
           selectedItem={editedEvent.cliente.nome}
           className={styles["container-dropdown"]}
           exibirInformacao={true}
+          isDisabled={!isEditing} // Adicione esta linha
         />
 
         <DropDown
@@ -163,6 +163,7 @@ const EditEventModalCampos = ({
           icon={PiPawPrintThin}
           selectedItem={editedEvent.cliente.pet.nome}
           exibirInformacao={true}
+          isDisabled={!isEditing} // Adicione esta linha
         />
       </div>
       <div className={styles["row2"]}>
@@ -173,10 +174,15 @@ const EditEventModalCampos = ({
           icon={HiOutlineShoppingBag}
           selectedItem={editedEvent.title}
           exibirInformacao={true}
+          isDisabled={!isEditing} // Adicione esta linha
         />
       </div>
       <div className={styles["row3"]}>
-        <TimePicker dtInicial={editedEvent.start} dtFinal={editedEvent.end} />
+        <TimePicker
+          dtInicial={editedEvent.start}
+          dtFinal={editedEvent.end}
+          isDisabled={!isEditing}
+        />{" "}
         <DropDown
           agendamento={editedEvent}
           options={funcionarios}
@@ -185,6 +191,7 @@ const EditEventModalCampos = ({
           selectedItem={editedEvent.funcionario}
           className={styles["container-dropdown"]}
           exibirInformacao={false}
+          isDisabled={!isEditing} // Adicione esta linha
         />
       </div>
       <div className={styles["row4"]}>
@@ -193,26 +200,27 @@ const EditEventModalCampos = ({
           name="observacoes"
           value={editedEvent.observacoes}
           onChange={handleChange}
-          disabled={!isEditing}
+          isDisabled={!isEditing} // Já está aqui
           className={styles["input-observacoes"]}
           onClick={(e) => e.stopPropagation()}
         />
       </div>
       <div className={styles["row5"]}>
         <h5>Pagamento</h5>
-        <div>
+        <div className={styles["container-pag"]}>
           <DropDown
             agendamento={editedEvent}
             options={formasPagamento}
-            titulo={"Selecione um forma de pagamento*"}
+            titulo={"Selecione uma forma de pagamento*"}
             icon={SiContactlesspayment}
             selectedItem={editedEvent.paymentMethod}
             className={styles["container-dropdown"]}
             exibirInformacao={false}
+            isDisabled={!isEditing} // Adicione esta linha
           />
-          <div className={styles["containe-status-pag"]}>
-            <label>
-              <strong>Status do Pagamento:</strong>
+          <div className={styles["container-status-pag"]}>
+            <label className={styles["label-title"]}>
+              Status do Pagamento:
             </label>
             <div className={styles.checkboxGroup}>
               <label>
@@ -222,7 +230,7 @@ const EditEventModalCampos = ({
                   value="pendente"
                   checked={!editedEvent.paymentStatus}
                   onChange={handleChange}
-                  disabled={!isEditing}
+                  disabled={!isEditing} // Já está aqui
                 />
                 Pendente
               </label>
@@ -233,118 +241,13 @@ const EditEventModalCampos = ({
                   value="pago"
                   checked={editedEvent.paymentStatus}
                   onChange={handleChange}
-                  disabled={!isEditing}
+                  disabled={!isEditing} // Já está aqui
                 />
                 Pago
               </label>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <label>
-          <strong>Título:</strong>
-        </label>
-        <input
-          type="text"
-          name="title"
-          value={editedEvent.title}
-          onChange={handleChange}
-          disabled={!isEditing}
-          className={styles.input}
-          onClick={(e) => e.stopPropagation()}
-        />
-      </div>
-      <div>
-        <label>
-          <strong>Status:</strong>
-        </label>
-        <select
-          name="status"
-          value={editedEvent.status}
-          onChange={handleChange}
-          disabled={!isEditing}
-          className={styles.input}
-        >
-          <option value="agendado">Agendado</option>
-          <option value="concluido">Concluído</option>
-          <option value="cancelado">Cancelado</option>
-        </select>
-      </div>
-      <div>
-        <label>
-          <strong>Pagamento:</strong>
-        </label>
-        <select
-          name="paymentMethod"
-          value={editedEvent.paymentMethod}
-          onChange={handleChange}
-          disabled={!isEditing}
-          className={styles.input}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <option value="pix">Pix</option>
-          <option value="dinheiro">Dinheiro</option>
-          <option value="cartao_credito">Cartão de Crédito</option>
-          <option value="cartao_debito">Cartão de Débito</option>
-        </select>
-      </div>
-      <div>
-        <label>
-          <strong>Status do Pagamento:</strong>
-        </label>
-        <div className={styles.checkboxGroup}>
-          <label>
-            <input
-              type="radio"
-              name="paymentStatus"
-              value="pendente"
-              checked={!editedEvent.paymentStatus}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-            Pendente
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="paymentStatus"
-              value="pago"
-              checked={editedEvent.paymentStatus}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-            Pago
-          </label>
-        </div>
-      </div>
-      <div>
-        <label>
-          <strong>Horário de Início:</strong>
-        </label>
-        <input
-          type="time"
-          name="startTime"
-          value={formatTime(editedEvent.start)}
-          disabled={!isEditing}
-          className={styles.input}
-          onChange={handleChange}
-          onClick={(e) => e.stopPropagation()}
-        />
-      </div>
-      <div>
-        <label>
-          <strong>Horário de Fim:</strong>
-        </label>
-        <input
-          type="time"
-          name="endTime"
-          value={formatTime(editedEvent.end)}
-          disabled={!isEditing}
-          className={styles.input}
-          onChange={handleChange}
-          onClick={(e) => e.stopPropagation()}
-        />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import EditedEventModalCampos from "../editEventModalCampos/editEventModalCampos"
+import EditedEventModalCampos from "../editEventModalCampos/editEventModalCampos";
 import StepsModal from "../../../../../shared/steps/StepsModal";
 import styles from "./EditEventModal.module.css";
 
@@ -23,9 +23,7 @@ const EditEventModal = ({
     return `${hours}:${minutes}`;
   };
 
-  const items = [
-    { label: 'Editar Agendamento' }
-  ];
+  const items = [{ label: "Editar Agendamento" }];
 
   return (
     <Modal
@@ -34,6 +32,7 @@ const EditEventModal = ({
       backdrop="static"
       keyboard={false}
       onClick={(e) => e.stopPropagation()}
+      size="lg"
     >
       {/* Cabeçalho do Modal */}
       <Modal.Header closeButton>
@@ -53,26 +52,38 @@ const EditEventModal = ({
       {/* Rodapé com os botões */}
       <Modal.Footer>
         {isEditing ? (
-          <>
-            <Button variant="primary" onClick={handleSave}>
-              Salvar
-            </Button>
-            <Button variant="secondary" onClick={handleClose}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Button className={styles["btn-cancelar"]} onClick={handleClose}>
               Cancelar
             </Button>
-          </>
+            <Button className={styles["btn-salvar"]} onClick={handleSave}>
+              Salvar
+            </Button>
+          </div>
         ) : (
-          <>
-            <Button variant="primary" onClick={handleEdit}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Button
+              className={styles["btn-cancelar-agenda"]}
+              onClick={handleDelete}
+            >
+              Cancelar Agendamento
+            </Button>
+            <Button className={styles["btn-editar"]} onClick={handleEdit}>
               Editar
             </Button>
-            <Button variant="danger" onClick={handleDelete}>
-              Deletar
-            </Button>
-            <Button variant="secondary" onClick={handleClose}>
-              Fechar
-            </Button>
-          </>
+          </div>
         )}
       </Modal.Footer>
     </Modal>
