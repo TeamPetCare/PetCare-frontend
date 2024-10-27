@@ -96,6 +96,7 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 8, 30, 0, 0),
       end: new Date(2024, 9, 1, 9, 30, 0, 0),
       status: "Concluído",
+      funcionario: "Jaqueline",
       cliente: {
         nome: "Julia Cunha",
         whatsapp: "11912345678", // Removido +55 e espaços
@@ -103,9 +104,10 @@ const Inicio = () => {
         pet: {
           nome: "Thor",
           teste: "Labrador",
-          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
-        }
-      }
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
+        },
+      },
+      observacoes: "Thor apresentava caspa antes do atendimento, mas agora está limpo. O dono prefere tosar apenas a parte de trás do corpo."
     },
     {
       id: "2",
@@ -115,6 +117,7 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 10, 30, 0, 0),
       end: new Date(2024, 9, 1, 11, 30, 0, 0),
       status: "Cancelado",
+      funcionario: "Jaqueline",
       cliente: {
         nome: "José",
         whatsapp: "11987654321", // Removido +55 e espaços
@@ -122,9 +125,10 @@ const Inicio = () => {
         pet: {
           nome: "Maria",
           teste: "Poodle",
-          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
-        }
-      }
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
+        },
+      },
+      observacoes: "Maria está em tratamento de pele e requer atenção especial com produtos hipoalergênicos."
     },
     {
       id: "3",
@@ -134,6 +138,7 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 14, 30, 0, 0),
       end: new Date(2024, 9, 1, 15, 30, 0, 0),
       status: "Agendado",
+      funcionario: "Jaqueline",
       cliente: {
         nome: "Heitor Lima",
         whatsapp: "11923456789", // Removido +55 e espaços
@@ -141,9 +146,10 @@ const Inicio = () => {
         pet: {
           nome: "Madonna",
           teste: "Bulldog",
-          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
-        }
-      }
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
+        },
+      },
+      observacoes: "Madonna gosta de ser acariciada durante o banho. O dono prefere horários tranquilos."
     },
     {
       id: "4",
@@ -153,6 +159,7 @@ const Inicio = () => {
       start: new Date(2024, 9, 1, 17, 30, 0, 0),
       end: new Date(2024, 9, 1, 18, 0, 0, 0),
       status: "Concluído",
+      funcionario: "Isaac",
       cliente: {
         nome: "Leo",
         whatsapp: "11934567890", // Removido +55 e espaços
@@ -160,9 +167,10 @@ const Inicio = () => {
         pet: {
           nome: "Bobby",
           teste: "Beagle",
-          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
-        }
-      }
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
+        },
+      },
+      observacoes: "Bobby teve problemas de alergia anteriormente, cuidado com produtos perfumados."
     },
     {
       id: "5",
@@ -172,6 +180,7 @@ const Inicio = () => {
       start: new Date(2024, 9, 7, 10, 30, 0, 0),
       end: new Date(2024, 9, 7, 12, 30, 0, 0),
       status: "Agendado",
+      funcionario: "Jaqueline",
       cliente: {
         nome: "Julia Cunha",
         whatsapp: "11912345678", // Removido +55 e espaços
@@ -179,9 +188,10 @@ const Inicio = () => {
         pet: {
           nome: "Thor",
           teste: "Labrador",
-          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
-        }
-      }
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
+        },
+      },
+      observacoes: "Thor já foi tosado e está acostumado a longas sessões, mas não gosta de secador."
     },
     {
       id: "6",
@@ -191,6 +201,7 @@ const Inicio = () => {
       start: new Date(2024, 9, 12, 10, 35, 0, 0),
       end: new Date(2024, 9, 12, 12, 30, 0, 0),
       status: "Cancelado",
+      funcionario: "Isaac",
       cliente: {
         nome: "Heitor Lima",
         whatsapp: "11923456789", // Removido +55 e espaços
@@ -198,14 +209,14 @@ const Inicio = () => {
         pet: {
           nome: "Madonna",
           teste: "Bulldog",
-          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp"
-        }
-      }
-    }
+          foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
+        },
+      },
+      observacoes: "Madonna está na fase de adaptação, preferindo ambientes calmos e pouco barulhentos."
+    },
   ];
   
   
-
   const filterOptions = [
     { label: "Tudo" },
     { label: "Ontem" },

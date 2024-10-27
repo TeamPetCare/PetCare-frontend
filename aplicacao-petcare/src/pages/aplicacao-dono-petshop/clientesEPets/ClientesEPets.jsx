@@ -1,4 +1,9 @@
 import TableData from "../../../components/shared/tableData/TableData";
+import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
+import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
+import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/clientesEPets/mainButtonsHeader/mainButtonsHeader"
+import Form from 'react-bootstrap/Form';
+import styles from "./ClientesEPets.module.css";
 
 const ClientesEPets = () => {
   const dadosClientes = [
@@ -202,15 +207,33 @@ const ClientesEPets = () => {
     total_de_agendamentos: "Total de Agendamentos",
     observacoes: "Observações",
   };
-  
+
   const sortableColumnsPets = [
     "idade",
     "ultimo_agendamento",
     "total_de_agendamentos",
   ];
 
+  const filterOptions = [
+    { label: "Clientes & Pets" },
+    { label: "Clientes" },
+    { label: "Pets" },
+  ];
+
   return (
     <div>
+      <div className={styles["header-container"]}>
+        <DropDownFilter options={filterOptions} />
+        <MainButtonsHeader/>
+        <UserHeader />
+      </div>
+      <div className={styles["container-searchBar"]}>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Control type="input" placeholder="Procurar por Cliente" />
+          </Form.Group>
+        </Form>
+      </div>
       <TableData
         dados={dadosClientes}
         columnNames={columnNamesClientes}
