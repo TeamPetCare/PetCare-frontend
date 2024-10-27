@@ -103,7 +103,7 @@ const Inicio = () => {
         foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         pet: {
           nome: "Thor",
-          teste: "Labrador",
+          raca: "Labrador",
           foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
         },
       },
@@ -124,7 +124,7 @@ const Inicio = () => {
         foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         pet: {
           nome: "Maria",
-          teste: "Poodle",
+          raca: "Poodle",
           foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
         },
       },
@@ -145,7 +145,7 @@ const Inicio = () => {
         foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         pet: {
           nome: "Madonna",
-          teste: "Bulldog",
+          raca: "Bulldog",
           foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
         },
       },
@@ -166,7 +166,7 @@ const Inicio = () => {
         foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         pet: {
           nome: "Bobby",
-          teste: "Beagle",
+          raca: "Beagle",
           foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
         },
       },
@@ -187,7 +187,7 @@ const Inicio = () => {
         foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         pet: {
           nome: "Thor",
-          teste: "Labrador",
+          raca: "Labrador",
           foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
         },
       },
@@ -208,7 +208,7 @@ const Inicio = () => {
         foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
         pet: {
           nome: "Madonna",
-          teste: "Bulldog",
+          raca: "Bulldog",
           foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
         },
       },

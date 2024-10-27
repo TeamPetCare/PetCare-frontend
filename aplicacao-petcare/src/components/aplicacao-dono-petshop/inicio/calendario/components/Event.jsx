@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Event.module.css";
 import { FaPix, FaCreditCard, FaCashRegister } from "react-icons/fa6";
-import EventModal from "./editEventModal/EditEventModal";
+import EditEventModal from "./editEventModal/EditEventModal";
 
 const paymentIcons = {
   Pix: <FaPix color="#005472" size={14} />,
@@ -165,7 +165,7 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
   return (
     <div className={styles["container-div"]} onClick={handleOpenModal}>
       {timeDisplay}
-      <EventModal
+      <EditEventModal
         show={showModal}
         handleOpen={handleOpenModal}
         handleClose={handleCloseModal}
