@@ -12,12 +12,17 @@ function DropDown({
   exibirInformacao,
   isDisabled,
 }) {
-  const [selectedOption, setSelectedOption] = useState(selectedItem);
+  const [selectedOption, setSelectedOption] = useState("");
 
-  // Atualiza selectedOption quando selectedItem mudar
   useEffect(() => {
-    setSelectedOption(selectedItem);
-  }, [selectedItem]);
+    if (agendamento) {
+      setSelectedOption(selectedItem);
+    } else if (titulo.includes("status")) {
+      setSelectedOption("Agendado"); 
+    } else {
+      setSelectedOption(titulo);
+    }
+  }, [agendamento, titulo]); 
 
   const handleSelectItem = (option) => {
     setSelectedOption(option);
@@ -57,34 +62,35 @@ function DropDown({
         <div className={styles["container-informacao"]}>
           <div>
             {titulo.includes("pet") ? (
-              <>
+              <div className={styles["container-info-geral"]}>
                 <div className={styles["container-img-user"]}>
                   <img src={agendamento.cliente.pet.foto} alt="" />
                 </div>
 
-                <p>{agendamento.cliente.pet.nome}</p>
-                <p>{agendamento.cliente.pet.raca}</p>
-               
-              </>
-            ) : titulo.includes("cliente") ? (
-              <div>
+                <div className={styles["container-info-user"]}>
+                  <p>{agendamento.cliente.pet.nome}</p>
+                  <p>{agendamento.cliente.pet.raca}</p>
+                </div>
+              </div>
+            ) : (
+              <div className={styles["container-info-geral"]}>
                 <div className={styles["container-img-user"]}>
                   <img src={agendamento.cliente.foto} alt="" />
                 </div>
-                <p>{agendamento.cliente.nome}</p>
-                <a
-                  href={`https://wa.me/${agendamento.cliente.whatsapp.replace(
-                    /[^0-9]/g,
-                    ""
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {agendamento.cliente.whatsapp}
-                </a>
+                <div className={styles["container-info-user"]}>
+                  <p>{agendamento.cliente.nome}</p>
+                  <a
+                    href={`https://wa.me/${agendamento.cliente.whatsapp.replace(
+                      /[^0-9]/g,
+                      ""
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {agendamento.cliente.whatsapp}
+                  </a>
+                </div>
               </div>
-            ) : (
-              <div className={styles["container-img-user"]}></div>
             )}
           </div>
         </div>

@@ -1,6 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: .8em;
+}
+
 .row1 {
   display: grid;
-  grid-template-columns: 49% 49%;
+  grid-template-columns: 33% 33% 31.5%;
   gap: 0.6em;
 }
 
@@ -24,13 +30,13 @@
   }
 
   textarea {
-    font-size: 0.7em;
+    font-size: 0.8em;
     margin: 0;
     background-color: #fff;
     border: 1px solid #d0d5dd;
     border-radius: 7px;
     font-weight: 500;
-    color: #5c6577;
+    color: var(--cor-cinza-escuro);
     padding: 0.4em 0.6em;
     text-align-last: start;
     display: flex;
@@ -42,8 +48,6 @@
 }
 
 .row5 {
-  margin-top: 1em;
-
   h5 {
     color: var(--cor-primaria-azul-escuro);
     font-weight: 700;
@@ -79,7 +83,7 @@
     /* border: 1px solid #d0d5dd; */
     /* border-radius: 7px; */
     font-weight: 500;
-    color: #5c6577;
+    color: var(--cor-cinza-escuro);
     /* padding: 0.4em 0.6em; */
     /* text-align-last: start; */
     display: flex;
