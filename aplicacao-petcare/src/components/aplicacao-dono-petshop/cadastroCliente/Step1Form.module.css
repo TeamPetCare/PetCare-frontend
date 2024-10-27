@@ -1,26 +1,55 @@
 .formContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  input, select {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  input:focus, select:focus {
-    outline: none;
-    border-color: #0056b3;
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input, select {
+  padding: 5px;
+  font-size: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; /* Faz os inputs ocuparem 100% do container */
+}
+
+input, select{
+  height: 2.3rem;
+}
+
+option{
+  color: white;
+  background-color: var(--cor-primaria-azul-escuro);
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--cor-primaria-azul-escuro);
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* Estilos para a container de contato */
+.contactContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Estilos para a container de endereço */
+.addressContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.additionalInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}

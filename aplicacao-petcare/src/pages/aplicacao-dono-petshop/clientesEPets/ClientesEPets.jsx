@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
+
 import TableData from "../../../components/shared/tableData/TableData";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
 import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/clientesEPets/mainButtonsHeader/mainButtonsHeader"
 import Form from 'react-bootstrap/Form';
 import styles from "./ClientesEPets.module.css";
+import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
 
 const ClientesEPets = () => {
   const dadosClientes = [
@@ -220,11 +223,15 @@ const ClientesEPets = () => {
     { label: "Pets" },
   ];
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div>
       <div className={styles["header-container"]}>
         <DropDownFilter options={filterOptions} />
-        <MainButtonsHeader/>
+        <MainButtonsHeader onCreateClick={openModal} /> {/* Passando a função */}
         <UserHeader />
       </div>
       <div className={styles["container-searchBar"]}>
@@ -239,6 +246,8 @@ const ClientesEPets = () => {
         columnNames={columnNamesClientes}
         sortableColumns={sortableColumnsClientes}
       />
+      
+      {isModalOpen && <ModalWrapper closeModal={closeModal} />} {/* Renderizando o modal */}
     </div>
   );
 };

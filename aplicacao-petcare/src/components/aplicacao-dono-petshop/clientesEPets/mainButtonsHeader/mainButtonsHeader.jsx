@@ -7,26 +7,23 @@ import { LuDownloadCloud } from "react-icons/lu";
 import { IoMdAddCircle } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-function mainButtonsHeader({ btn1Name, btn2Name, btn3Name }) {
-
+function MainButtonsHeader({ onCreateClick }) {
     return (
-        <>
-            <div className={styles["containers-btn"]}>
-                <button className={`${styles["custom-btn"]} ${styles["delete"]}`}>
-                <RiDeleteBinLine />
-                    Deletar
-                </button>
-                <button className={`${styles["custom-btn"]} ${styles["create"]}`}>
-                <IoMdAddCircle />
-                    Cliente
-                </button>
-                <button className={`${styles["custom-btn"]} ${styles["report"]}`}>
-                <LuDownloadCloud />
-                    Gerar Relatório
-                </button>
-            </div>
-        </>
+      <div className={styles["containers-btn"]}>
+        <button className={`${styles["custom-btn"]} ${styles["delete"]}`}>
+          <RiDeleteBinLine />
+          Deletar
+        </button>
+        <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreateClick}>
+          <IoMdAddCircle />
+          Cliente
+        </button>
+        <button className={`${styles["custom-btn"]} ${styles["report"]}`}>
+          <LuDownloadCloud />
+          Gerar Relatório
+        </button>
+      </div>
     );
-}
-
-export default mainButtonsHeader;
+  }
+  
+  export default MainButtonsHeader;
