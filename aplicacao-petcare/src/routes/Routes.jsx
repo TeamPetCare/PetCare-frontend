@@ -32,6 +32,9 @@ const AppRoutes = ({ section04Ref }) => {
       <Route path="/suporte" element={<Suporte />} />
       <Route path="/aplicativoPetcare" element={<AplicativoPetcare />} />
 
+      {/* Rotas Aplicação Dono do Pet */}
+      <Route path="/dono-pet/login" element={<LoginDonoPet />} />
+
       {/* Rotas Aplicação Dono do Petshop sem Layout */}
       <Route path="/dono-petshop/login" element={<Login />} />
 
