@@ -35,7 +35,7 @@ const Footer = ({ scrollToSection04, scrollToSection06 }) => {
                   <li>Suporte</li>
                 </Link>
                 <li>
-                  <Link to="/donoPetshop/login" className={styles["linkLi"]}>
+                  <Link to="/dono-petshop/login" className={styles["linkLi"]}>
                     Acesso ao Sistema
                   </Link>
                 </li>
@@ -103,7 +103,7 @@ const Footer = ({ scrollToSection04, scrollToSection06 }) => {
                   <li>Suporte</li>
                 </Link>
                 <li>
-                  <Link to="/donoPetshop/login" className={styles["linkLi"]}>
+                  <Link to="/dono-petshop/login" className={styles["linkLi"]}>
                     Acesso ao Sistema
                   </Link>
                 </li>

@@ -31,8 +31,7 @@ function Inicio({ section04Ref }) {
         textoDetalhado="Simplifique o gerenciamento de agendamentos e obtenha insights essenciais. Concentre-se no que realmente importa: o bem-estar dos pets e a satisfação dos clientes."
         iconBotao={PiUserCircleLight}
         botao="Iniciar teste grátis com 10 dias*"
-        scrollToSection04={() => scrollToSection(section04Ref)}
-      />
+        scrollToSection04={() => scrollToSection(section04Ref)}/>
       <Section02 />
       <Section03 />
       <div ref={section04Ref}>
@@ -50,7 +49,6 @@ function Inicio({ section04Ref }) {
             animalSvg={Cat}
             scrollToSection04={() => scrollToSection(section04Ref)}
           />
-
           <Card
             icon={TbReport}
             titulo="Relatórios Inteligentes"
