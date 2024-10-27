@@ -25,7 +25,7 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: #0056b3;
+  border-color: var(--cor-primaria-azul-escuro);
 }
 
 h2 {

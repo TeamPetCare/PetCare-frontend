@@ -13,6 +13,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
+
+  .buttonContainer button{
+    width: 18rem;
+  }
   
   button:hover {
     background-color: var(--cor-primaria-azul-escuro);
