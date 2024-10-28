@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import styles from './DropDownFilter.module.css'; 
 
 function DropDownFilter({ options, onFilterChange }) {
-  const [selectedFilter, setSelectedFilter] = useState(options[1].label);
+  const [selectedFilter, setSelectedFilter] = useState(options[0].label);
 
   const handleSelect = (eventKey) => {
     setSelectedFilter(eventKey);

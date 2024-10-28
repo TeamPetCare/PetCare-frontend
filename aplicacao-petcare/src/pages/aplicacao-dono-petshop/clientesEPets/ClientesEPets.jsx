@@ -7,6 +7,7 @@ import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/client
 import Form from 'react-bootstrap/Form';
 import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
+import { useSelectedData } from "./SelectedDataContext";
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
@@ -15,6 +16,12 @@ const ClientesEPets = () => {
   const [filteredData, setFilteredData] = useState([]); // Dados filtrados
   const [searchTerm, setSearchTerm] = useState('');
   const [currentFilter, setCurrentFilter] = useState("Clientes & Pets"); // Filtro atual
+  const { selectedData } = useSelectedData();
+
+  useEffect(() => {
+    console.log("Dados transferidos DE OUTRA Componente:", selectedData);
+    // Aqui você pode renderizar os dados transferidos ou fazer o que precisar
+  }, [selectedData])
 
   // Funções para recuperar os dados
   function recuperarValorClientes() {
