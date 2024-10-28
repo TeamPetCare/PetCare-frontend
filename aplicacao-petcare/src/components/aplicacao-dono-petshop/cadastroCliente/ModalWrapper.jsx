@@ -7,10 +7,17 @@ import styles from './ModalWrapper.module.css';
 const ModalWrapper = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
+  const [formData, setFormData] = useState({}); // Estado para armazenar dados do formulário
 
-  const goToNextStep = () => setCurrentStep(currentStep + 1);
-  const goToPreviousStep = () => setCurrentStep(currentStep - 1);
-  
+  const handleNext = (data) => {
+    setFormData(prevData => ({ ...prevData, ...data })); // Atualiza o estado com os dados do passo atual
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handleBack = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
   const closeModal = () => {
     setIsOpen(false);
     setCurrentStep(1);
@@ -49,9 +56,9 @@ const ModalWrapper = () => {
           <div className={styles.progressFill} style={{ width: progressWidth }} />
         </div>
         <div className={styles.stepIndicator}>{renderStepTitles()}</div>
-        {currentStep === 1 && <Step1Form onNext={goToNextStep} />}
-        {currentStep === 2 && <Step2Form onNext={goToNextStep} onBack={goToPreviousStep} />}
-        {currentStep === 3 && <Step3Form onBack={goToPreviousStep} />}
+        {currentStep === 1 && <Step1Form onNext={handleNext} />}
+        {currentStep === 2 && <Step2Form onNext={handleNext} onBack={handleBack} />}
+        {currentStep === 3 && <Step3Form onBack={handleBack} formData={formData} />}
       </div>
       <div className={styles.backdrop} onClick={closeModal} />
     </>

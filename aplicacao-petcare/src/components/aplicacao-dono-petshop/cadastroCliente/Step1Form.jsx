@@ -1,134 +1,61 @@
 import React, { useState } from 'react';
 import NavigationButtons from './NavigationButtons';
-import userService from "../../../services/userService";
 import styles from './Step1Form.module.css';
 
-
-
 const Step1Form = ({ onNext }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    contactPreference: 'whatsapp', // Padrão
-    cellphone: '',
-    cep: '',
-    street: '',
-    number: '',
-    complement: '',
-    district: '',
-    city: ''
-  });
+  const [name, setName] = useState('');
+  const [contactPreference, setContactPreference] = useState(''); // Estado para preferência de contato
+  const [phoneNumber, setPhoneNumber] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Impede o comportamento padrão do formulário
-    try {
-      await userService.createUser(formData); // Envia os dados para o backend
-      onNext(); // Chama a função para ir para o próximo passo
-    } catch (error) {
-      console.error("Error creating user:", error);
-      // Aqui você pode adicionar um tratamento de erro, como mostrar uma mensagem
-    }
+  const handleNext = () => {
+    const data = { name, contactPreference, phoneNumber }; // Coleta os dados do formulário
+    onNext(data); // Passa os dados para o ModalWrapper
   };
 
   return (
-    <form className={styles.formContainer} onSubmit={handleSubmit}>
+    <div className={styles.formContainer}>
       <h2>Cadastrar Cliente</h2>
       
       {/* Nome */}
       <input
         type="text"
-        name="name"
         placeholder="Nome"
-        value={formData.name}
-        onChange={handleChange}
-        required
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
       
       {/* Preferência de contato e número de telefone */}
       <div className={styles.contactContainer}>
-        <select
-          name="contactPreference"
-          value={formData.contactPreference}
-          onChange={handleChange}
-        >
+        <select value={contactPreference} onChange={(e) => setContactPreference(e.target.value)}>
+          <option>Preferência de contato</option>
           <option value="whatsapp">WhatsApp</option>
           <option value="email">Email</option>
         </select>
         <input
           type="text"
-          name="cellphone"
           placeholder="Número de Telefone"
-          value={formData.cellphone}
-          onChange={handleChange}
-          required
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
         />
       </div>
       
       {/* Endereço */}
       <h5>Endereço</h5>
       <div className={styles.addressContainer}>
-        <input
-          type="text"
-          name="cep"
-          placeholder="CEP"
-          value={formData.cep}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="street"
-          placeholder="Logradouro"
-          value={formData.street}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="number"
-          placeholder="Número"
-          value={formData.number}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" placeholder="CEP" />
+        <input type="text" placeholder="Logradouro" />
+        <input type="text" placeholder="Número" />
       </div>
       
       {/* Complemento, bairro e cidade */}
       <div className={styles.additionalInfoContainer}>
-        <input
-          type="text"
-          name="complement"
-          placeholder="Complemento"
-          value={formData.complement}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="district"
-          placeholder="Bairro"
-          value={formData.district}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="city"
-          placeholder="Cidade"
-          value={formData.city}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" placeholder="Complemento" />
+        <input type="text" placeholder="Bairro" />
+        <input type="text" placeholder="Cidade" />
       </div>
       
-      <NavigationButtons onCancel={() => {}} onNext={handleSubmit} />
-    </form>
+      <NavigationButtons onCancel={() => {}} onNext={handleNext} />
+    </div>
   );
 };
 
