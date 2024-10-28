@@ -2,12 +2,14 @@ import Table from "react-bootstrap/Table";
 import styles from "./TableData.module.css";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelectedData } from "../../../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext";
 
-const TableData = ({ dados, columnNames, sortableColumns }) => {
+const TableData = ({ dados = [], columnNames, sortableColumns }) => {
   const [isDown, setIsDown] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const { setSelectedData } = useSelectedData();  
 
   const handleArrowClick = (col) => {
     const direction =
@@ -34,8 +36,13 @@ const TableData = ({ dados, columnNames, sortableColumns }) => {
     });
   };
 
+  useEffect(() => {
+    const selectedData = selectedRows.map((i) => dados[i]);
+    setSelectedData(selectedData);
+  }, [selectedRows, dados, setSelectedData]);
+
   const handleRowClick = (index) => {
-    console.log("Dados da linha clicada:", dados[index]);
+    toggleSelectRow(index);
   };
 
   const handleBtnClick = () => {

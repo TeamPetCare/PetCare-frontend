@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const LOGIN_URL = "http://localhost:8080/auth/login"
+
 const userService = {
   createUser: async (userData) => {
     try {
@@ -8,6 +10,20 @@ const userService = {
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
       throw error; // Propagar o erro se necessário
+    }
+  },
+  loginUser: async (loginData) => {
+    try {
+      const response = await axios.post(LOGIN_URL, loginData);
+
+      // Salva o token no sessionStorage
+      if (response.data.token) {
+        sessionStorage.setItem('userToken', response.data.token);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
     }
   }
 };
@@ -44,3 +60,4 @@ userService.createUser(userData)
 
 
 export default userService;
+

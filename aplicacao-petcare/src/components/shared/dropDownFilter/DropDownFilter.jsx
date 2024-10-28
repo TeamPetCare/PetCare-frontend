@@ -4,12 +4,15 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import styles from './DropDownFilter.module.css'; 
 
-function DropDownFilter({ options }) {
-  const [selectedFilter, setSelectedFilter] = useState('Filtros');
+function DropDownFilter({ options, onFilterChange }) {
+  const [selectedFilter, setSelectedFilter] = useState(options[0].label);
 
   const handleSelect = (eventKey) => {
     setSelectedFilter(eventKey);
     console.log("Filtro selecionado:", eventKey);
+    if (onFilterChange) {
+      onFilterChange(eventKey); // Chama a função de callback passando o eventKey
+    }
   };
 
   return (

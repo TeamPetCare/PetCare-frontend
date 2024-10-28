@@ -1,220 +1,171 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import userService from "../../../services/userService";
 import TableData from "../../../components/shared/tableData/TableData";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
-import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/clientesEPets/mainButtonsHeader/mainButtonsHeader"
+import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/clientesEPets/mainButtonsHeader/mainButtonsHeader";
 import Form from 'react-bootstrap/Form';
 import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
+import { useSelectedData } from "./SelectedDataContext";
 
 const ClientesEPets = () => {
-  const dadosClientes = [
-    {
-      id: 1,
-      cliente: "João Silva",
-      whatsapp: "(11) 97839-2929",
-      endereco: "Rua A, 123, Guaianases",
-      numero_de_pets: 2,
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 5,
-      plano: "Mensal",
-    },
-    {
-      id: 2,
-      cliente: "Maria Oliveira",
-      whatsapp: "(11) 93456-7890",
-      endereco: "Rua B, 456, São Paulo",
-      numero_de_pets: 1,
-      ultimo_agendamento: "05/08/2024",
-      total_de_agendamentos: 3,
-      plano: "Quinzenal",
-    },
-    {
-      id: 3,
-      cliente: "Carlos Pereira",
-      whatsapp: "(11) 91234-5678",
-      endereco: "Rua C, 789, Santo Amaro",
-      numero_de_pets: 4,
-      ultimo_agendamento: "20/07/2024",
-      total_de_agendamentos: 8,
-      plano: "Nenhum",
-    },
-    {
-      id: 4,
-      cliente: "Ana Costa",
-      whatsapp: "(11) 97654-3210",
-      endereco: "Rua D, 101, Moema",
-      numero_de_pets: 3,
-      ultimo_agendamento: "15/06/2024",
-      total_de_agendamentos: 10,
-      plano: "Mensal",
-    },
-    {
-      id: 5,
-      cliente: "Pedro Santos",
-      whatsapp: "(11) 93210-9876",
-      endereco: "Rua E, 202, Bela Vista",
-      numero_de_pets: 1,
-      ultimo_agendamento: "30/09/2024",
-      total_de_agendamentos: 2,
-      plano: "Quinzenal",
-    },
-    {
-      id: 6,
-      cliente: "Luciana Fernandes",
-      whatsapp: "(11) 94321-6543",
-      endereco: "Rua F, 303, Pinheiros",
-      numero_de_pets: 2,
-      ultimo_agendamento: "25/08/2024",
-      total_de_agendamentos: 6,
-      plano: "Nenhum",
-    },
-  ];
+  const [clientesData, setclientesData] = useState([]);
+  const [petsData, setPetsData] = useState([]);
+  const [clientesEPetsData, setclientesEPetsData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); // Dados filtrados
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentFilter, setCurrentFilter] = useState("Clientes & Pets"); // Filtro atual
+  const { selectedData } = useSelectedData();
 
-  const columnNamesClientes = {
-    cliente: "Cliente",
+  useEffect(() => {
+    console.log("Dados transferidos DE OUTRA Componente:", selectedData);
+    // Aqui você pode renderizar os dados transferidos ou fazer o que precisar
+  }, [selectedData])
+
+  // Funções para recuperar os dados
+  function recuperarValorClientes() {
+    userService.getAllCustomerAndPets()
+      .then((response) => {
+        const data = Array.isArray(response) ? response : [response];
+        const clientesFormatados = data.map(cliente => ({
+          id: cliente.id,
+          cliente: cliente.name,
+          whatsapp: cliente.cellphone,
+          endereco: cliente.street + ", " + cliente.number + ", " + cliente.district,
+          numero_de_pets: cliente.pet.length,
+        }));
+        setclientesData(clientesFormatados);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function recuperarValorPets() {
+    userService.getAllCustomerAndPets()
+      .then((response) => {
+        const data = Array.isArray(response) ? response : [response];
+        const petsFormatados = data.flatMap(cliente =>
+          cliente.pet.map(pet => ({
+            id: pet.id,
+            pet: pet.name,
+            raça: pet.race.raceType,
+            idade: pet.birthdate,
+            porte: pet.size.sizeType,
+            dono: cliente.name,
+            observacoes: pet.petObservations,
+          }))
+        );
+        setPetsData(petsFormatados);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function recuperarValorClientesEPets() {
+    userService.getAllCustomerAndPets()
+      .then((response) => {
+        const data = Array.isArray(response) ? response : [response];
+        const clientesEPetsFormatados = data.flatMap(cliente => {
+          const clienteBase = {
+            id: cliente.id,
+            cliente: cliente.name,
+            whatsapp: cliente.cellphone,
+            endereco: `${cliente.street}, ${cliente.number}, ${cliente.district}`,
+            numero_de_pets: cliente.pet.length,
+          };
+          return cliente.pet.map(pet => ({
+            ...clienteBase,
+            pet: pet.name,
+            raça: pet.race.raceType,
+            idade: pet.birthdate,
+            porte: pet.size.sizeType,
+            observacoes: pet.petObservations,
+          }));
+        });
+        setclientesEPetsData(clientesEPetsFormatados);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    recuperarValorClientes();
+    recuperarValorPets();
+    recuperarValorClientesEPets();
+  }, []);
+
+  useEffect(() => {
+    // Chama a função de filtro ao carregar os dados
+    handleFilterChange(currentFilter); // Usa o filtro atual
+  }, [clientesData, petsData, clientesEPetsData]); // Executa quando os dados são carregados
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  useEffect(() => {
+    // Filtra os dados com base no termo de pesquisa e no filtro atual
+    let dadosFiltrados = [];
+    if (currentFilter === "Clientes") {
+      dadosFiltrados = (clientesData ?? []).filter(cliente =>
+        cliente.cliente.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else if (currentFilter === "Pets") {
+      dadosFiltrados = (petsData ?? []).filter(pet =>
+        pet.pet.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else if (currentFilter === "Clientes & Pets") {
+      dadosFiltrados = (clientesEPetsData ?? []).filter(item =>
+        item.cliente.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        item.pet.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    setFilteredData(dadosFiltrados);
+  }, [searchTerm, currentFilter, clientesData, petsData, clientesEPetsData]);
+
+  const columnNamesClientesEPets = {
+    cliente: "Nome do Cliente",
     whatsapp: "WhatsApp",
     endereco: "Endereço",
     numero_de_pets: "Número de Pets",
-    ultimo_agendamento: "Último Agendamento",
-    total_de_agendamentos: "Total de Agendamentos",
-    plano: "Planos",
+    pet: "Nome do Pet",
+    raça: "Raça",
+    idade: "Idade",
+    porte: "Porte",
+    observacoes: "Observações",
+  };
+
+  const sortableColumnsClientesEPets = [
+    "numero_de_pets",
+    "dt_nascimento"
+  ];
+
+  const columnNamesClientes = {
+    cliente: "Nome do Cliente",
+    whatsapp: "WhatsApp",
+    endereco: "Endereço",
+    numero_de_pets: "Número de Pets"
   };
 
   const sortableColumnsClientes = [
-    "ultimo_agendamento",
-    "total_de_agendamentos",
-  ];
-
-  const dadosPets = [
-    {
-      id: 1,
-      pet: "Rex",
-      raça: "Labrador",
-      idade: "3 anos",
-      porte: "Grande",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 5,
-      observacoes: "Alergia a shampoo\nUsa ração especial",
-    },
-    {
-      id: 2,
-      pet: "Bella",
-      raça: "Labrador",
-      idade: "2 anos",
-      porte: "Médio",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 5,
-      observacoes: "Alergia a shampoo\nUsa ração especial",
-    },
-    {
-      id: 3,
-      pet: "Teddy",
-      raça: "Labrador",
-      idade: "6 meses",
-      porte: "Pequeno",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 0,
-      observacoes: "",
-    },
-    {
-      id: 4,
-      pet: "Luna",
-      raça: "Labrador",
-      idade: "6 meses",
-      porte: "Pequeno",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 10,
-      observacoes: "Alergia a shampoo",
-    },
-    {
-      id: 5,
-      pet: "Coco",
-      raça: "Poodle",
-      idade: "3 anos",
-      porte: "Pequeno",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 4,
-      observacoes: "Usa ração especial",
-    },
-    {
-      id: 6,
-      pet: "Molly",
-      raça: "Poodle",
-      idade: "2 anos",
-      porte: "Pequeno",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 4,
-      observacoes: "Alergia a shampoo\nUsa ração especial",
-    },
-    {
-      id: 7,
-      pet: "Buddy",
-      raça: "Poodle",
-      idade: "2 anos",
-      porte: "Pequeno",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 4,
-      observacoes: "",
-    },
-    {
-      id: 8,
-      pet: "Daisy",
-      raça: "Poodle",
-      idade: "6 meses",
-      porte: "Pequeno",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 4,
-      observacoes: "Alergia a shampoo\nUsa ração especial",
-    },
-    {
-      id: 9,
-      pet: "Rocky",
-      raça: "Labrador",
-      idade: "6 meses",
-      porte: "Grande",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 4,
-      observacoes: "Alergia a shampoo\nUsa ração especial",
-    },
-    {
-      id: 10,
-      pet: "Charlie",
-      raça: "Labrador",
-      idade: "6 meses",
-      porte: "Grande",
-      dono: "João Silva",
-      ultimo_agendamento: "10/09/2024",
-      total_de_agendamentos: 4,
-      observacoes: "Alergia a shampoo\nUsa ração especial",
-    },
+    "numero_de_pets",
   ];
 
   const columnNamesPets = {
-    pet: "Pet",
+    pet: "Nome do Pet",
     raça: "Raça",
     idade: "Idade",
     porte: "Porte",
     dono: "Dono",
-    ultimo_agendamento: "Último Agendamento",
-    total_de_agendamentos: "Total de Agendamentos",
     observacoes: "Observações",
   };
 
   const sortableColumnsPets = [
-    "idade",
-    "ultimo_agendamento",
-    "total_de_agendamentos",
+    "dt_nascimento",
   ];
 
   const filterOptions = [
@@ -223,6 +174,19 @@ const ClientesEPets = () => {
     { label: "Pets" },
   ];
 
+  const handleFilterChange = (filter) => {
+    console.log("Filtro recebido no componente pai:", filter);
+    setCurrentFilter(filter); // Atualiza o filtro atual
+    // Chama a função para filtrar os dados de acordo com o filtro
+    if (filter === "Clientes") {
+      setFilteredData(clientesData);
+    } else if (filter === "Pets") {
+      setFilteredData(petsData);
+    } else if (filter === "Clientes & Pets") {
+      setFilteredData(clientesEPetsData);
+    }
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -230,24 +194,30 @@ const ClientesEPets = () => {
   return (
     <div>
       <div className={styles["header-container"]}>
-        <DropDownFilter options={filterOptions} />
-        <MainButtonsHeader onCreateClick={openModal} /> {/* Passando a função */}
+        <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
+        <MainButtonsHeader onCreateClick={openModal} />
         <UserHeader />
       </div>
       <div className={styles["container-searchBar"]}>
-        <Form>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Control type="input" placeholder="Procurar por Cliente" />
+            <Form.Control
+              type="input"
+              placeholder="Procurar por Cliente ou Pet"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
           </Form.Group>
         </Form>
       </div>
+
       <TableData
-        dados={dadosClientes}
-        columnNames={columnNamesClientes}
-        sortableColumns={sortableColumnsClientes}
+        dados={filteredData} // Usa os dados filtrados
+        columnNames={currentFilter === "Clientes" ? columnNamesClientes : currentFilter === "Pets" ? columnNamesPets : columnNamesClientesEPets}
+        sortableColumns={currentFilter === "Clientes" ? sortableColumnsClientes : currentFilter === "Pets" ? sortableColumnsPets : sortableColumnsClientesEPets}
       />
-      
-      {isModalOpen && <ModalWrapper closeModal={closeModal} />} {/* Renderizando o modal */}
+
+      {isModalOpen && <ModalWrapper closeModal={closeModal} />}
     </div>
   );
 };

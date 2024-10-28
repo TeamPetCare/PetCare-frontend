@@ -1,30 +1,19 @@
-import { jwtDecode } from 'jwt-decode';
 import React, { useState } from 'react';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
 import userService from '../../../services/userService';
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
-
 // Importando os ícones
 import { FaUserAlt } from "react-icons/fa";
 import { IoLockClosed } from "react-icons/io5";
 import { PiEyeSlashFill } from "react-icons/pi";
 
 const Login = () => {
+  // Consts para armazenar as credenciais
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  // const checkTokenValidity = () => {
-  //   const token = localStorage.getItem('userToken');
-  //   if (token) {
-  //     const decodedToken = jwtDecode(token);
-  //     const isExpired = decodedToken.exp * 1000 < Date.now();
-  //     return !isExpired;
-  //   }
-  //   return false;
-  // };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -65,10 +54,12 @@ const Login = () => {
                 <PiEyeSlashFill className={styles.eyeIcon} />
               </div>
             </div>
+            {/* Grupo de input de senha com ícone */}
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
                 <IoLockClosed className={styles.icon} />
                 <input type="password" id="password" placeholder="Digite sua senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+                {/* Ícone de "olho" para visualização da senha */}
                 <PiEyeSlashFill className={styles.eyeIcon} />
               </div>
             </div>
