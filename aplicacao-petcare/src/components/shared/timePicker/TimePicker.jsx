@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ptBR } from "date-fns/locale";
 
-const TimePicker = ({ dtInicial, dtFinal }) => {
+const TimePicker = ({ dtInicial, dtFinal, isDisabled }) => {
   const [startDate, setStartDate] = useState(dtInicial);
   const [endDate, setEndDate] = useState(dtFinal);
 
@@ -22,6 +22,7 @@ const TimePicker = ({ dtInicial, dtFinal }) => {
           dateFormat="dd/MM/yyyy HH:mm"
           placeholderText="Selecione uma data inicial"
           locale={ptBR}
+          disabled={isDisabled}
         />
       </div>
 
@@ -38,6 +39,7 @@ const TimePicker = ({ dtInicial, dtFinal }) => {
           dateFormat="dd/MM/yyyy HH:mm"
           placeholderText="Selecione uma data final"
           locale={ptBR}
+          disabled={isDisabled}
         />
       </div>
     </div>

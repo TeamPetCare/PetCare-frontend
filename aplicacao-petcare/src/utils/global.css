@@ -119,9 +119,6 @@ p {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.modal-header {
-  border-bottom: none;
-}
 
 .rbc-overlay > * + * {
   margin: 0.7em 0;
@@ -170,6 +167,18 @@ p {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: inherit;
+  background-color: inherit;
+  border-color: #d0d5dd;
+}
+
+.Toastify__toast-body > div:last-child {
+  font-weight: 700;
+  font-size: .9em;
+}
+
 @font-face {
   font-family: "Montserrat";
   src: url("../utils/fonts/montserrat/Montserrat-Thin.ttf") format("truetype");
