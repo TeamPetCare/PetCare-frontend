@@ -1,19 +1,17 @@
-import React, { useRef, useState } from "react";
-import { BrowserRouter as Router, useLocation } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useRef, useState, useEffect } from "react";
+import { BrowserRouter as Router,  } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+// import { decode as jwtDecode } from "jwt-decode"; // Importação corrigida
 
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import "./utils/variables.css";
+import "./utils/global.css";
+import styles from "./App.module.css";
 import {
   HeaderWithConditional,
   SideBarWithConditional,
 } from "./routes/configuracaoPaths.jsx";
 import AppRoutes from "./routes/Routes.jsx";
-import "./utils/variables.css";
-import "./utils/global.css";
-import styles from "./App.module.css";
-
-import UserCreateTest from "./components/user-test/UserCreateTest.jsx";
 
 function App() {
   const section04Ref = useRef(null);
@@ -22,6 +20,30 @@ function App() {
   const toggleSideBar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // Função para verificar o token
+  // const checkTokenValidity = () => {
+  //   const token = sessionStorage.getItem("userToken");
+  //   if (token) {
+  //     try {
+  //       const decodedToken = jwtDecode(token);
+  //       const isExpired = decodedToken.exp * 1000 < Date.now();
+  //       if (isExpired) {
+  //         sessionStorage.removeItem("userToken");
+  //         history.push("/dono-petshop/login"); // Redireciona para login
+  //       }
+  //     } catch (error) {
+  //       console.error("Erro ao decodificar o token:", error);
+  //       history.push("/dono-petshop/login");
+  //     }
+  //   } else {
+  //     history.push("/dono-petshop/login");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   checkTokenValidity();
+  // }, []);
 
   return (
     <Router>
