@@ -21,6 +21,7 @@
         "emailjs-com": "^3.2.0",
         "express": "^4.21.0",
         "framer-motion": "^11.9.0",
+        "jwt-decode": "^4.0.0",
         "moment": "^2.30.1",
         "primeicons": "^7.0.0",
         "primereact": "^10.8.4",
@@ -48,6 +49,6 @@
         "eslint-plugin-react-hooks": "^5.1.0-rc.0",
         "eslint-plugin-react-refresh": "^0.4.9",
         "globals": "^15.9.0",
-        "vite": "^5.4.1"
+        "vite": "^5.4.10"
     }
 }

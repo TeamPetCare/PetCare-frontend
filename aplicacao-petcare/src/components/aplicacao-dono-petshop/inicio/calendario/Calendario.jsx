@@ -8,34 +8,25 @@ import EditEventModal from "./components/editEventModal/EditEventModal.jsx";
 import { localizer } from "./config/localizer";
 import { formats } from "./config/formats";
 import { messages } from "./config/messages";
-import { getAllServicos } from '../../../../services/servicosService.js'; // Importe a função
 
 function Calendario({ dadosAgendamentos }) {
   const [view, setView] = useState("month");
   const [eventsOnDate, setEventsOnDate] = useState([]);
   const [modalEditEventShow, setModalEditEventShow] = useState(false);
   const [editedEvent, setEditedEvent] = useState(null);
+
   const [allEvents, setAllEvents] = useState([]);
   const [modalConfirmarCancelShow, setModalConfirmarCancelShow] =
     useState(false);
-  const [eventToCancel, setEventToCancel] = useState(null);
-  const eventRefs = useRef({});
+  const [eventToCancel, setEventToCancel] = useState(null); // Armazena o evento que será cancelado
+  const eventRefs = useRef({}); // Referências para os eventos
 
   const menssagemConfirmarCancel = `<h4>Deseja realmente finalizar o agendamento? Ao prosseguir, o cliente será notificado da conclusão e o serviço será registrado como concluído.</h4>`;
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const servicos = await getAllServicos(); 
-        console.log(servicos); 
-        setAllEvents(servicos);
-      } catch (error) {
-        console.error('Erro ao carregar serviços:', error);
-      }
-    };
-
-    loadData(); 
-  }, []); 
+    setAllEvents(dadosAgendamentos);
+    console.log("Dados de Agendamentos:", dadosAgendamentos);
+  }, [dadosAgendamentos]);
 
   const handleUpdateEvent = (updatedEvent) => {
     setAllEvents((prevEvents) =>
@@ -50,6 +41,7 @@ function Calendario({ dadosAgendamentos }) {
   };
 
   const handleCancelEvent = (eventId) => {
+    // setEventToCancel(eventId); // Armazena o evento que será cancelado
     setModalConfirmarCancelShow(true);
   };
 
@@ -67,7 +59,12 @@ function Calendario({ dadosAgendamentos }) {
     setModalConfirmarCancelShow(false);
   };
 
+  const eventRef = useRef(); 
+
   const handleAcionarCancelEdit = () => {
+    if (eventRef.current) {
+      eventRef.current.handleCancelEvent(); 
+    }
     handleCloseConfirmacaoModal();
   };
 
@@ -98,6 +95,8 @@ function Calendario({ dadosAgendamentos }) {
               view={view}
               onCancelEvent={handleCancelEvent}
               onUpdate={handleUpdateEvent}
+              onOpenEditModal={() => handleOpenEditModal(eventProps.event)}
+              ref={eventRef}
             />
           ),
         }}
