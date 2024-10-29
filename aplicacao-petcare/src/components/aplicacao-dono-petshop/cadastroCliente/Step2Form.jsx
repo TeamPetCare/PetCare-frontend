@@ -24,17 +24,17 @@ const Step2Form = ({ onNext, onBack }) => {
           <label className={styles.radioLabel}>Nome do Pet:</label>
           <input
             type="text"
-            name="petName" // Adiciona name para o input
+            name="petName"
             placeholder="Nome do Pet"
-            onChange={handleInputChange} // Chama a função de mudança
+            onChange={handleInputChange}
           />
         </div>
         <div>
           <label className={styles.radioLabel}>Data de Nascimento:</label>
           <input
             type="date"
-            name="birthDate" // Adiciona name para o input
-            onChange={handleInputChange} // Chama a função de mudança
+            name="birthDate"
+            onChange={handleInputChange}
           />
         </div>
         <div>
@@ -45,7 +45,7 @@ const Step2Form = ({ onNext, onBack }) => {
                 type="checkbox"
                 name="sexo"
                 value="masc"
-                onChange={handleInputChange} // Chama a função de mudança
+                onChange={handleInputChange}
               />{' '}
               Masc.
             </label>
@@ -54,7 +54,7 @@ const Step2Form = ({ onNext, onBack }) => {
                 type="checkbox"
                 name="sexo"
                 value="fem"
-                onChange={handleInputChange} // Chama a função de mudança
+                onChange={handleInputChange}
               />{' '}
               Fem.
             </label>
@@ -68,32 +68,36 @@ const Step2Form = ({ onNext, onBack }) => {
           <label className={styles.radioLabel}>Espécie:</label>
           <select name="species" onChange={handleInputChange}>
             <option value="">Selecione a Espécie</option>
-            {/* Adicione opções de espécies aqui */}
+            <option value="cachorro">Cachorro</option>
+            <option value="gato">Gato</option>
+            <option value="outro">Outro</option>
           </select>
         </div>
         <div>
           <label className={styles.radioLabel}>Raça:</label>
           <select name="breed" onChange={handleInputChange}>
             <option value="">Selecione a Raça</option>
-            {/* Adicione opções de raças aqui */}
+            <option value="labrador">Labrador</option>
+            <option value="persa">Persa</option>
+            <option value="vira-lata">Vira-lata</option>
           </select>
         </div>
         <div>
           <label className={styles.radioLabel}>Cor:</label>
           <input
             type="text"
-            name="color" // Adiciona name para o input
+            name="color"
             placeholder="Cor"
-            onChange={handleInputChange} // Chama a função de mudança
+            onChange={handleInputChange}
           />
         </div>
         <div>
           <label className={styles.radioLabel}>Peso:</label>
           <input
             type="number"
-            name="weight" // Adiciona name para o input
+            name="weight"
             placeholder="Peso"
-            onChange={handleInputChange} // Chama a função de mudança
+            onChange={handleInputChange}
           />
         </div>
       </div>
@@ -104,15 +108,17 @@ const Step2Form = ({ onNext, onBack }) => {
           <label className={styles.radioLabel}>Porte:</label>
           <select name="size" onChange={handleInputChange}>
             <option value="">Selecione o Porte</option>
-            {/* Adicione opções de porte aqui */}
+            <option value="pequeno">Pequeno</option>
+            <option value="médio">Médio</option>
+            <option value="grande">Grande</option>
           </select>
         </div>
         <div>
           <textarea
-            name="observations" // Adiciona name para o textarea
+            name="observations"
             placeholder="Observações"
             className={styles.textarea}
-            onChange={handleInputChange} // Chama a função de mudança
+            onChange={handleInputChange}
           />
         </div>
       </div>
