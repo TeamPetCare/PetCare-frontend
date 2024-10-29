@@ -31,9 +31,9 @@ const Autorizacao = ({ children }) => {
         console.log(
           "Token não encontrado, redirecionando para a página inicial..."
         );
-        navigate("/"); // Redireciona para a página de login se não houver token
-        setIsLoading(false); // Finaliza o carregamento
-        return; // Garante que a lógica não continue após o redirecionamento
+        navigate("/");
+        setIsLoading(false); 
+        return; 
       }
 
       try {

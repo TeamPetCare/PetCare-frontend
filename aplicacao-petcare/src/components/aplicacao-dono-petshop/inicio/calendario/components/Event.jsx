@@ -59,7 +59,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   };
 
   const handleEdit = (e) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     setIsEditing(true);
   };
 

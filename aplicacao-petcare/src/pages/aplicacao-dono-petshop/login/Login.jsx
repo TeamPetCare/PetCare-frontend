@@ -4,15 +4,15 @@ import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
 import userService from '../../../services/userService';
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
-// Importando os ícones
 import { FaUserAlt } from "react-icons/fa";
 import { IoLockClosed } from "react-icons/io5";
-import { PiEyeSlashFill } from "react-icons/pi";
+import { PiEyeSlashFill, PiEyeFill } from "react-icons/pi";
 
 const Login = () => {
   // Consts para armazenar as credenciais
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Estado para visibilidade da senha
   const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
@@ -35,14 +35,13 @@ const Login = () => {
     } catch (error) {
       console.error('Erro no login:', error);
       setError('Email ou senha incorretos');
-      
       toast.error("Email ou senha incorretos. Tente novamente.");
     }
   };
 
   return (
     <div>
-      <ToastContainer /> {/* Adicionando o ToastContainer aqui */}
+      <ToastContainer />
       <div className={styles.container}>
         <div className={styles.loginBox}>
           <h2>Faça seu login!</h2>
@@ -50,17 +49,38 @@ const Login = () => {
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
                 <FaUserAlt className={styles.icon} />
-                <input type="email" id="email" placeholder="Digite seu email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <PiEyeSlashFill className={styles.eyeIcon} />
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Digite seu email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
             {/* Grupo de input de senha com ícone */}
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
                 <IoLockClosed className={styles.icon} />
-                <input type="password" id="password" placeholder="Digite sua senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-                {/* Ícone de "olho" para visualização da senha */}
-                <PiEyeSlashFill className={styles.eyeIcon} />
+                <input
+                  type={showPassword ? "text" : "password"} // Alterna entre texto e senha
+                  id="password"
+                  placeholder="Digite sua senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {showPassword ? (
+                  <PiEyeFill
+                    className={styles.eyeIcon}
+                    onClick={() => setShowPassword(false)} // Alterna para ocultar a senha
+                  />
+                ) : (
+                  <PiEyeSlashFill
+                    className={styles.eyeIcon}
+                    onClick={() => setShowPassword(true)} // Alterna para mostrar a senha
+                  />
+                )}
+
               </div>
             </div>
             <button type="submit" className={styles.loginButton}>Entrar</button>
