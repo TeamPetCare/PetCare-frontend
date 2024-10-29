@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const LOGIN_URL = "http://localhost:8080/auth/login"
+const API_URL = 'http://localhost:8080/api/users';
+const LOGIN_URL = 'http://localhost:8080/auth/login';
+const REGISTER_URL = 'http://localhost:8080/auth/register';
 
 const userService = {
+  // Função para criar um novo usuário
   createUser: async (userData) => {
     try {
       const response = await axios.post('http://localhost:8080/auth/register', userData);
@@ -12,6 +15,8 @@ const userService = {
       throw error; // Propagar o erro se necessário
     }
   },
+
+  // Função para logar e armazenar o token
   loginUser: async (loginData) => {
     try {
       const response = await axios.post(LOGIN_URL, loginData);
@@ -20,6 +25,20 @@ const userService = {
       if (response.data.token) {
         sessionStorage.setItem('userToken', response.data.token);
       }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getAllCustomerAndPets: async () => {
+    try {
+      const response = await axios.get(API_URL + "/customers", {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+        }
+      });
 
       return response.data;
     } catch (error) {
@@ -58,6 +77,4 @@ userService.createUser(userData)
     console.error("Erro ao processar registro:", err);
   });
 
-
 export default userService;
-
