@@ -83,3 +83,32 @@ h2 {
   text-align: left;
 }
 
+
+.checkboxLabel {
+  display: grid;
+  grid-template-columns: 20px auto; /* Coluna fixa para input e automática para texto */
+  align-items: center;
+  gap: 8px; /* Espaço entre o input e o texto */
+  font-size: 1rem;
+  color: #444;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start; /* Garante o alinhamento à esquerda */
+}
+
+.checkboxLabel input[type="radio"] {
+  width: 15px; /* Tamanho fixo para os inputs */
+  height: 20px;
+  margin: 0; /* Remove margens adicionais */
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
