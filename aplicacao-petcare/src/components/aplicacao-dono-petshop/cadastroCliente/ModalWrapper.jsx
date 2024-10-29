@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import Step1Form from './Step1Form';
 import Step2Form from './Step2Form';
 import Step3Form from './Step3Form';
-import userService from '../../../services/userService'; // Corrigido
+import userService from '../../../services/userService';
 import styles from './ModalWrapper.module.css';
 
 const ModalWrapper = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
-  const [formData, setFormData] = useState({}); // Estado para armazenar dados do formulário
+  const [formData, setFormData] = useState({});
 
   const handleNext = async (data) => {
-    console.log("Dados do Passo Atual:", data); // Log dos dados
-    setFormData(prevData => ({ ...prevData, ...data })); // Atualiza o estado com os dados do passo atual
+    console.log("Dados do Passo Atual:", data);
+    setFormData((prevData) => ({ ...prevData, ...data }));
 
     if (currentStep === 1) {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === 2) {
-      // Tente criar o pet
       try {
         const petData = {
-          name: data.petName, // Use o nome do pet
+          name: data.petName,
           birthDate: data.birthDate,
           sexo: data.sexo,
           species: data.species,
@@ -31,8 +31,8 @@ const ModalWrapper = () => {
           observations: data.observations,
         };
 
-        const petResponse = await userService.createPet(petData); // Chame a função para criar o pet
-        console.log("Pet criado com sucesso:", petResponse); // Exibe informações do pet
+        const petResponse = await userService.createPet(petData);
+        console.log("Pet criado com sucesso:", petResponse);
       } catch (err) {
         console.error("Erro ao criar pet:", err);
       }
@@ -53,12 +53,11 @@ const ModalWrapper = () => {
 
   const handleSubmit = async () => {
     try {
-      // Envie os dados completos para criar o usuário
       const userData = {
         name: formData.name,
-        userImg: "default_image.png", // Defina uma imagem padrão ou mude para coletar do formulário
-        email: formData.email, // Supondo que você tenha coletado o email
-        password: "default_password", // Você pode ajustar isso conforme necessário
+        userImg: "default_image.png",
+        email: formData.email,
+        password: "default_password",
         cellphone: formData.phoneNumber,
         role: "ROLE_CUSTOMER",
         street: formData.street,
@@ -71,16 +70,16 @@ const ModalWrapper = () => {
         roleEmployee: null,
         disponibilityStatus: false,
         cpfClient: formData.cpfClient,
-        petIds: [] // Adicione IDs de pets se você estiver coletando isso
+        petIds: []
       };
 
       const response = await userService.createUser(userData);
       console.log("Usuário criado com sucesso:", response);
-      alert("Usuário cadastrado com sucesso!");
-      closeModal();
+      toast.success("Usuário cadastrado com sucesso!"); // Exibe a notificação de sucesso
+      //closeModal();
     } catch (err) {
       console.error("Erro ao criar usuário:", err);
-      alert("Erro ao cadastrar usuário. Tente novamente.");
+      toast.error("Erro ao cadastrar usuário. Tente novamente."); // Notificação de erro
     }
   };
 
@@ -105,7 +104,7 @@ const ModalWrapper = () => {
     );
   };
 
-  const progressWidth = `${(currentStep / 3) * 100}%`; // Calcula a largura da barra de progresso
+  const progressWidth = `${(currentStep / 3) * 100}%`;
 
   if (!isOpen) return null;
 
