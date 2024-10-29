@@ -1,0 +1,108 @@
+.missionSection {
+    position: relative;
+    text-align: left;
+    padding: 2rem 1rem;
+}
+
+
+.content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.woman {
+    width: 300px; 
+    margin-left: auto; 
+}
+
+.missionSection {
+    
+    position: relative;
+    text-align: left;
+    padding: 2rem 1rem;
+}
+
+.wave {
+    width: 100vw; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin-left: calc(50% - 50vw);
+}
+
+
+.woman {
+    margin-left: auto; 
+    width: 360px; /* Aumenta a largura da imagem */
+    max-width: 80%; /* Mantém a largura máxima em telas menores */
+    
+}
+
+.missionSection {
+    position: relative;
+    text-align: left;
+    padding: 2rem 1rem;
+
+    
+}
+
+.wave {
+    width: 100vw; /* Onda ocupa toda a largura da tela */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-direction: row;
+    padding-top: 80px;
+}
+
+.text {
+    font-weight: bold !important;
+    font-size: 1em;
+    flex: 1;
+    color: var(--cor-primaria-azul-escuro);
+    padding: 2rem;
+    
+}
+
+.text p {
+    color: var(--cor-primaria-azul-escuro);
+}
+
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .text {
+        color: var(--cor-primaria-azul-escuro);
+        font-weight: 900;
+        margin-top: 250px; 
+        padding: 1rem;
+    }
+
+    .woman {
+        width: 70%;
+        max-width: 400px;
+        margin-bottom: -50px; /* Mantém a mulher dentro da wave */
+    }
+}

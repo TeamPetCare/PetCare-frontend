@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
 import userService from '../../../services/userService';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
+import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import { FaUserAlt } from "react-icons/fa";
 import { IoLockClosed } from "react-icons/io5";
 import { PiEyeSlashFill, PiEyeFill } from "react-icons/pi";
 
 const Login = () => {
+  // Consts para armazenar as credenciais
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para visibilidade da senha
@@ -58,6 +58,7 @@ const Login = () => {
                 />
               </div>
             </div>
+            {/* Grupo de input de senha com ícone */}
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
                 <IoLockClosed className={styles.icon} />
@@ -79,6 +80,7 @@ const Login = () => {
                     onClick={() => setShowPassword(true)} // Alterna para mostrar a senha
                   />
                 )}
+
               </div>
             </div>
             <button type="submit" className={styles.loginButton}>Entrar</button>

@@ -7,4 +7,7 @@ export default defineConfig({
   build: {
     outDir: 'dist', // Direciona a saída do build para a pasta 'dist'
   },
+  server: {
+    port: 3000, // Define a porta para 3000
+  },
 })
