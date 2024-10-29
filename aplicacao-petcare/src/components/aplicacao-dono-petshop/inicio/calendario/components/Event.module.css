@@ -4,12 +4,10 @@
 }
 
 .container {
-  position: absolute;
-  width: 100%; 
-  border-radius: 5px;
+  width: 100%;
   padding: 5px;
   color: black;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .container-status {
@@ -17,9 +15,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 
-  h3, p {
+  h3,
+  p {
     text-align: start;
   }
 }
@@ -37,7 +36,7 @@
 .container-hours {
   display: flex;
   flex-direction: column;
-  width: 100%; 
+  width: 100%;
 }
 
 .concluido {

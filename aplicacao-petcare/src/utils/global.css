@@ -179,6 +179,10 @@ p {
   font-size: .9em;
 }
 
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  height: 9vh;
+}
+
 @font-face {
   font-family: "Montserrat";
   src: url("../utils/fonts/montserrat/Montserrat-Thin.ttf") format("truetype");
