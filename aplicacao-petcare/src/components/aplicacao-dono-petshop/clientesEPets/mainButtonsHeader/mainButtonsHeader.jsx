@@ -7,10 +7,10 @@ import { LuDownloadCloud } from "react-icons/lu";
 import { IoMdAddCircle } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-function MainButtonsHeader({ onCreateClick }) {
+function MainButtonsHeader({ onCreateClick, onDeleteClick }) {
     return (
       <div className={styles["containers-btn"]}>
-        <button className={`${styles["custom-btn"]} ${styles["delete"]}`}>
+        <button className={`${styles["custom-btn"]} ${styles["delete"]}`} onClick={onDeleteClick}>
           <RiDeleteBinLine />
           Deletar
         </button>

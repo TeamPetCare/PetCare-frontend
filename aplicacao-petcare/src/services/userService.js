@@ -44,7 +44,24 @@ const userService = {
     } catch (error) {
       throw error;
     }
+  },
+
+  deleteCustomers: async (selectedData) => {
+    try {
+      const response = await axios.delete(API_URL + "/customers/delete", {
+        data: selectedData,
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
+  
+
+
 };
 
 // Exemplo de uso

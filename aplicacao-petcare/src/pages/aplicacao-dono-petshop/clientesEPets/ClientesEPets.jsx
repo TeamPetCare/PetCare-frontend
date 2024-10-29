@@ -5,8 +5,11 @@ import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHe
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
 import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/clientesEPets/mainButtonsHeader/mainButtonsHeader";
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
+import ModalDelete from "../../../components/aplicacao-dono-petshop/shared/modal/ModalDelete"
 import { useSelectedData } from "./SelectedDataContext";
 
 const ClientesEPets = () => {
@@ -15,8 +18,26 @@ const ClientesEPets = () => {
   const [clientesEPetsData, setclientesEPetsData] = useState([]);
   const [filteredData, setFilteredData] = useState([]); // Dados filtrados
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentFilter, setCurrentFilter] = useState("Clientes & Pets"); // Filtro atual
+  const [currentFilter, setCurrentFilter] = useState("Clientes"); // Filtro atual
   const { selectedData } = useSelectedData();
+
+
+  async function deletarClientes() {
+    if (selectedData && selectedData.length > 0) {
+      try {
+        const response = await userService.deleteCustomers(selectedData);
+        console.log("Clientes deletados com sucesso:", response);
+        alert("Cliente(s) deletado(s) com sucesso!")
+        window.location.reload()
+      } catch (error) {
+        console.error("Erro ao deletar clientes:", error);
+      }
+    } else {
+      console.log("Nenhum cliente selecionado para deletar.");
+    }
+  }
+
+
 
   useEffect(() => {
     console.log("Dados transferidos DE OUTRA Componente:", selectedData);
@@ -191,11 +212,19 @@ const ClientesEPets = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
   return (
     <div>
       <div className={styles["header-container"]}>
         <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
-        <MainButtonsHeader onCreateClick={openModal} />
+        <MainButtonsHeader onCreateClick={openModal}
+         onDeleteClick={selectedData.length > 0 ? handleShow : null}
+         disableDeleteButton={selectedData.length === 0} // Passa a condição para desabilitar o botão
+        />
         <UserHeader />
       </div>
       <div className={styles["container-searchBar"]}>
@@ -218,6 +247,10 @@ const ClientesEPets = () => {
       />
 
       {isModalOpen && <ModalWrapper closeModal={closeModal} />}
+
+      {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes()} />}
+
+
     </div>
   );
 };
