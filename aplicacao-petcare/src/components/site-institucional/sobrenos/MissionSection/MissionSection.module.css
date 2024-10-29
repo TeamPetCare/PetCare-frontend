@@ -14,6 +14,13 @@
     overflow: hidden; 
 }
 
+/* Adiciona esta classe para ocultar a onda em telas menores */
+@media (max-width: 768px) {
+    .wave {
+        display: none; /* Esconde a onda */
+    }
+}
+
 .content {
     display: flex;
     align-items: center; /* Alinha ao centro */
@@ -43,7 +50,7 @@
 
 .text p {
     color: var(--cor-primaria-azul-escuro);
-    font-size: 1rem;
+    font-size: 0.8rem;
     text-align: left;
 }
 
@@ -60,22 +67,24 @@
 /* Media Queries para responsividade */
 @media (max-width: 768px) {
     .content {
-        padding: 1rem;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; /* Muda para coluna */
+        align-items: center; /* Centraliza os itens */
+        padding: 1rem; /* Reduz o padding */
     }
 
     .text {
         color: var(--cor-primaria-azul-escuro);
         font-weight: 900;
-        margin-top: 250px; 
+        margin-top: 0; /* Remove o margin-top para centralizar melhor */
         padding: 1rem;
+        text-align: center; /* Centraliza o texto */
     }
 
     .woman {
         width: 70%;
         max-width: 400px;
+        margin: 20px auto 0; /* Centraliza a imagem e espaço acima dela */
+        margin-top: 20px; /* Espaço acima da imagem */
         margin-bottom: -50px; /* Mantém a mulher dentro da wave */
-        margin-top: -30px; /* Ajuste para a posição da imagem na tela menor */
     }
 }

@@ -3,7 +3,6 @@ import styles from './MissionSection.module.css'; // Importando o CSS módulo
 import mulherImg from '../../../../utils/assets/site-institucional/sobrenos/mulhercomcachorro.png';
 import waveImg from '../../../../utils/assets/site-institucional/sobrenos/wavesobrenos.svg';
 
-
 const MissionSection = () => {
     return (
         <div className={styles.missionSection}>
@@ -16,7 +15,6 @@ const MissionSection = () => {
                         proporcionando aos donos de pets uma experiência conveniente e eficaz. Nosso compromisso é garantir que
                         cada interação, desde o agendamento até o atendimento, <strong>seja simples, intuitiva e centrada no bem-estar dos animais</strong>.
                     </p>
-
                 </div>
                 <img src={mulherImg} alt="Mulher com cachorro" className={styles.woman} />
             </div>
