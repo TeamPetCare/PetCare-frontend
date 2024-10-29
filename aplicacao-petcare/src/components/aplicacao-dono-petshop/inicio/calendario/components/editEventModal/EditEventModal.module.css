@@ -16,8 +16,12 @@
     background-color: var(--cor-primaria-azul-escuro);
 }
 
-.btn-cancelar-agenda, .btn-cancelar {
+.btn-cancelar-agenda  {
     background-color: var(--cor-vermelho-escuro);
+}
+
+.btn-cancelar {
+    background-color: var(--cor-cinza-escuro);
 }
 
 .btn-editar:hover, .btn-cancelar-agenda:hover, .btn-salvar:hover, .btn-cancelar:hover {
@@ -29,6 +33,10 @@
     background-color: var(--cor-primaria-azul-escuro);
 }
 
-.btn-cancelar-agenda:hover, .btn-cancelar:hover {
+.btn-cancelar-agenda:hover {
     background-color: var(--cor-vermelho-escuro);
+}
+
+.btn-cancelar:hover {
+    background-color: var(--cor-cinza-escuro);
 }

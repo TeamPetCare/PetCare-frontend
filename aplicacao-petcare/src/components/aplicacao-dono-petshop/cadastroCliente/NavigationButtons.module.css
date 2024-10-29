@@ -1,6 +1,6 @@
 .buttonContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 16px;
     margin-top: 24px;
   }
@@ -13,9 +13,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
+
+  .buttonContainer button{
+    width: 18rem;
+  }
   
   button:hover {
-    background-color: #0056b3;
+    background-color: var(--cor-primaria-azul-escuro);
     color: #ffffff;
   }
   
@@ -28,10 +32,11 @@
   .cancelButton {
     background-color: #f44336;
     color: #ffffff;
+    
   }
   
   .nextButton, .backButton {
-    background-color: #007bff;
+    background-color: var(--cor-primaria-azul-escuro);
     color: #ffffff;
   }
   

@@ -119,9 +119,6 @@ p {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.modal-header {
-  border-bottom: none;
-}
 
 .rbc-overlay > * + * {
   margin: 0.7em 0;
@@ -167,10 +164,6 @@ p {
 
 }
 
-.modal-body {
-  padding: 0 1rem 1rem 1rem;
-}
-
 .react-datepicker-wrapper {
   width: 100%;
 }
@@ -179,6 +172,11 @@ p {
   color: inherit;
   background-color: inherit;
   border-color: #d0d5dd;
+}
+
+.Toastify__toast-body > div:last-child {
+  font-weight: 700;
+  font-size: .9em;
 }
 
 @font-face {

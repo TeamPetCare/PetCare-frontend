@@ -1,7 +1,15 @@
+table{
+  border-radius: 1em;
+}
+
+thead{
+  background-color: var(--cor-primaria-azul-escuro);
+  color: white;
+}
+
 .container {
   border: 1px solid #e5e5ef;
-  padding: 1em;
-  border-radius: 0.6em;
+  border-radius: 1em;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
@@ -19,6 +27,7 @@
   }
 }
 .scrollable-table {
+  border-radius: 10px;
   max-height: 65vh;
   overflow-y: auto;
 }

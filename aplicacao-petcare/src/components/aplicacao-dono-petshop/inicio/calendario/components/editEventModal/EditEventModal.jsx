@@ -13,7 +13,8 @@ const EditEventModal = ({
   isEditing,
   handleSave,
   handleEdit,
-  handleDelete,
+  handleCancelEvent,
+  handleCancelAction
 }) => {
   const formatTime = (date) => {
     if (!date) return "";
@@ -59,7 +60,7 @@ const EditEventModal = ({
               width: "100%",
             }}
           >
-            <Button className={styles["btn-cancelar"]} onClick={handleClose}>
+            <Button className={styles["btn-cancelar"]} onClick={handleCancelAction}>
               Cancelar
             </Button>
             <Button className={styles["btn-salvar"]} onClick={handleSave}>
@@ -76,7 +77,7 @@ const EditEventModal = ({
           >
             <Button
               className={styles["btn-cancelar-agenda"]}
-              onClick={handleDelete}
+              onClick={handleCancelEvent}
             >
               Cancelar Agendamento
             </Button>

@@ -37,6 +37,7 @@ const LogOut = ({ show, onHide }) => {
     <Modal
       show={show}
       onHide={onHide}
+      backdrop="static"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >

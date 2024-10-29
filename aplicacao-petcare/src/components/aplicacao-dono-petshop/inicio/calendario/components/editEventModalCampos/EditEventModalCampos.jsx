@@ -6,6 +6,7 @@ import { PiUserCircleThin, PiPawPrintThin } from "react-icons/pi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GoPeople } from "react-icons/go";
 import { SiContactlesspayment } from "react-icons/si";
+import { MdOutlineSchedule } from "react-icons/md";
 
 const EditEventModalCampos = ({
   editedEvent,
@@ -143,7 +144,7 @@ const EditEventModalCampos = ({
     ...new Set(events.map((event) => event.paymentMethod)),
   ];
   return (
-    <>
+    <div className={styles["container"]}>
       <div className={styles["row1"]}>
         <DropDown
           agendamento={editedEvent}
@@ -153,17 +154,27 @@ const EditEventModalCampos = ({
           selectedItem={editedEvent.cliente.nome}
           className={styles["container-dropdown"]}
           exibirInformacao={true}
-          isDisabled={!isEditing} // Adicione esta linha
+          isDisabled={!isEditing}
         />
 
         <DropDown
           agendamento={editedEvent}
           options={pets}
-          titulo={"Selecione um Pet*"}
+          titulo={"Selecione um pet*"}
           icon={PiPawPrintThin}
           selectedItem={editedEvent.cliente.pet.nome}
           exibirInformacao={true}
-          isDisabled={!isEditing} // Adicione esta linha
+          isDisabled={!isEditing}
+        />
+
+        <DropDown
+          agendamento={editedEvent}
+          options={["Agendado", "Concluído", "Cancelado"]}
+          titulo={"Configure um status*"}
+          icon={MdOutlineSchedule}
+          selectedItem={editedEvent.status}
+          exibirInformacao={false}
+          isDisabled={!isEditing}
         />
       </div>
       <div className={styles["row2"]}>
@@ -173,8 +184,8 @@ const EditEventModalCampos = ({
           titulo={"Selecione um serviço*"}
           icon={HiOutlineShoppingBag}
           selectedItem={editedEvent.title}
-          exibirInformacao={true}
-          isDisabled={!isEditing} // Adicione esta linha
+          exibirInformacao={false}
+          isDisabled={!isEditing}
         />
       </div>
       <div className={styles["row3"]}>
@@ -182,7 +193,7 @@ const EditEventModalCampos = ({
           dtInicial={editedEvent.start}
           dtFinal={editedEvent.end}
           isDisabled={!isEditing}
-        />{" "}
+        />
         <DropDown
           agendamento={editedEvent}
           options={funcionarios}
@@ -191,7 +202,7 @@ const EditEventModalCampos = ({
           selectedItem={editedEvent.funcionario}
           className={styles["container-dropdown"]}
           exibirInformacao={false}
-          isDisabled={!isEditing} // Adicione esta linha
+          isDisabled={!isEditing}
         />
       </div>
       <div className={styles["row4"]}>
@@ -200,7 +211,7 @@ const EditEventModalCampos = ({
           name="observacoes"
           value={editedEvent.observacoes}
           onChange={handleChange}
-          isDisabled={!isEditing} // Já está aqui
+          disabled={!isEditing}
           className={styles["input-observacoes"]}
           onClick={(e) => e.stopPropagation()}
         />
@@ -216,7 +227,7 @@ const EditEventModalCampos = ({
             selectedItem={editedEvent.paymentMethod}
             className={styles["container-dropdown"]}
             exibirInformacao={false}
-            isDisabled={!isEditing} // Adicione esta linha
+            isDisabled={!isEditing}
           />
           <div className={styles["container-status-pag"]}>
             <label className={styles["label-title"]}>
@@ -230,7 +241,7 @@ const EditEventModalCampos = ({
                   value="pendente"
                   checked={!editedEvent.paymentStatus}
                   onChange={handleChange}
-                  disabled={!isEditing} // Já está aqui
+                  disabled={!isEditing}
                 />
                 Pendente
               </label>
@@ -241,7 +252,7 @@ const EditEventModalCampos = ({
                   value="pago"
                   checked={editedEvent.paymentStatus}
                   onChange={handleChange}
-                  disabled={!isEditing} // Já está aqui
+                  disabled={!isEditing}
                 />
                 Pago
               </label>
@@ -249,7 +260,7 @@ const EditEventModalCampos = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

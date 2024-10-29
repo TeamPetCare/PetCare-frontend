@@ -19,6 +19,7 @@ import SuporteDonoPetshop from "../pages/aplicacao-dono-petshop/suporte/Suporte.
 import UserCreateTest from '../components/user-test/UserCreateTest'; // Ajuste o caminho conforme necessário
 import LoginDonoPet from "../pages/aplicacao-dono-pet/login/Login.jsx";
 import SignUp from "../pages/aplicacao-dono-pet/signUp/SignUp.jsx"
+import { SelectedDataProvider } from "../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext.jsx";
 
 const AppRoutes = ({ section04Ref }) => {
   return (
@@ -50,7 +51,11 @@ const AppRoutes = ({ section04Ref }) => {
       />
       <Route
         path="/dono-petshop/clientes-pets"
-        element={<Layout><ClientesEPets /></Layout>}
+        element={<Layout>
+          <SelectedDataProvider>
+          <ClientesEPets />
+          </SelectedDataProvider>
+          </Layout>}
       />
       <Route
         path="/dono-petshop/gerenciar-funcionarios"
