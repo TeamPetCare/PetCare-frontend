@@ -12,12 +12,11 @@ const MissionSection = () => {
                 <div className={styles.text}>
                     <h2>Nossa missão é...</h2>
                     <p>
-                        Facilitar e aprimorar a gestão de serviços em petshops,
-                        proporcionando aos donos de pets uma experiência conveniente
-                        e eficaz. Nosso compromisso é garantir que cada interação,
-                        desde o agendamento até o atendimento, seja simples,
-                        intuitiva e centrada no bem-estar dos animais.
+                        <strong>Facilitar</strong> e <strong>aprimorar</strong> a <strong>gestão de serviços em petshops</strong>,
+                        proporcionando aos donos de pets uma experiência conveniente e eficaz. Nosso compromisso é garantir que
+                        cada interação, desde o agendamento até o atendimento, <strong>seja simples, intuitiva e centrada no bem-estar dos animais</strong>.
                     </p>
+
                 </div>
                 <img src={mulherImg} alt="Mulher com cachorro" className={styles.woman} />
             </div>
