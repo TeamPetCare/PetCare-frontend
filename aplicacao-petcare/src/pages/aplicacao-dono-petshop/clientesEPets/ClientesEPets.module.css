@@ -1,0 +1,9 @@
+.container-searchBar{
+    width: 400px;
+}
+
+.header-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

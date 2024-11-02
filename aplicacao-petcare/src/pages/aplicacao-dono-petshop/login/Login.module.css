@@ -1,7 +1,8 @@
 .container {
+  height: 85vh;
+  overflow: hidden;
   width: 100%;
   max-width: 100vw;
-  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +10,6 @@
   background-image: url(/src/utils/assets/site-institucional/inicio/backgroundForms.svg);
   background-size: cover;
   background-position: center;
-  padding: 16px;
 }
 
 .loginBox {
@@ -119,7 +119,7 @@
 
 .negrito {
   font-size: 0.95em;
-  font-weight: 900;
+  font-weight: 800;
 }
 
 .helpText a {
@@ -290,4 +290,15 @@
 .icon i {
   font-size: 1em;
   /* Tamanho do ícone */
+}
+
+.inputWrapper input {
+  /* Outros estilos que você já possui */
+  border: 1px solid #ccc; /* Borda padrão */
+  border-radius: 4px; /* Arredondar bordas */
+}
+
+.inputWrapper input:focus {
+  outline: none; /* Remove o contorno */
+  border: 1px solid #007BFF; /* Borda azul ao focar, para destacar o campo */
 }

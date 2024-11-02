@@ -1,0 +1,90 @@
+.missionSection {
+    position: relative;
+    text-align: left;
+    padding: 2rem 1rem;
+}
+
+.wave {
+    width: 100vw; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden; 
+}
+
+/* Adiciona esta classe para ocultar a onda em telas menores */
+@media (max-width: 768px) {
+    .wave {
+        display: none; /* Esconde a onda */
+    }
+}
+
+.content {
+    display: flex;
+    align-items: center; /* Alinha ao centro */
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-direction: row;
+    padding-top: 80px; /* Para dar um espaço em relação à onda */
+}
+
+.woman {
+    width: 370px; /* Aumenta a largura da imagem */
+    max-width: 80%; /* Mantém a largura máxima em telas menores */
+    margin-left: auto; 
+    margin-top: -50px; /* Ajusta a imagem da mulher para que fique sobre a onda */
+    overflow: hidden; 
+}
+
+.text {
+    font-weight: bold !important;
+    font-size: 1em;
+    flex: 1;
+    color: var(--cor-primaria-azul-escuro);
+    padding: 2rem;
+}
+
+.text p {
+    color: var(--cor-primaria-azul-escuro);
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.text h2 {
+    font-weight: 900 !important; /* Aumenta a grossura */
+    font-size: 2em; /* Opcional: aumenta o tamanho do texto */
+    color: var(--cor-primaria-azul-escuro); /* Usa a mesma cor do parágrafo */
+}
+
+.text strong {
+    font-weight: bold !important;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column; /* Muda para coluna */
+        align-items: center; /* Centraliza os itens */
+        padding: 1rem; /* Reduz o padding */
+    }
+
+    .text {
+        color: var(--cor-primaria-azul-escuro);
+        font-weight: 900;
+        margin-top: 0; /* Remove o margin-top para centralizar melhor */
+        padding: 1rem;
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .woman {
+        width: 70%;
+        max-width: 400px;
+        margin: 20px auto 0; /* Centraliza a imagem e espaço acima dela */
+        margin-top: 20px; /* Espaço acima da imagem */
+        margin-bottom: -50px; /* Mantém a mulher dentro da wave */
+    }
+}

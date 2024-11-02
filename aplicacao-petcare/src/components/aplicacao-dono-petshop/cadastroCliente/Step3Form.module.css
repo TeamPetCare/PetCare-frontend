@@ -1,0 +1,114 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  gap: 16px; /* Espaçamento entre as colunas */
+}
+
+.column {
+  flex: 1; 
+  display: flex; /* Adicionado para garantir o uso do flexbox */
+  flex-direction: column; /* Para empilhar os elementos verticalmente */
+  align-items: flex-start; /* Alinhamento à esquerda */
+}
+
+.label {
+  font-weight: bold; /* Para destacar o texto */
+  margin-bottom: 8px; /* Espaçamento abaixo da label */
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Ajuste o gap para menor espaçamento entre as checkboxes */
+}
+
+.checkboxLabel {
+  font-size: 1rem;
+  color: #444;
+  display: flex;
+  align-items: center; /* Alinha a checkbox e o texto verticalmente */
+  gap: 5px; /* Espaçamento entre a checkbox e o texto */
+}
+
+.petImage {
+  width: 40px; /* Ajuste o tamanho da imagem do pet */
+  height: 40px; /* Ajuste o tamanho da imagem do pet */
+  border-radius: 50%; /* Para deixar a imagem redonda */
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--cor-primaria-azul-escuro);
+  text-align: left;
+}
+
+.petInfo {
+  display: flex; /* Alinha a imagem e os detalhes do pet lado a lado */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 8px; /* Espaçamento entre a imagem e os detalhes */
+}
+
+.petDetails {
+  display: flex;
+  flex-direction: column; /* Para empilhar o nome e a raça */
+}
+
+/* Ajuste adicional para os labels da checkbox */
+.checkboxLabel input {
+  text-align: left;
+
+  margin: 0; /* Remove margens adicionais para evitar desalinhamento */
+}
+.label {
+  margin-bottom: 8px; /* Espaçamento abaixo da label */
+  text-align: left; /* Alinha o texto à esquerda */
+  font-size: 0.9rem; /* Ajuste o tamanho da fonte conforme necessário */
+}
+
+.checkboxLabel{
+  text-align: left;
+}
+
+
+.checkboxLabel {
+  display: grid;
+  grid-template-columns: 20px auto; /* Coluna fixa para input e automática para texto */
+  align-items: center;
+  gap: 8px; /* Espaço entre o input e o texto */
+  font-size: 1rem;
+  color: #444;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start; /* Garante o alinhamento à esquerda */
+}
+
+.checkboxLabel input[type="radio"] {
+  width: 15px; /* Tamanho fixo para os inputs */
+  height: 20px;
+  margin: 0; /* Remove margens adicionais */
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 15px;
+  height: 20px;
+  margin: 0;
+}
+
