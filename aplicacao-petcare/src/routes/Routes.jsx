@@ -16,9 +16,16 @@ import GerenciarFuncionarios from "../pages/aplicacao-dono-petshop/gerenciarFunc
 import Pagamentos from "../pages/aplicacao-dono-petshop/pagamentos/Pagamentos.jsx";
 import Planos from "../pages/aplicacao-dono-petshop/planos/Planos.jsx";
 import SuporteDonoPetshop from "../pages/aplicacao-dono-petshop/suporte/Suporte.jsx";
-import UserCreateTest from '../components/user-test/UserCreateTest'; // Ajuste o caminho conforme necessário
+import UserCreateTest from "../components/user-test/UserCreateTest";
 import LoginDonoPet from "../pages/aplicacao-dono-pet/login/Login.jsx";
-import SignUp from "../pages/aplicacao-dono-pet/signUp/SignUp.jsx"
+import SignUp from "../pages/aplicacao-dono-pet/signUp/SignUp.jsx";
+import ProtectedRoute from "./ProtectedRoute"; // Importe o ProtectedRoute
+import { SelectedDataProvider } from "../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext.jsx";
+
+// Função que verifica autenticação (exemplo usando localStorage)
+const isAuthenticated = () => {
+  return !!localStorage.getItem("token");
+};
 
 const AppRoutes = ({ section04Ref }) => {
   return (
@@ -32,49 +39,108 @@ const AppRoutes = ({ section04Ref }) => {
       <Route path="/suporte" element={<Suporte />} />
       <Route path="/aplicativoPetcare" element={<AplicativoPetcare />} />
 
+      {/* Rotas Aplicação Dono do Pet */}
+      <Route path="/dono-pet/login" element={<LoginDonoPet />} />
+
       {/* Rotas Aplicação Dono do Petshop sem Layout */}
       <Route path="/dono-petshop/login" element={<Login />} />
 
-      {/* Rotas Aplicação Dono do Petshop com Layout */}
+      {/* Rotas Aplicação Dono do Petshop com Layout (Protegidas) */}
       <Route
         path="/dono-petshop/inicio"
-        element={<Layout><DonoPetshopInicio /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <DonoPetshopInicio />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/agendamentos"
-        element={<Layout><Agendamentos /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <Agendamentos />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/cadastros"
-        element={<Layout><Cadastros /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <Cadastros />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/clientes-pets"
-        element={<Layout><ClientesEPets /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <SelectedDataProvider>
+              <Layout>
+                <ClientesEPets />
+              </Layout>
+            </SelectedDataProvider>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/gerenciar-funcionarios"
-        element={<Layout><GerenciarFuncionarios /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <GerenciarFuncionarios />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/pagamentos"
-        element={<Layout><Pagamentos /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <Pagamentos />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/planos"
-        element={<Layout><Planos /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <Planos />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/suporte"
-        element={<Layout><SuporteDonoPetshop /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <SuporteDonoPetshop />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/dono-petshop/meus-dados"
-        element={<Layout><MeusDados /></Layout>}
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            <Layout>
+              <MeusDados />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
 
-     {/* Rota para criar usuário */}
-     <Route path="/create-user" element={<UserCreateTest />} />
+      {/* Rota para criar usuário */}
+      <Route path="/create-user" element={<UserCreateTest />} />
     </Routes>
   );
 };
