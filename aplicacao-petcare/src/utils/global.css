@@ -65,11 +65,13 @@ p {
 
 .rbc-btn-group,
 .rbc-toolbar-label {
-  font-size: 0.8em;
+  font-size: 0.8em !important;
 }
 
 .rbc-toolbar button {
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 0.7rem !important;
+  font-size: 1.1em !important;
+
 }
 
 .rbc-time-content {
