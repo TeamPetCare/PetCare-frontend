@@ -1,0 +1,42 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  input, select, textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #0056b3;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  textarea {
+    resize: none;
+    height: 80px;
+  }
+  
+  .radioGroup {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .radioLabel {
+    font-size: 1rem;
+    color: #444;
+  }
+  
