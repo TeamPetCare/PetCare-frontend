@@ -48,7 +48,7 @@ const Login = () => {
           <form onSubmit={handleLogin}>
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
-                <FaUserAlt className={styles.icon} />
+                <FaUserAlt className={styles.icon} size={15} />
                 <input
                   type="email"
                   id="email"
@@ -61,7 +61,7 @@ const Login = () => {
             {/* Grupo de input de senha com ícone */}
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
-                <IoLockClosed className={styles.icon} />
+                <IoLockClosed className={styles.icon} size={15} />
                 <input
                   type={showPassword ? "text" : "password"} // Alterna entre texto e senha
                   id="password"
