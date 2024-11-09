@@ -10,6 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
 import ModalDelete from "../../../components/aplicacao-dono-petshop/shared/modal/ModalDelete"
+// import { RiWhatsappFill } from "react-icons/ri";
 import { useSelectedData } from "./SelectedDataContext";
 
 const ClientesEPets = () => {
@@ -27,7 +28,7 @@ const ClientesEPets = () => {
     if (selectedData && selectedData.length > 0) {
       try {
         const response = await userService.deleteCustomers(selectedData);
-        console.log("Clientes deletados com sucesso:", response);
+        // console.log("Clientes deletados com sucesso:", response);
         alert("Cliente(s) deletado(s) com sucesso!")
         window.location.reload()
       } catch (error) {
@@ -41,7 +42,7 @@ const ClientesEPets = () => {
 
 
   useEffect(() => {
-    console.log("Dados transferidos DE OUTRA Componente:", selectedData);
+    console.log("Dados selecionados:", selectedData);
     // Aqui você pode renderizar os dados transferidos ou fazer o que precisar
   }, [selectedData])
 
@@ -54,7 +55,9 @@ const ClientesEPets = () => {
           id: cliente.id,
           cliente: cliente.name,
           whatsapp: cliente.cellphone,
-          endereco: cliente.street + ", " + cliente.number + ", " + cliente.district,
+          rua: cliente.street,
+          numero: cliente.number,
+          bairro:cliente.district,
           numero_de_pets: cliente.pet.length,
         }));
         setclientesData(clientesFormatados);
@@ -73,7 +76,7 @@ const ClientesEPets = () => {
             id: pet.id,
             pet: pet.name,
             raça: pet.race.raceType,
-            idade: pet.birthdate,
+            dt_nascimento: pet.birthdate,
             porte: pet.size.sizeType,
             dono: cliente.name,
             observacoes: pet.petObservations,
@@ -102,7 +105,7 @@ const ClientesEPets = () => {
             ...clienteBase,
             pet: pet.name,
             raça: pet.race.raceType,
-            idade: pet.birthdate,
+            dt_nascimento: pet.birthdate,
             porte: pet.size.sizeType,
             observacoes: pet.petObservations,
           }));
@@ -133,6 +136,7 @@ const ClientesEPets = () => {
     // Filtra os dados com base no termo de pesquisa e no filtro atual
     let dadosFiltrados = [];
     if (currentFilter === "Clientes") {
+
       dadosFiltrados = (clientesData ?? []).filter(cliente =>
         cliente.cliente.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -156,7 +160,7 @@ const ClientesEPets = () => {
     numero_de_pets: "Número de Pets",
     pet: "Nome do Pet",
     raça: "Raça",
-    idade: "Idade",
+    dt_nascimento: "Nascimento (Estimado)",
     porte: "Porte",
     observacoes: "Observações",
   };
@@ -169,7 +173,9 @@ const ClientesEPets = () => {
   const columnNamesClientes = {
     cliente: "Nome do Cliente",
     whatsapp: "WhatsApp",
-    endereco: "Endereço",
+    rua: "Rua",
+    numero: "Nº Rua",
+    bairro: "Bairro",
     numero_de_pets: "Número de Pets"
   };
 
@@ -180,14 +186,14 @@ const ClientesEPets = () => {
   const columnNamesPets = {
     pet: "Nome do Pet",
     raça: "Raça",
-    idade: "Idade",
+    dt_nascimento: "Nascimento (Estimado)",
     porte: "Porte",
     dono: "Dono",
     observacoes: "Observações",
   };
 
   const sortableColumnsPets = [
-    "dt_nascimento",
+    "dt_nascimento", 
   ];
 
   const filterOptions = [
@@ -197,12 +203,13 @@ const ClientesEPets = () => {
   ];
 
   const handleFilterChange = (filter) => {
-    console.log("Filtro recebido no componente pai:", filter);
+    // console.log("Filtro recebido no componente pai:", filter);
     setCurrentFilter(filter); // Atualiza o filtro atual
     // Chama a função para filtrar os dados de acordo com o filtro
     if (filter === "Clientes") {
       setFilteredData(clientesData);
     } else if (filter === "Pets") {
+
       setFilteredData(petsData);
     } else if (filter === "Clientes & Pets") {
       setFilteredData(clientesEPetsData);
@@ -222,8 +229,8 @@ const ClientesEPets = () => {
     <div>
       <div className={styles["header-container"]}>
         <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
-        <MainButtonsHeader onCreateClick={openModal}
-         onDeleteClick={selectedData.length > 0 ? handleShow : null}
+        <MainButtonsHeader onCreateClickCliente={openModal} filter={currentFilter}
+         onDeleteClickCliente={selectedData.length > 0 ? handleShow : null}
          disableDeleteButton={selectedData.length === 0} // Passa a condição para desabilitar o botão
         />
         <UserHeader />
@@ -242,6 +249,7 @@ const ClientesEPets = () => {
       </div>
 
       <TableData
+        filtro={currentFilter}
         dados={filteredData} // Usa os dados filtrados
         columnNames={currentFilter === "Clientes" ? columnNamesClientes : currentFilter === "Pets" ? columnNamesPets : columnNamesClientesEPets}
         sortableColumns={currentFilter === "Clientes" ? sortableColumnsClientes : currentFilter === "Pets" ? sortableColumnsPets : sortableColumnsClientesEPets}
