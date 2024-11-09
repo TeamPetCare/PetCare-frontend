@@ -34,7 +34,7 @@ const userService = {
 
   getAllCustomerAndPets: async () => {
     try {
-      const response = await axios.get(API_URL + "/customers", {
+      const response = await axios.get(API_URL + "/customers ", {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         }
@@ -58,9 +58,23 @@ const userService = {
     } catch (error) {
       throw error;
     }
+  },
+
+  getFileCsvCustomerAndPets: async () => {
+    try {
+      const response = await axios.get(API_URL + "/reportCustumersAndPets", {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+        },
+        responseType: 'blob' // Define o tipo de resposta como blob
+      });
+  
+      return response.data; // Retorna o blob do arquivo
+    } catch (error) {
+      throw error;
+    }
   }
   
-
 
 };
 

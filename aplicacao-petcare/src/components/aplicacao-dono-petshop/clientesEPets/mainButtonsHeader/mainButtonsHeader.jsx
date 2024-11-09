@@ -9,7 +9,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { PiBoundingBoxFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 
-function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter }) {
+function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport }) {
   return (
     <div className={styles["containers-btn"]}>
 
@@ -55,7 +55,7 @@ function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter 
         Atribuir Plano
       </button>
 
-      <button className={`${styles["custom-btn"]} ${styles["report"]}`}>
+      <button className={`${styles["custom-btn"]} ${styles["report"]}`} onClick={onGenerateReport}>
         <LuDownloadCloud />
         Gerar Relatório
       </button>

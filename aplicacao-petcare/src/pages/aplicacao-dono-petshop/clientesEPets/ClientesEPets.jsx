@@ -10,8 +10,11 @@ import Modal from 'react-bootstrap/Modal';
 import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
 import ModalDelete from "../../../components/aplicacao-dono-petshop/shared/modal/ModalDelete"
+import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
+import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 // import { RiWhatsappFill } from "react-icons/ri";
 import { useSelectedData } from "./SelectedDataContext";
+import { ThreeDot } from "react-loading-indicators"; 
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
@@ -21,23 +24,83 @@ const ClientesEPets = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentFilter, setCurrentFilter] = useState("Clientes"); // Filtro atual
   const { selectedData } = useSelectedData() || {};
+  const [loading, setLoading] = useState(false);
 
-
+  const handleGenerateReport = async () => {
+    try {
+      // Chama a função do userService para gerar o relatório
+      const blob = await userService.getFileCsvCustomerAndPets();
+      
+      // Cria uma URL temporária para o arquivo
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      
+      // Define o nome do arquivo para download
+      link.setAttribute('download', 'relatorio_clientes_pets.csv');
+      
+      // Adiciona o link ao documento e clica para iniciar o download
+      document.body.appendChild(link);
+      link.click();
+      
+      // Remove o link do documento
+      link.parentNode.removeChild(link);
+      console.log("Relatório gerado com sucesso!");
+      toast.success("Relatório gerado com sucesso!", {
+        autoClose: 2500,
+        onClick: () => {
+          window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+        }
+      });
+    } catch (error) {
+      console.error("Erro ao gerar o relatório:", error);
+      toast.error("Erro ao gerar o relatório.");
+    }
+  };
 
   async function deletarClientes() {
     if (selectedData && selectedData.length > 0) {
       try {
         const response = await userService.deleteCustomers(selectedData);
-        // console.log("Clientes deletados com sucesso:", response);
-        alert("Cliente(s) deletado(s) com sucesso!")
-        window.location.reload()
+        console.log("Cliente(s) deletado(s) com sucesso:", response);
+        toast.success("Cliente(s) deletado(s) com sucesso!", {
+          autoClose: 2500,
+          onClick: () => {
+            window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+          }
+        });
+        recuperarValorClientes()
       } catch (error) {
-        console.error("Erro ao deletar clientes:", error);
+        console.error("Erro ao deletar cliente(s):", error);
+        
       }
     } else {
       console.log("Nenhum cliente selecionado para deletar.");
+      toast.error("Nenhum cliente selecionado para deletar.");
     }
   }
+
+  // async function deletarPets() {
+  //   if (selectedData && selectedData.length > 0) {
+  //     try {
+  //       const response = await userService.deleteCustomers(selectedData);
+  //       console.log("Pet(s) deletado(s) com sucesso:", response);
+  //       toast.success("Pet(s) deletado(s) com sucesso!", {
+  //         autoClose: 2500,
+  //         onClick: () => {
+  //           window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+  //         }
+  //       });
+  //       recuperarValorClientes()
+  //     } catch (error) {
+  //       console.error("Erro ao deletar pet(s):", error);
+  //       toast.error("Erro ao deletar pet(s)");
+  //     }
+  //   } else {
+  //     console.log("Nenhum cliente selecionado para deletar.");
+  //     toast.error("Nenhum cliente selecionado para deletar.");
+  //   }
+  // }
 
 
 
@@ -48,6 +111,7 @@ const ClientesEPets = () => {
 
   // Funções para recuperar os dados
   function recuperarValorClientes() {
+    setLoading(true); // Ativa o loading antes de iniciar a requisição
     userService.getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];
@@ -57,13 +121,16 @@ const ClientesEPets = () => {
           whatsapp: cliente.cellphone,
           rua: cliente.street,
           numero: cliente.number,
-          bairro:cliente.district,
+          bairro: cliente.district,
+          complemento: cliente.complement,
           numero_de_pets: cliente.pet.length,
         }));
         setclientesData(clientesFormatados);
+        setLoading(false); // Desativa o loading após a resposta
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false); // Desativa o loading em caso de erro
       });
   }
 
@@ -75,17 +142,23 @@ const ClientesEPets = () => {
           cliente.pet.map(pet => ({
             id: pet.id,
             pet: pet.name,
+            especie: pet.specie.name,
+            sexo: pet.gender,
             raça: pet.race.raceType,
             dt_nascimento: pet.birthdate,
             porte: pet.size.sizeType,
+            peso_estimado: pet.estimatedWeight,
+            cor: pet.color,
             dono: cliente.name,
             observacoes: pet.petObservations,
           }))
         );
         setPetsData(petsFormatados);
+        setLoading(false); // Desativa o loading após a resposta
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false); // Desativa o loading em caso de erro
       });
   }
 
@@ -98,7 +171,7 @@ const ClientesEPets = () => {
             id: cliente.id,
             cliente: cliente.name,
             whatsapp: cliente.cellphone,
-            endereco: `${cliente.street}, ${cliente.number}, ${cliente.district}`,
+            endereco: `${cliente.street}, ${cliente.number}, ${cliente.district}, ${cliente.complement}`,
             numero_de_pets: cliente.pet.length,
           };
           return cliente.pet.map(pet => ({
@@ -176,6 +249,7 @@ const ClientesEPets = () => {
     rua: "Rua",
     numero: "Nº Rua",
     bairro: "Bairro",
+    complemento: "Complemento",
     numero_de_pets: "Número de Pets"
   };
 
@@ -185,9 +259,13 @@ const ClientesEPets = () => {
 
   const columnNamesPets = {
     pet: "Nome do Pet",
+    especie: "Espécie",
+    sexo: "Sexo",
     raça: "Raça",
     dt_nascimento: "Nascimento (Estimado)",
     porte: "Porte",
+    peso_estimado: "Peso (Estimado)",
+    cor: "Cor",
     dono: "Dono",
     observacoes: "Observações",
   };
@@ -232,6 +310,7 @@ const ClientesEPets = () => {
         <MainButtonsHeader onCreateClickCliente={openModal} filter={currentFilter}
          onDeleteClickCliente={selectedData.length > 0 ? handleShow : null}
          disableDeleteButton={selectedData.length === 0} // Passa a condição para desabilitar o botão
+         onGenerateReport={handleGenerateReport} 
         />
         <UserHeader />
       </div>
@@ -248,17 +327,22 @@ const ClientesEPets = () => {
         </Form>
       </div>
 
-      <TableData
-        filtro={currentFilter}
-        dados={filteredData} // Usa os dados filtrados
-        columnNames={currentFilter === "Clientes" ? columnNamesClientes : currentFilter === "Pets" ? columnNamesPets : columnNamesClientesEPets}
-        sortableColumns={currentFilter === "Clientes" ? sortableColumnsClientes : currentFilter === "Pets" ? sortableColumnsPets : sortableColumnsClientesEPets}
-      />
+      {loading ? (
+        <div className={styles["loading-container"]}>
+          <ThreeDot variant="bounce" color="#005472" size="small" /> 
+        </div>
+      ) : (
+        <TableData
+          filtro={currentFilter}
+          dados={filteredData}
+          columnNames={currentFilter === "Clientes" ? columnNamesClientes : currentFilter === "Pets" ? columnNamesPets : columnNamesClientesEPets}
+          sortableColumns={currentFilter === "Clientes" ? sortableColumnsClientes : currentFilter === "Pets" ? sortableColumnsPets : sortableColumnsClientesEPets}
+        />
+      )}
 
       {isModalOpen && <ModalWrapper closeModal={closeModal} />}
 
-      {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes()} />}
-
+      {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes} />}
 
     </div>
   );
