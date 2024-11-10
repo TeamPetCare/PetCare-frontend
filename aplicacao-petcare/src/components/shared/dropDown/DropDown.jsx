@@ -11,6 +11,7 @@ function DropDown({
   selectedItem,
   exibirInformacao,
   isDisabled,
+  isRequired, // Nova prop
 }) {
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -26,7 +27,6 @@ function DropDown({
 
   const handleSelectItem = (option) => {
     setSelectedOption(option);
-    console.log("isDisabled:", isDisabled);
   };
 
   return (
@@ -66,7 +66,6 @@ function DropDown({
                 <div className={styles["container-img-user"]}>
                   <img src={agendamento.cliente.pet.foto} alt="" />
                 </div>
-
                 <div className={styles["container-info-user"]}>
                   <p>{agendamento.cliente.pet.nome}</p>
                   <p>{agendamento.cliente.pet.raca}</p>

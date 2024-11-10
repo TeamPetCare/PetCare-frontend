@@ -8,7 +8,7 @@ import React, {
 import styles from "./Event.module.css";
 import { FaPix, FaCreditCard, FaCashRegister } from "react-icons/fa6";
 import EditEventModal from "./editEventModal/EditEventModal";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const paymentIcons = {
   Pix: <FaPix color="#005472" size={14} />,
@@ -30,12 +30,27 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const [editedEvent, setEditedEvent] = useState({ ...event });
   const [statusClass, setStatusClass] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showMoreVisible, setShowMoreVisible] = useState(true);
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
     setIsEditing(false);
     setEditedEvent({ ...event });
-    console.log("chameii");
+    setShowMoreVisible(false); 
+    const overlayElements = document.querySelectorAll('[class*="rbc-overlay"]');
+    overlayElements.forEach(element => {
+      const handleClick = (e) => {
+        e.stopPropagation();
+        console.log('Clique no overlay, mas sem interferir em outros eventos');
+      };
+      
+      element.addEventListener('click', handleClick);
+
+      // Remove o listener quando o componente é desmontado
+      return () => {
+        element.removeEventListener('click', handleClick);
+      };
+    });
   };
   const eventRef = useRef();
 
@@ -48,14 +63,15 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
       const updatedEvent = { ...editedEvent, status: "Cancelado" };
       console.log("Passei aqui, status: ", updatedEvent);
       setEditedEvent(updatedEvent);
-      onCancelEvent(updatedEvent); 
+      onCancelEvent(updatedEvent);
       toast.success("Evento cancelado com sucesso!"); // Exibe o toast
-      setShowConfirmModal(true); 
+      setShowConfirmModal(true);
     },
   }));
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setShowMoreVisible(true); 
   };
 
   const handleEdit = (e) => {
@@ -103,10 +119,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   //   const updatedEvent = { ...editedEvent, status: "Cancelado" };
   //   console.log("Passei aqui, status: ", updatedEvent);
   //   setEditedEvent(updatedEvent);
-  //   onCancelEvent(updatedEvent); 
-  //   setShowConfirmModal(true); 
+  //   onCancelEvent(updatedEvent);
+  //   setShowConfirmModal(true);
   // };
-
 
   useEffect(() => {
     const statusClass =
@@ -119,7 +134,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
         : "";
 
     setStatusClass(statusClass);
+   
   }, [editedEvent.status]);
+
 
   let timeDisplay;
 
@@ -141,7 +158,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                   marginBottom: ".2em",
                 }}
               >
-                {event.title}
+                {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
               </p>
             </div>
             <p
@@ -173,18 +192,20 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
               <p
                 style={{
                   fontWeight: "700",
-                  fontSize: "1.1em",
+                  fontSize: ".9em",
                   fontFamily: "Montserrat",
                   lineHeight: ".9em",
                 }}
               >
-                {event.title}
+              {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
               </p>
             </div>
             <p
               style={{
-                fontWeight: "600",
-                fontSize: "1em",
+                fontWeight: "500",
+                fontSize: ".8em",
                 fontFamily: "Montserrat",
               }}
             >
@@ -216,7 +237,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
         <div className={styles["container-status"]}>
           <div>
             <h3 style={{ fontSize: "1em", fontWeight: "700", margin: "0" }}>
-              {event.title}
+            {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
             </h3>
             <p style={{ fontSize: "1em", fontWeight: "300" }}>
               Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
@@ -224,7 +247,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
           </div>
           <div
             className={styles["container-icon"]}
-            style={{ position: "unset" }}
+            style={{ position: "unset", padding: ".3em .5em" }}
           >
             {paymentIcons[event.paymentMethod] || null}
           </div>
@@ -234,20 +257,29 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   } else if (view === "month") {
     timeDisplay = (
       <div className={`${styles.container} ${statusClass}`}>
+        
         <div className={styles["container-status"]}>
           <div style={{ width: "100%" }}>
             <div className={styles["container-hours"]}>
-              <p
-                style={{
-                  fontWeight: "700",
-                  fontSize: ".85em",
-                  fontFamily: "Montserrat",
-                  lineHeight: ".9em",
-                  width: "95%",
-                }}
-              >
-                {event.title}
-              </p>
+              <div>
+                <p
+                  style={{
+                    fontWeight: "700",
+                    fontSize: ".85em",
+                    fontFamily: "Montserrat",
+                    lineHeight: ".9em",
+                    width: "95%",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
+                  }}
+                >
+                  {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
+                </p>
+              </div>
+
               <p style={{ fontSize: ".8em" }}>
                 Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
               </p>

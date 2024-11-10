@@ -11,7 +11,7 @@ const TimePicker = ({ dtInicial, dtFinal, isDisabled }) => {
   return (
     <div style={{ display: "flex", gap: "10px", alignItems: "center" }} className={styles["container"]}>
       <div>
-      <label>Data Inicial:</label>
+      <label>Data Inicial*</label>
         <DatePicker
           selected={startDate}
           onChange={(date) => setStartDate(date)}
@@ -27,7 +27,7 @@ const TimePicker = ({ dtInicial, dtFinal, isDisabled }) => {
       </div>
 
       <div>
-        <label>Data Final:</label>
+        <label>Data Final*</label>
         <DatePicker
           selected={endDate}
           onChange={(date) => setEndDate(date)}

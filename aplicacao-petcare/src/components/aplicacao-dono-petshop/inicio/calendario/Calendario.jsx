@@ -85,7 +85,6 @@ function Calendario({ dadosAgendamentos }) {
           fontWeight: 700,
           overflowY: "auto",
         }}
-        popup={true}
         formats={formats}
         onView={setView}
         components={{

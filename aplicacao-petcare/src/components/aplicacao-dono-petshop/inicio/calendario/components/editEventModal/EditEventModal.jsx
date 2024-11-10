@@ -61,7 +61,6 @@ const EditEventModal = ({
       <Modal.Header closeButton>
         {/* Barra de Títulos das Etapas */}
         <div className={styles.containerProgress}>
-          {renderStepTitles()}
           <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
             <div className={styles.progressBar}>
               <div
@@ -77,7 +76,15 @@ const EditEventModal = ({
       </Modal.Header>
 
       {/* Corpo com os campos de entrada */}
-      <Modal.Body>
+      <Modal.Body
+        className={styles["modal-body"]}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={styles["modal-title"]}>
+          <h2>Editar Agendamento</h2>
+          <p>*Campos Obrigatórios.</p>
+        </div>
+
         <EditedEventModalCampos
           editedEvent={editedEvent}
           handleChange={handleChange}
@@ -89,13 +96,7 @@ const EditEventModal = ({
       {/* Rodapé com os botões */}
       <Modal.Footer>
         {isEditing ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
+          <div className={styles["div-footer"]}>
             <Button
               className={styles["btn-cancelar"]}
               onClick={handleCancelAction}
@@ -112,18 +113,12 @@ const EditEventModal = ({
             </Button>
           </div>
         ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
+          <div className={styles["div-footer"]}>
             <Button
               className={styles["btn-cancelar-agenda"]}
-              onClick={handleCancelEvent}
+              onClick={handleClose}
             >
-              Cancelar Agendamento
+              Cancelar
             </Button>
             <Button
               className={styles["btn-editar"]}
