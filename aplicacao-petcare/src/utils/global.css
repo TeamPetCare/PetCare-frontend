@@ -22,7 +22,7 @@ p {
   height: 3em;
   box-sizing: border-box;
   background-color: transparent;
-  padding: 0;
+  padding: 0 !important;
 }
 .rbc-show-more {
   display: block;
@@ -40,14 +40,13 @@ p {
 }
 
 .rbc-event-label {
-  display: none;
+  display: none !important;
 }
 
 .rbc-show-more:active,
 .rbc-show-more:hover,
 .rbc-show-more:focus {
-  background-color: var(--cor-secundaria-amarelo-claro);
-  color: var(--cor-primaria-azul-escuro);
+  background-color: inherit;
 }
 
 .rbc-event.rbc-selected,
@@ -127,8 +126,14 @@ p {
   margin: 0.7em 0;
 }
 
-.modal-header .btn-close {
-  margin: 0em 0em 1.5em 1em;
+.modal-header {
+  gap: 1em;
+  border: 0;
+  padding-bottom: 0;
+}
+
+.modal-header .btn-close:hover {
+  background-color: transparent;
 }
 
 .card {
@@ -185,7 +190,40 @@ p {
 .rbc-event, .rbc-day-slot .rbc-background-event {
   height: 9vh;
 }
+.rbc-row-segment {
+  padding: unset;
+  justify-items: center;
 
+  button {
+    font-weight: 600;
+  }
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  background-color: transparent !important;
+  /* padding: 0px 5px !important; */
+}
+
+.rbc-overlay {
+  .rbc-event {
+    margin-bottom: .6em;
+  }
+}
+
+.modal-body {
+  padding-top: 0.6em;
+}
+
+.btn-check:focus+.btn-primary, .btn-primary:focus, .btn-primary:active:focus {
+  color: inherit;
+  background-color: inherit;
+  border-color: inherit;
+}
+.rbc-button-link {
+  span {
+    font-size: .9em;
+  }
+}
 @font-face {
   font-family: "Montserrat";
   src: url("../utils/fonts/montserrat/Montserrat-Thin.ttf") format("truetype");

@@ -29,6 +29,8 @@ const scheduleService = {
     }
   },
 
+  
+
   //Função para Atualizar Agendamento
   updateSchedule: async (id, scheduleData) => {
     try {

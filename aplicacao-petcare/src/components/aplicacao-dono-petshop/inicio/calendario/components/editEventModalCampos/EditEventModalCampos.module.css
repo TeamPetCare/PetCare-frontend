@@ -12,6 +12,7 @@
 
 .row2 {
   display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -98,4 +99,38 @@
     flex-direction: column;
     gap: 0.5em;
   }
+}
+
+.selected-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 0.5em;
+}
+
+.service-chip {
+  background-color: #004d61;
+  color: white;
+  padding: 0.1em 0.7em;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.service-chip button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0 .5em;
+}
+
+.service-chip button:disabled {
+  background-color: transparent;
+  color: #FFF;
+  
 }

@@ -1,5 +1,5 @@
 .container {
-  margin-left: 1.5%;
+  margin: 0 3.5% 5%;
 }
 
 .main-container {
@@ -30,3 +30,20 @@
   flex-direction: column;
   gap: 0.8em;
 }
+
+@media (max-width: 480px) {
+  .main-container {
+    flex-direction: column;
+    margin-top: 4em;
+  }
+
+  .kpis-container {
+    width: 100%;
+
+    .first-container {
+      margin-bottom: 1em;
+    }
+  }
+}
+
+

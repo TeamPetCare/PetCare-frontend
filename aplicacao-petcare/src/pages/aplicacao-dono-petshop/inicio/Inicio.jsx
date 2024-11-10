@@ -5,7 +5,7 @@ import Calendario from "../../../components/aplicacao-dono-petshop/inicio/calend
 import TablePagamentos from "../../../components/aplicacao-dono-petshop/inicio/tablePagamentos/TablePagamentos";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
 import KpiAgendamentos from "../../../components/aplicacao-dono-petshop/inicio/kpiAgendamentos/KpiAgendamentos";
-import { getAllServicos } from "../../../services/servicosService";
+import { getAllSchedules } from "../../../services/scheduleService";
 
 const Inicio = () => {
   const dadosPlanos = [
@@ -91,7 +91,7 @@ const Inicio = () => {
   // const events = [
   //   {
   //     id: "1",
-  //     title: "Tosa",
+  //     title: ["Tosa", "Banho"],
   //     paymentStatus: false, //ADICIONAR INFORMAÇÃO
   //     paymentMethod: "Dinheiro", //ADICIONAR INFORMAÇÃO ENUM
   //     start: new Date(2024, 9, 1, 8, 30, 0, 0),//ADICIONAR INFORMAÇÃO
@@ -112,7 +112,7 @@ const Inicio = () => {
   //   },
   //   {
   //     id: "2",
-  //     title: "Big Meeting",
+  //     title: ["Big Meeting"],
   //     paymentStatus: true,
   //     paymentMethod: "Pix",
   //     start: new Date(2024, 9, 1, 10, 30, 0, 0),
@@ -133,7 +133,7 @@ const Inicio = () => {
   //   },
   //   {
   //     id: "3",
-  //     title: "Tosa",
+  //     title: ["Tosa"],
   //     paymentStatus: false,
   //     paymentMethod: "Dinheiro",
   //     start: new Date(2024, 9, 1, 14, 30, 0, 0),
@@ -154,7 +154,7 @@ const Inicio = () => {
   //   },
   //   {
   //     id: "4",
-  //     title: "Big Meeting",
+  //     title: ["Big Meeting"],
   //     paymentStatus: true,
   //     paymentMethod: "Pix",
   //     start: new Date(2024, 9, 1, 17, 30, 0, 0),
@@ -175,7 +175,7 @@ const Inicio = () => {
   //   },
   //   {
   //     id: "5",
-  //     title: "Vacation",
+  //     title: ["Vacation"],
   //     paymentStatus: true,
   //     paymentMethod: "Cartão de Crédito",
   //     start: new Date(2024, 9, 7, 10, 30, 0, 0),
@@ -196,7 +196,7 @@ const Inicio = () => {
   //   },
   //   {
   //     id: "6",
-  //     title: "Banho + Tosa",
+  //     title: ["Banho", "Tosa"],
   //     paymentStatus: false,
   //     paymentMethod: "Pix",
   //     start: new Date(2024, 9, 12, 10, 35, 0, 0),
@@ -222,36 +222,13 @@ const Inicio = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const servicos = await getAllServicos();
+        const servicos = await getAllSchedules();
 
         console.log(servicos)
 
         // Transformar dados do banco para o formato desejado
-        const transformedEvents = servicos.map((servico) => {
-          return {
-            id: servico.id.toString(),
-            title: servico.nome,
-            paymentStatus: false, // A informação pode ser obtida de outra maneira
-            paymentMethod: "Dinheiro", // Pode ser um ENUM ou outra lógica
-            start: new Date(2024, 9, 1, 8, 30, 0, 0), //ADICIONAR INFORMAÇÃO
-            end: new Date(2024, 9, 1, 9, 30, 0, 0),
-            status: "Pendente", // Ou outro status relevante
-            funcionario: "Jaqueline", // Esta informação pode ser dinâmica
-            cliente: {
-              nome: "Cliente Exemplo", // Você pode alterar para obter do banco
-              whatsapp: "11912345678", // Informação fictícia
-              foto: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg",
-              pet: {
-                nome: "Thor",
-                raca: "Labrador",
-                foto: "https://www.doglife.com.br/blog/assets/post/plano-de-saude-pet-sem-carencia-662bb2a183b68a52330af61d/plano-de-saude-pet-sem-carencia%20(2).webp",
-              },
-            },
-            observacoes: "Observação padrão.", // Adicione lógica se necessário
-          };
-        });
-
-        setAllEvents(transformedEvents);
+       
+        setAllEvents(servicos);
       } catch (error) {
         console.error("Erro ao carregar serviços:", error);
       }
