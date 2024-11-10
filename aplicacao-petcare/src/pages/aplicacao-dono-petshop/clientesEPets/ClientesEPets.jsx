@@ -10,6 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
 import ModalDelete from "../../../components/aplicacao-dono-petshop/shared/modal/ModalDelete"
+import ModalPut from "../../../components/aplicacao-dono-petshop/shared/modal/ModalPut"
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 // import { RiWhatsappFill } from "react-icons/ri";
@@ -302,6 +303,10 @@ const ClientesEPets = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [showPut, setShowPut] = useState(false);
+  const handleClosePut = () => setShowPut(false);
+  const handleShowPut = () => setShowPut(true);
+
 
   return (
     <div>
@@ -333,6 +338,7 @@ const ClientesEPets = () => {
         </div>
       ) : (
         <TableData
+          onPut={selectedData.length >= 1 && selectedData.length < 2 ? handleShowPut : null}
           filtro={currentFilter}
           dados={filteredData}
           columnNames={currentFilter === "Clientes" ? columnNamesClientes : currentFilter === "Pets" ? columnNamesPets : columnNamesClientesEPets}
@@ -343,6 +349,8 @@ const ClientesEPets = () => {
       {isModalOpen && <ModalWrapper closeModal={closeModal} />}
 
       {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes} />}
+
+      {showPut && <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={deletarClientes} dados={selectedData} title="Editar Cliente" />}
 
     </div>
   );
