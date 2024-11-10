@@ -19,7 +19,8 @@ const ClientesEPets = () => {
   const [filteredData, setFilteredData] = useState([]); // Dados filtrados
   const [searchTerm, setSearchTerm] = useState('');
   const [currentFilter, setCurrentFilter] = useState("Clientes"); // Filtro atual
-  const { selectedData } = useSelectedData();
+  const { selectedData } = useSelectedData() || {};
+
 
 
   async function deletarClientes() {

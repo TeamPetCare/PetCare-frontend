@@ -57,3 +57,12 @@
 .link-user-profile:hover {
     color: var(--cor-primaria-azul-escuro);
 }
+
+@media (max-width: 480px) {
+  .container-user {
+    img {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
+}

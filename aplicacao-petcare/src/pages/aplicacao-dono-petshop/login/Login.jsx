@@ -48,7 +48,7 @@ const Login = () => {
           <form onSubmit={handleLogin}>
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
-                <FaUserAlt className={styles.icon} />
+              <FaUserAlt className={styles.icon} size={15}/>
                 <input
                   type="email"
                   id="email"
@@ -61,7 +61,7 @@ const Login = () => {
             {/* Grupo de input de senha com ícone */}
             <div className={styles.inputGroup}>
               <div className={styles.inputWrapper}>
-                <IoLockClosed className={styles.icon} />
+                <IoLockClosed className={styles.icon} size={15} />
                 <input
                   type={showPassword ? "text" : "password"} // Alterna entre texto e senha
                   id="password"
@@ -80,15 +80,15 @@ const Login = () => {
                     onClick={() => setShowPassword(true)} // Alterna para mostrar a senha
                   />
                 )}
-
               </div>
             </div>
             <button type="submit" className={styles.loginButton}>Entrar</button>
-          </form>
-          <div className={styles.footer}>
+            <div className={styles.footer}>
             <a href="/" className={styles.forgotPassword}>Esqueceu a senha?</a>
             <a href="/" className={styles.voltarButton}>Voltar</a>
           </div>
+          </form>
+          
           <p className={styles.helpText}>
             <span className={styles.negrito}>Enfrentando dificuldades para fazer login?</span> Este portal de acesso é exclusivo para donos de petshops. Se você é um tutor de pet, acesse a PetCare por este <a href="/">site</a>.
           </p>
