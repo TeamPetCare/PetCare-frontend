@@ -4,12 +4,11 @@
 }
 
 .container {
-  position: absolute;
-  width: 100%; 
-  border-radius: 5px;
+  width: 100%;
   padding: 5px;
   color: black;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  border-radius: 5px;
 }
 
 .container-status {
@@ -17,16 +16,16 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 
-  h3, p {
+  h3,
+  p {
     text-align: start;
   }
 }
 
 .container-icon {
   background-color: #fff;
-  padding: 2px 5px;
   border: 1px solid var(--cor-primaria-azul-escuro);
   border-radius: 50%;
   position: absolute;
@@ -37,7 +36,7 @@
 .container-hours {
   display: flex;
   flex-direction: column;
-  width: 100%; 
+  width: 100%;
 }
 
 .concluido {

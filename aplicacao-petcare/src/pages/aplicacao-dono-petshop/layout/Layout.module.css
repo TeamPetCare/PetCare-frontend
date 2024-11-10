@@ -15,10 +15,17 @@
 }
 
 .content.sidebar-open {
-  padding-left: 17vw; 
+  padding-left: 250px; 
   overflow: hidden;
 }
 
 .content.sidebar-closed {
   padding-left: 4vw; 
+}
+
+@media (max-width: 480px) {
+  .content.sidebar-open {
+    padding: 1.2em 1.3em; 
+    overflow: overlay;
+  }
 }

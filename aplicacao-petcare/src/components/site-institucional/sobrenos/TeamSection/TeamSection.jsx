@@ -12,12 +12,12 @@ import beatriz from "../../../../utils/assets/site-institucional/sobrenos/beatri
 
 const TeamSection = () => {
   const teamMembers = [
-    { name: "Dani", role: "Marketing", photo: dani },
-    { name: "Samuel", role: "Desenvolvedor", photo: samuel },
-    { name: "Guilherme", role: "Designer", photo: guilherme },
-    { name: "Isaac", role: "Treinador", photo: isaac },
-    { name: "Leonardo", role: "Assistente", photo: leonardo },
-    { name: "Beatriz", role: "Veterinária", photo: beatriz },
+    { name: "Dani", role: "Desenvolvedora full-stack", photo: dani },
+    { name: "Samuel", role: "Desenvolvedor front-end", photo: samuel },
+    { name: "Guilherme", role: "Desenvolvedor back-end", photo: guilherme },
+    { name: "Isaac", role: "Desenvolvedor front-end", photo: isaac },
+    { name: "Leonardo", role: "Product Owner e Dev Front-end", photo: leonardo },
+    { name: "Beatriz", role: "Scrum Master e Dev Front-end", photo: beatriz },
   ];
 
   return (

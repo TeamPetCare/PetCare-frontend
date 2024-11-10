@@ -13,7 +13,7 @@
     border: 1px solid #d0d5dd;
     border-radius: 7px;
     font-weight: 500;
-    color: #5c6577;
+    color: var(--cor-cinza-escuro);
     padding: 0.4em 0.6em;
     text-align-last: start;
     display: flex;

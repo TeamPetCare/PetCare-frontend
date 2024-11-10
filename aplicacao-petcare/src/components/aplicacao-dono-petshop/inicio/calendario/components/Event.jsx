@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+  useRef,
+} from "react";
 import styles from "./Event.module.css";
 import { FaPix, FaCreditCard, FaCashRegister } from "react-icons/fa6";
-import EventModal from "./editEventModal/EditEventModal";
+import EditEventModal from "./editEventModal/EditEventModal";
+import { toast } from "react-toastify";
 
 const paymentIcons = {
   Pix: <FaPix color="#005472" size={14} />,
@@ -9,7 +16,7 @@ const paymentIcons = {
   Dinheiro: <FaCashRegister color="#005472" size={14} />,
 };
 
-const Event = ({ event, view, onDelete, onUpdate }) => {
+const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const formatTime = (date) => {
     if (!date) return "";
     const d = new Date(date);
@@ -22,25 +29,54 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedEvent, setEditedEvent] = useState({ ...event });
   const [statusClass, setStatusClass] = useState("");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showMoreVisible, setShowMoreVisible] = useState(true);
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
     setIsEditing(false);
     setEditedEvent({ ...event });
+    setShowMoreVisible(false); 
+    const overlayElements = document.querySelectorAll('[class*="rbc-overlay"]');
+    overlayElements.forEach(element => {
+      const handleClick = (e) => {
+        e.stopPropagation();
+        console.log('Clique no overlay, mas sem interferir em outros eventos');
+      };
+      
+      element.addEventListener('click', handleClick);
+
+      // Remove o listener quando o componente é desmontado
+      return () => {
+        element.removeEventListener('click', handleClick);
+      };
+    });
   };
+  const eventRef = useRef();
+
+  useImperativeHandle(ref, () => ({
+    handleOpenModalEvent: () => {
+      handleOpenModal(); // Chama a função para abrir o modal de edição
+      console.log("Abrindo modal para o evento:", editedEvent.title);
+    },
+    handleCancelEvent: () => {
+      const updatedEvent = { ...editedEvent, status: "Cancelado" };
+      console.log("Passei aqui, status: ", updatedEvent);
+      setEditedEvent(updatedEvent);
+      onCancelEvent(updatedEvent);
+      toast.success("Evento cancelado com sucesso!"); // Exibe o toast
+      setShowConfirmModal(true);
+    },
+  }));
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setShowMoreVisible(true); 
   };
 
   const handleEdit = (e) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     setIsEditing(true);
-  };
-
-  const handleDelete = () => {
-    onDelete(event.id);
-    handleCloseModal();
   };
 
   const handleSave = () => {
@@ -48,20 +84,24 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
     handleCloseModal();
     // window.location.reload();
   };
-  
+
+  const handleCancelAction = (e) => {
+    e.stopPropagation();
+    setIsEditing(false);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     setEditedEvent((prevEvent) => {
       const updatedEvent = { ...prevEvent };
-  
+
       if (name === "paymentStatus") {
-        updatedEvent.paymentStatus = value === "pago"; 
+        updatedEvent.paymentStatus = value === "pago";
       } else {
         updatedEvent[name] = value;
       }
-  
+
       if (name === "startTime" || name === "endTime") {
         const timeParts = value.split(":").map(Number);
         const dateKey = name === "startTime" ? "start" : "end";
@@ -70,11 +110,18 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
         updatedDate.setMinutes(timeParts[1]);
         updatedEvent[dateKey] = updatedDate.toISOString();
       }
-  
+
       return updatedEvent;
     });
   };
-  
+
+  // const handleCancelEvent = () => {
+  //   const updatedEvent = { ...editedEvent, status: "Cancelado" };
+  //   console.log("Passei aqui, status: ", updatedEvent);
+  //   setEditedEvent(updatedEvent);
+  //   onCancelEvent(updatedEvent);
+  //   setShowConfirmModal(true);
+  // };
 
   useEffect(() => {
     const statusClass =
@@ -87,42 +134,91 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
         : "";
 
     setStatusClass(statusClass);
+   
   }, [editedEvent.status]);
+
 
   let timeDisplay;
 
   if (view === "week") {
     timeDisplay = (
-      <div className={`${styles.container} ${statusClass}`} style={{ height: "100%" }}>
+      <div
+        className={`${styles.container} ${statusClass}`}
+        style={{ height: "100%" }}
+      >
         <div className={styles["container-status"]}>
           <div>
             <div className={styles["container-hours"]}>
-              <p style={{ fontWeight: "700", fontSize: ".9em", fontFamily: "Montserrat", lineHeight: ".9em", marginBottom: ".2em" }}>
-                {event.title}
+              <p
+                style={{
+                  fontWeight: "700",
+                  fontSize: ".9em",
+                  fontFamily: "Montserrat",
+                  lineHeight: ".9em",
+                  marginBottom: ".2em",
+                }}
+              >
+                {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
               </p>
             </div>
-            <p style={{ fontWeight: "600", fontSize: ".8em", fontFamily: "Montserrat", lineHeight: ".9em" }}>
+            <p
+              style={{
+                fontWeight: "600",
+                fontSize: ".8em",
+                fontFamily: "Montserrat",
+                lineHeight: ".9em",
+              }}
+            >
               {formatTime(event.start)} - {formatTime(event.end)}
             </p>
-            <p style={{ fontSize: ".8em" }}>Pag.: {event.paymentStatus ? "Pago" : "Pendente"}</p>
+            <p style={{ fontSize: ".8em" }}>
+              Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+            </p>
           </div>
         </div>
       </div>
     );
   } else if (view === "day") {
     timeDisplay = (
-      <div className={`${styles.container} ${statusClass}`} style={{ height: "100%" }}>
+      <div
+        className={`${styles.container} ${statusClass}`}
+        style={{ height: "100%" }}
+      >
         <div className={styles["container-status"]}>
           <div>
             <div className={styles["container-hours"]}>
-              <p style={{ fontWeight: "700", fontSize: "1.1em", fontFamily: "Montserrat", lineHeight: ".9em" }}>{event.title}</p>
+              <p
+                style={{
+                  fontWeight: "700",
+                  fontSize: ".9em",
+                  fontFamily: "Montserrat",
+                  lineHeight: ".9em",
+                }}
+              >
+              {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
+              </p>
             </div>
-            <p style={{ fontWeight: "600", fontSize: "1em", fontFamily: "Montserrat" }}>
+            <p
+              style={{
+                fontWeight: "500",
+                fontSize: ".8em",
+                fontFamily: "Montserrat",
+              }}
+            >
               {formatTime(event.start)} - {formatTime(event.end)}
             </p>
-            <p style={{ fontSize: ".9em" }}>Pag.: {event.paymentStatus ? "Pago" : "Pendente"}</p>
+            <p style={{ fontSize: ".9em" }}>
+              Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+            </p>
           </div>
-          <div className={styles["container-icon"]} style={{ padding: "8px 9px", top: "50%" }}>
+          <div
+            className={styles["container-icon"]}
+            style={{ padding: "8px 9px", top: "50%" }}
+          >
             {paymentIcons[event.paymentMethod] || null}
           </div>
         </div>
@@ -130,13 +226,29 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
     );
   } else if (view === "agenda") {
     timeDisplay = (
-      <div className={`${styles.container} ${statusClass}`} style={{ backgroundColor: "transparent", width: "unset", position: "unset" }}>
+      <div
+        className={`${styles.container} ${statusClass}`}
+        style={{
+          backgroundColor: "transparent",
+          width: "unset",
+          position: "unset",
+        }}
+      >
         <div className={styles["container-status"]}>
           <div>
-            <h3 style={{ fontSize: "1em", fontWeight: "700", margin: "0" }}>{event.title}</h3>
-            <p style={{ fontSize: "1em", fontWeight: "300" }}>Pag.: {event.paymentStatus ? "Pago" : "Pendente"}</p>
+            <h3 style={{ fontSize: "1em", fontWeight: "700", margin: "0" }}>
+            {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
+            </h3>
+            <p style={{ fontSize: "1em", fontWeight: "300" }}>
+              Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+            </p>
           </div>
-          <div className={styles["container-icon"]} style={{ position: "unset" }}>
+          <div
+            className={styles["container-icon"]}
+            style={{ position: "unset", padding: ".3em .5em" }}
+          >
             {paymentIcons[event.paymentMethod] || null}
           </div>
         </div>
@@ -145,13 +257,40 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
   } else if (view === "month") {
     timeDisplay = (
       <div className={`${styles.container} ${statusClass}`}>
+        
         <div className={styles["container-status"]}>
           <div style={{ width: "100%" }}>
             <div className={styles["container-hours"]}>
-              <p style={{ fontWeight: "700", fontSize: ".85em", fontFamily: "Montserrat", lineHeight: ".9em", width: "95%" }}>{event.title}</p>
-              <p style={{ fontSize: ".8em" }}>Pag.: {event.paymentStatus ? "Pago" : "Pendente"}</p>
+              <div>
+                <p
+                  style={{
+                    fontWeight: "700",
+                    fontSize: ".85em",
+                    fontFamily: "Montserrat",
+                    lineHeight: ".9em",
+                    width: "95%",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
+                  }}
+                >
+                  {Array.isArray(event.title)
+                    ? event.title.join(", ")
+                    : event.title}
+                </p>
+              </div>
+
+              <p style={{ fontSize: ".8em" }}>
+                Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+              </p>
             </div>
-            <p style={{ fontWeight: "700", fontSize: ".8em", fontFamily: "Montserrat" }}>
+            <p
+              style={{
+                fontWeight: "700",
+                fontSize: ".8em",
+                fontFamily: "Montserrat",
+              }}
+            >
               {formatTime(event.start)} - {formatTime(event.end)}
             </p>
           </div>
@@ -165,7 +304,7 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
   return (
     <div className={styles["container-div"]} onClick={handleOpenModal}>
       {timeDisplay}
-      <EventModal
+      <EditEventModal
         show={showModal}
         handleOpen={handleOpenModal}
         handleClose={handleCloseModal}
@@ -174,11 +313,12 @@ const Event = ({ event, view, onDelete, onUpdate }) => {
         isEditing={isEditing}
         handleSave={handleSave}
         handleEdit={handleEdit}
-        handleDelete={handleDelete}
+        handleCancelEvent={onCancelEvent}
+        handleCancelAction={handleCancelAction}
         event={event}
       />
     </div>
   );
-};
+});
 
 export default Event;

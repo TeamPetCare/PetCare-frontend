@@ -7,11 +7,11 @@
 .container-status-agendamentos,
 .container-atendimentos-agendados {
   display: flex;
-  background-color: var(--cor-secundaria-amarelo-claro);
   justify-content: space-between;
   padding: 0.5em 0.9em;
   border-radius: 0.6em;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  border: 1px solid #e5e5ef;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .container-status {
@@ -60,7 +60,6 @@
 .container-atendimentos-agendados {
   display: flex;
   justify-content: space-between;
-  background-color: var(--cor-secundaria-amarelo-claro);
   padding: 1em;
   border-radius: 0.6em;
 }
@@ -132,4 +131,24 @@
 .icon-i {
   fill: var(--cor-primaria-azul-escuro);
   cursor: pointer;
+}
+
+
+@media (max-width: 480px) {
+  
+.container-title,
+.container-dados,
+.container-dados-first {
+  p {
+    font-size: 0.6em;
+  }
+}
+
+.container-dados,
+.container-dados-first {
+  p {
+    font-size: .7em;
+  }
+}
+
 }

@@ -13,12 +13,12 @@
       color: var(--cor-secundaria-amarelo-claro);
     }
   }
-  
+/*   
   li,
   .linkLi {
     font-weight: 700;
     font-size: 0.9rem;
-  }
+  } */
   
   
   .linkLi {
@@ -35,7 +35,7 @@
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
   
     img {
-      width: 6em;
+      width:6em;
     }
   
     ul {

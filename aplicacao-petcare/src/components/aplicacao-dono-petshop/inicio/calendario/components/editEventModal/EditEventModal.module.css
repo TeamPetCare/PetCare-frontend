@@ -1,34 +1,125 @@
-.btn-editar, .btn-cancelar-agenda, .btn-cancelar, .btn-salvar {
-    padding: .3em .9em;
-    font-size: .85em;
-    font-weight: 600;
-    margin: 0;
-    border-radius: .35em;
-    width: fit-content;
-    height: fit-content;
-    border: none;
-    font-family: 'Montserrat';
-    cursor: pointer;
-    transition: all .3s ease-in-out;
+.btn-editar,
+.btn-cancelar-agenda,
+.btn-cancelar,
+.btn-salvar {
+  padding: 0.4em 0.9em;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin: 0;
+  border-radius: 0.35em;
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  font-family: "Montserrat";
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-.btn-editar, .btn-salvar {
-    background-color: var(--cor-primaria-azul-escuro);
+.btn-editar,
+.btn-salvar {
+  background-color: var(--cor-primaria-azul-escuro);
 }
 
-.btn-cancelar-agenda, .btn-cancelar {
-    background-color: var(--cor-vermelho-escuro);
+.btn-cancelar-agenda {
+  background-color: transparent;
+  border: 1px solid var(--cor-cinza-claro);
+  color: black;
 }
 
-.btn-editar:hover, .btn-cancelar-agenda:hover, .btn-salvar:hover, .btn-cancelar:hover {
-    opacity: .85;
-    color: #FFF;
+.btn-cancelar {
+  background-color: var(--cor-cinza-escuro);
 }
 
-.btn-editar:hover, .btn-salvar:hover {
-    background-color: var(--cor-primaria-azul-escuro);
+.btn-editar:hover,
+.btn-salvar:hover,
+.btn-cancelar:hover {
+  opacity: 0.85;
+  color: #fff;
 }
 
-.btn-cancelar-agenda:hover, .btn-cancelar:hover {
-    background-color: var(--cor-vermelho-escuro);
+.btn-editar:hover,
+.btn-salvar:hover {
+  background-color: var(--cor-primaria-azul-escuro);
+}
+
+.btn-cancelar-agenda:hover {
+  background-color: var(--cor-cinza-claro);
+  color: black;
+  border: 1px solid var(--cor-cinza-claro);
+}
+
+.btn-cancelar:hover {
+  background-color: var(--cor-cinza-escuro);
+}
+
+.progressBar {
+  display: flex;
+  align-items: center;
+  /* gap: 1em; */
+  height: 6px;
+  width: 101%;
+  /* border: 1px solid #e0e0e0; */
+  position: relative;
+}
+
+.completeIcon {
+  margin-left: -4px;
+  fill: var(--cor-primaria-azul-escuro);
+}
+
+.progressFill {
+  border-radius: 10px;
+  height: 100%;
+  background: var(--cor-primaria-azul-escuro);
+  transition: width 0.3s;
+}
+
+.stepContainer {
+  list-style: none; /* Remove a bolinha padrão */
+  padding: 0; /* Remove o padding */
+  display: flex; /* Exibe em linha */
+  justify-content: center;
+  margin-bottom: 9px;
+}
+
+.stepBox {
+  background: #f0f0f0; /* Cor de fundo dos passos */
+  border: 2px solid transparent; /* Borda padrão */
+  border-radius: 5px;
+  padding: 5px 16px; /* Espaçamento interno */
+  transition: border-color 0.3s;
+  font-size: 0.7rem;
+  color: var(--cor-primaria-azul-escuro);
+}
+
+.stepBox.active {
+  font-weight: bold; /* Negrito para o passo ativo */
+  background-color: var(--cor-secundaria-amarelo-claro);
+}
+
+.containerProgress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.modal-title {
+  margin-bottom: 1em;
+  h2 {
+    font-size: 1.1em;
+  }
+  p {
+    font-size: .8em;
+  }
+}
+
+.div-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2em;
+  Button {
+    width: 50%;
+  }
 }

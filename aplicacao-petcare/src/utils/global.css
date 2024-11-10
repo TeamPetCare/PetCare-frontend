@@ -22,7 +22,7 @@ p {
   height: 3em;
   box-sizing: border-box;
   background-color: transparent;
-  padding: 0;
+  padding: 0 !important;
 }
 .rbc-show-more {
   display: block;
@@ -40,14 +40,13 @@ p {
 }
 
 .rbc-event-label {
-  display: none;
+  display: none !important;
 }
 
 .rbc-show-more:active,
 .rbc-show-more:hover,
 .rbc-show-more:focus {
-  background-color: var(--cor-secundaria-amarelo-claro);
-  color: var(--cor-primaria-azul-escuro);
+  background-color: inherit;
 }
 
 .rbc-event.rbc-selected,
@@ -65,12 +64,15 @@ p {
 
 .rbc-btn-group,
 .rbc-toolbar-label {
-  font-size: 0.8em;
+  font-size: 0.8em !important;
 }
 
 .rbc-toolbar button {
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 0.7rem !important;
+  font-size: 1.1em !important;
+
 }
+
 
 .rbc-time-content {
   overflow-x: hidden;
@@ -119,16 +121,19 @@ p {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.modal-header {
-  border-bottom: none;
-}
 
 .rbc-overlay > * + * {
   margin: 0.7em 0;
 }
 
-.modal-header .btn-close {
-  margin: 0em 0em 1.5em 1em;
+.modal-header {
+  gap: 1em;
+  border: 0;
+  padding-bottom: 0;
+}
+
+.modal-header .btn-close:hover {
+  background-color: transparent;
 }
 
 .card {
@@ -167,10 +172,6 @@ p {
 
 }
 
-.modal-body {
-  padding: 0 1rem 1rem 1rem;
-}
-
 .react-datepicker-wrapper {
   width: 100%;
 }
@@ -181,6 +182,48 @@ p {
   border-color: #d0d5dd;
 }
 
+.Toastify__toast-body > div:last-child {
+  font-weight: 700;
+  font-size: .9em;
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  height: 9vh;
+}
+.rbc-row-segment {
+  padding: unset;
+  justify-items: center;
+
+  button {
+    font-weight: 600;
+  }
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  background-color: transparent !important;
+  /* padding: 0px 5px !important; */
+}
+
+.rbc-overlay {
+  .rbc-event {
+    margin-bottom: .6em;
+  }
+}
+
+.modal-body {
+  padding-top: 0.6em;
+}
+
+.btn-check:focus+.btn-primary, .btn-primary:focus, .btn-primary:active:focus {
+  color: inherit;
+  background-color: inherit;
+  border-color: inherit;
+}
+.rbc-button-link {
+  span {
+    font-size: .9em;
+  }
+}
 @font-face {
   font-family: "Montserrat";
   src: url("../utils/fonts/montserrat/Montserrat-Thin.ttf") format("truetype");

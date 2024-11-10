@@ -17,12 +17,12 @@
 li,
 .linkLi {
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .container_desktop_subheader {
   background-color: var(--cor-primaria-azul-escuro);
-  padding: 10px 90px;
+  padding: 7px 90px;
 
   ul {
     display: flex;
@@ -32,7 +32,7 @@ li,
     li,
     .linkLi {
       list-style: none;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       display: flex;
       gap: 6px;
     }
@@ -65,11 +65,11 @@ li,
 .container_desktop_header {
   display: flex;
   justify-content: space-between;
-  padding: 10px 90px;
+  padding: 7px 90px;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 
   img {
-    width: 6em;
+    width: 5em;
   }
 
   ul {
@@ -90,14 +90,14 @@ li,
       background-color: var(--cor-secundaria-amarelo-claro);
       list-style: none;
       color: black;
-      padding: 6px 30px 4px;;
+      padding: 4px 20px 2px;
       border-radius: 20px;
       transition: all 0.7s ease-in-out;
       cursor: pointer;
     }
 
     li:last-child:hover {
-      padding: 6px 35px 4px;;
+      padding: 4px 30px 2px;
       background-color: #ffe29f;
     }
   }
@@ -114,7 +114,7 @@ li,
     li,
     .linkLi {
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
   }
 
