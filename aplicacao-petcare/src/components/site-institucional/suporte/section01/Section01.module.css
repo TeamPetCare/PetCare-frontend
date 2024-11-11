@@ -8,7 +8,6 @@
 
 .container-texto {
     width: 100%;
-    /* padding-left: 90px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,15 +64,17 @@
 }
 
 @media (max-width: 768px) {
+
     .container {
+        width: 100%;
         flex-direction: column;
         gap: 12px;
     }
+
     .container-texto {
-        width: fit-content;
-        padding-left: 20px;
-        margin-top: 2em;
-        gap: 1.2em;
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
 
         div {
             width: 85%;
@@ -96,41 +97,11 @@
         }
     }
 
-}
-
-
-@media (min-width: 769px) and (max-width: 1200px) {
-    
-    .container-texto {
-        padding-left: 2em;
-        margin-top: 4em;
-
-        h1 {
-            font-size: 2.4em;
-            line-height: 1em;
-        }
-
-        button {
-            padding: 10px 2em;
-            width: fit-content;
-            font-size: 0.8em;
-        }
-
-        button:hover {
-            padding: 10px 3em;
-        }
+    .container-texto-central {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
 
-}
-
-@media (min-width: 767px) and (max-width: 992px) {
-    .container-texto {
-        padding-left: 2em;
-        margin-top: 2em;
-
-        div {
-            width: 100%;
-            gap: 12px;
-        }
-    }
 }

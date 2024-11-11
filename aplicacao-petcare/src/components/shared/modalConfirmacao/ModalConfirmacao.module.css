@@ -1,0 +1,54 @@
+.container-body {
+  h4 {
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: start;
+    color: #000;
+    margin: 0;
+  }
+}
+
+.contained-modal-title-vcenter {
+  h4 {
+    font-size: 0.9em;
+    font-weight: 800;
+    text-align: start;
+    color: var(--cor-primaria-azul-escuro);
+  }
+}
+
+.btn-voltar, .btn-continuar {
+  padding: .3em .9em;
+  font-size: .85em;
+  font-weight: 600;
+  margin: 0;
+  border-radius: .35em;
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  font-family: 'Montserrat';
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.btn-voltar {
+  background-color: var(--cor-cinza-escuro);
+}
+
+.btn-continuar {
+  background-color: var(--cor-verde);
+  color: #FFF;
+}
+
+.btn-continuar:hover, .btn-voltar:hover {
+  opacity: .85;
+  color: #FFF;
+}
+
+.btn-continuar:hover {
+  background-color: var(--cor-verde);
+}
+
+.btn-voltar:hover {
+  background-color: var(--cor-cinza-escuro);
+}

@@ -1,9 +1,4 @@
-/* .backgroundImage {
-    width: 100%;
-    padding: 70px 40px 0px 0px;
-  } */
-
-  .container {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,17 +11,27 @@
     width: 100%;
     padding: 20px;
     margin-top: 72px;
+    margin-right: 10em;
     background-color: #FFD269;
     text-align: center;
-    color: #005472;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    font-family: "Montserrat";
+    color: var(--cor-primaria-azul-escuro);
+
+    h2 {
+        font-size: 2.60em;
+        line-height: 46px;
+        font-weight: 900;
+    }
+
 }
 
 .container-forms-background {
     width: 100%;
     padding: 40px 20px;
-    background-color: #f0f0f0;
+    margin-right: 10em;
+    background-color: #FFF0CE;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
@@ -37,42 +42,42 @@
     gap: 15px;
 }
 
-.row {
+.container-row {
     display: flex;
     gap: 10px;
     align-items: flex-start;
     width: 100%;
 }
 
-.row div {
+.container-row div {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-.input-group {
+.container-input {
     flex: 1;
 }
 
-.info-text {
+.info-texto {
     font-size: 14px;
     font-weight: 500;
     margin-top: 15px;
 }
 
-.subheader-text {
+.subheader-texto {
     font-size: 16px;
     font-weight: bold;
     margin-top: 10px;
 }
 
-.options {
+.container-opcoes {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.option {
+.container-opcao {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -80,11 +85,11 @@
     cursor: pointer;
 }
 
-.option input[type="radio"] {
+.container-opcao input[type="radio"] {
     display: none;
 }
 
-.checkmark {
+.container-marca-selecao {
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -93,11 +98,11 @@
     position: relative;
 }
 
-.option input[type="radio"]:checked + .checkmark {
+.container-opcao input[type="radio"]:checked+.container-marca-selecao {
     background-color: #005472;
 }
 
-.option input[type="radio"]:checked + .checkmark::after {
+.container-opcao input[type="radio"]:checked+.container-marca-selecao::after {
     content: "";
     width: 6px;
     height: 6px;
@@ -109,7 +114,7 @@
     transform: translate(-50%, -50%);
 }
 
-.textarea {
+.container-area-texto {
     padding: 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
@@ -117,34 +122,81 @@
     min-height: 100px;
 }
 
-.buttonGroup {
+.container-grupo-botoes {
     display: flex;
     gap: 10px;
     margin-top: 20px;
 }
 
-.submitButton {
-    padding: 10px 15px;
+.container-botao-enviar {
+    padding: 5px 20px;
     border: none;
-    background-color: #4a90e2;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.clearButton {
-    padding: 10px 15px;
-    border: none;
-    background-color: #ccc;
+    background-color: #FFD269;
     color: #333;
     border-radius: 4px;
     cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
 
-.submitButton:hover {
-    background-color: #357abd;
+.container-botao-limpar {
+    padding: 5px 20px;
+    border: none;
+    background-color: transparent;
+    color: #333;
+    border: 2px solid #FFD269;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
 
-.clearButton:hover {
-    background-color: #999;
+.container-botao-enviar:hover {
+    background-color: #FFC045;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.container-botao-limpar:hover {
+    background-color: #FFD269;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid #333;
+    outline-offset: 1px;
+}
+
+.feedback-mensagem-enviar {
+    position: fixed;
+    top: 20px;
+    left: 38%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    font-weight: bold;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+
+    .container {
+        margin: 0;
+    }
+
+    .container-forms-titulo {
+        margin-left: 340px;   
+    }
+
+    .container-forms-background {
+        margin-left: 340px;
+    }
+
+    .feedback-mensagem-enviar {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
+
 }
