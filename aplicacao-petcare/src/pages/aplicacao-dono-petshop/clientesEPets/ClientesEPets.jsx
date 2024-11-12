@@ -16,6 +16,9 @@ import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 // import { RiWhatsappFill } from "react-icons/ri";
 import { useSelectedData } from "./SelectedDataContext";
 import { ThreeDot } from "react-loading-indicators"; 
+import ClientModal from '../../../components/aplicacao-dono-petshop/cadastros/ClientModal';
+import PlanModal from '../../../components/aplicacao-dono-petshop/cadastros/PlanModal';
+import PetModal from '../../../components/aplicacao-dono-petshop/cadastros/PetModal';
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
@@ -295,25 +298,42 @@ const ClientesEPets = () => {
     }
   };
 
+
+  // Esse modal é o do create cliente
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // Esse aqui é o modal do delete
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Esse aqui é o modal de edição
   const [showPut, setShowPut] = useState(false);
   const handleClosePut = () => setShowPut(false);
   const handleShowPut = () => setShowPut(true);
+
+  // Esse é o modal de crate de pet
+  const [showAddPet, setAddPet] = useState(false);
+  const handleCloseAddPet = () => setAddPet(false);
+  const handleShowAddPet = () => setAddPet(true);
+
+  // Esse é o modal de atribuição de plano 
+  const [showAssignPlain, setAssignPlain] = useState(false);
+  const handleCloseAssignPlain = () => setAssignPlain(false);
+  const handleShowAssignPlain = () => setAssignPlain(true);
 
 
   return (
     <div>
       <div className={styles["header-container"]}>
         <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
-        <MainButtonsHeader onCreateClickCliente={openModal} filter={currentFilter}
+        <MainButtonsHeader  filter={currentFilter}
          onDeleteClickCliente={selectedData.length > 0 ? handleShow : null}
+         onCreateClickCliente={openModal} 
+         onCreatePet={handleShowAddPet} 
+         onAssignPlain={handleShowAssignPlain} 
          disableDeleteButton={selectedData.length === 0} // Passa a condição para desabilitar o botão
          onGenerateReport={handleGenerateReport} 
         />
@@ -346,11 +366,21 @@ const ClientesEPets = () => {
         />
       )}
 
-      {isModalOpen && <ModalWrapper closeModal={closeModal} />}
+{/* // Para o modal de criar cliente */}
+{isModalOpen && <ClientModal isOpen={isModalOpen} onClose={closeModal} />}
 
-      {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes} />}
+{/* // Para o modal de criar pet */}
+{showAddPet && <PetModal isOpen={showAddPet} onClose={handleCloseAddPet} />}
 
-      {showPut && <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={deletarClientes} dados={selectedData} title="Editar Cliente" />}
+{/* // Para o modal de atribuir plano */}
+{showAssignPlain && <PlanModal isOpen={showAssignPlain} onClose={handleCloseAssignPlain} pets={petsData} />}
+
+{/* Modal de deletar */}
+{show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes} />}
+
+{/* Modal de update */}
+{showPut && <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={deletarClientes} dados={selectedData} title="Editar Cliente" />}
+
 
     </div>
   );

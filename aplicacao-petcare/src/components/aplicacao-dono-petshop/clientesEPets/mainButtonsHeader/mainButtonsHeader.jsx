@@ -9,7 +9,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { PiBoundingBoxFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 
-function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport }) {
+function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
   return (
     <div className={styles["containers-btn"]}>
 
@@ -40,18 +40,15 @@ function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter,
         Cliente
       </button>
 
-      <button className={`${styles["custom-btn"]} ${styles["create"]}`}>
+
+      {/* modal da DANIELA, sua cowgirl */}
+      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreatePet}>
         <IoMdAddCircle />
         Pet
       </button>
 
-      <button className={`${styles["custom-btn"]} ${styles["create"]}`}>
-        <PiBoundingBoxFill />
-        Vincular C&P
-      </button>
-
-      <button className={`${styles["custom-btn"]} ${styles["create"]}`}>
-        <MdAssignment/>
+      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onAssignPlain}>
+        <MdAssignment />
         Atribuir Plano
       </button>
 
