@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/users';
-const LOGIN_URL = 'http://localhost:8080/auth/login';
-const REGISTER_URL = 'http://localhost:8080/auth/register';
+const API_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/api/users';
+const LOGIN_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/auth/login';
+const REGISTER_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/auth/register';
 
 const userService = {
   // Função para criar um novo usuário
   createUser: async (userData) => {
     try {
-      const response = await axios.post('http://localhost:8080/auth/register', userData);
+      const response = await axios.post('https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/auth/register', userData);
       return response.data; // Aqui você pode lidar com a resposta recebida
     } catch (error) {
       console.error("Erro ao criar usuário:", error);

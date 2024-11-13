@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/schedules'; 
+const API_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/api/schedules'; 
 const scheduleService = {
   createSchedule: async (scheduleData) => {
     try {

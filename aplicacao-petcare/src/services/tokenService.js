@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/validate-token';
+const API_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/validate-token';
 
 const tokenService = {
   verifyToken: async () => {
