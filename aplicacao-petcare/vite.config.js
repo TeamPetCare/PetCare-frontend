@@ -3,12 +3,11 @@ import react from '@vitejs/plugin-react'
 import path from 'path';
 
 export default defineConfig({
-  base: '/', // Ajuste conforme o domínio/subdomínio
+  base: '/aplicacao-petcare/', // Substitua pelo nome do repositório no GitHub
+  plugins: [react()],
   build: {
-      outDir: './dist', // Certifique-se de que está configurado como 'dist'
+    outDir: 'dist',
   },
-  server: {
-    port: 3000
-  }
 });
+
 

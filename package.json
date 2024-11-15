@@ -6,8 +6,7 @@
         "build": "cd aplicacao-petcare && npm run build",
         "start": "cd aplicacao-petcare && node app.js",
         "postinstall": "cd aplicacao-petcare && npm install",
-        "predeploy": "cd aplicacao-petcare && npm run build",
-        "deploy": "gh-pages -d dist"
+        "predeploy": "cd aplicacao-petcare && npm run build"
     },
     
     "dependencies": {
