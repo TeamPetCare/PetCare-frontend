@@ -9,11 +9,11 @@ const PORTA_APP = process.env.PORT || 3000;
 app.use(cors());
 
 // Middleware para servir arquivos estáticos
-app.use(express.static(path.join(process.cwd(), 'dist')));
+app.use(express.static(path.join(process.cwd(), 'aplicacao-petcare/dist')));
 
 // Redirecionamento para `index.html` em rotas não reconhecidas
 app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+  res.sendFile(path.join(process.cwd(), 'aplicacao-petcare/dist', 'index.html'));
 });
 
 // Inicialização do servidor
