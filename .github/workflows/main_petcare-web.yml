@@ -49,9 +49,6 @@ jobs:
         with:
           name: node-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -65,4 +62,4 @@ jobs:
         with:
           app-name: 'Petcare-Web'
           slot-name: 'Production'
-          package: ./aplicacao-petcare/dist  # Certifique-se de que o deploy use a pasta dist
+          package: ./release.zip  # Deploy o arquivo zipado gerado

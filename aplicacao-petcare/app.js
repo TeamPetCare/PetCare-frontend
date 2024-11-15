@@ -1,22 +1,18 @@
-import express from "express";
-import cors from "cors";
-import path from "path";
+const express = require('express');
+const path = require('path');
 
 const app = express();
-const PORTA_APP = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-// Middleware para permitir o CORS
-app.use(cors());
+// Serve os arquivos estáticos da pasta dist gerada pelo Vite
+app.use(express.static(path.join(__dirname, 'aplicacao-petcare', 'dist')));
 
-// Middleware para servir arquivos estáticos
-app.use(express.static(path.join(process.cwd(), 'aplicacao-petcare/dist')));
 
-// Redirecionamento para `index.html` em rotas não reconhecidas
+// Redireciona todas as requisições para o index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'aplicacao-petcare/dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'aplicacao-petcare',  'dist', 'index.html'));
 });
 
-// Inicialização do servidor
-app.listen(PORTA_APP, () => {
-  console.log(`Servidor rodando em http://localhost:${PORTA_APP}`);
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
