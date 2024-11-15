@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import styles from "./EditedEventModalCampo.module.css";
+import styles from "./EditEventModalCampo.module.css";
 import DropDown from "../../../../../shared/dropDown/DropDown";
 import TimePicker from "../../../../../shared/timePicker/TimePicker";
 import { PiUserCircleThin, PiPawPrintThin } from "react-icons/pi";
