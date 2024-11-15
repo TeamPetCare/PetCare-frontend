@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa"; // Ícone de conclusão
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import EditedEventModalCampos from "../editEventModalCampos/editEventModalCampos";
 import styles from "./EditEventModal.module.css";
+import EditedEventModalCampo from "../editEventModalCampo/EditEventModalCampo";
 
 const EditEventModal = ({
   show,
@@ -85,7 +85,7 @@ const EditEventModal = ({
           <p>*Campos Obrigatórios.</p>
         </div>
 
-        <EditedEventModalCampos
+        <EditedEventModalCampo
           editedEvent={editedEvent}
           handleChange={handleChange}
           isEditing={isEditing}
