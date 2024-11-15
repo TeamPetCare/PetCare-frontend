@@ -1,18 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path';
-
 export default defineConfig({
-  plugins: [react()],
-  build: {
-    outDir: 'dist',
-  },
-  server: {
-    port: 3000,
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
+    base: '/', // Ajuste conforme o domínio/subdomínio
+    build: {
+        outDir: './dist', // Certifique-se de que está configurado como 'dist'
     },
-  }
-})
+    server: {
+      port: 3000
+    }
+});
