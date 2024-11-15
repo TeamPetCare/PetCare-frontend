@@ -28,6 +28,7 @@ function Calendario({ dadosAgendamentos }) {
     console.log("Dados de Agendamentos:", dadosAgendamentos);
   }, [dadosAgendamentos]);
 
+  
   const handleUpdateEvent = (updatedEvent) => {
     setAllEvents((prevEvents) =>
       prevEvents.map((event) =>

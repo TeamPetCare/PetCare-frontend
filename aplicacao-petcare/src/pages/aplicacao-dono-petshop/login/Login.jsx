@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
-import userService from '../../../services/userService';
+import {loginUser} from "../../../services/userService";
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import { FaUserAlt } from "react-icons/fa";
@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const loginData = { email, password };
-      const response = await userService.loginUser(loginData);
+      const response = await loginUser(loginData);
 
       toast.success("Login bem-sucedido! Você será redirecionado...", {
         autoClose: 2500, 
