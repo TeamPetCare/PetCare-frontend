@@ -3,11 +3,13 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "cd ./aplicacao-petcare && node app.js",
+        "build": "cd aplicacao-petcare && npm run build",
+        "start": "cd aplicacao-petcare && node app.js",
         "postinstall": "cd aplicacao-petcare && npm install",
         "predeploy": "cd aplicacao-petcare && npm run build",
         "deploy": "gh-pages -d dist"
     },
+    
     "dependencies": {
         "@emotion/react": "^11.13.3",
         "@emotion/styled": "^11.13.0",
