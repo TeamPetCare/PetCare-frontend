@@ -5,8 +5,7 @@
     "scripts": {
         "start": "cd ./aplicacao-petcare && node app.js",
         "postinstall": "cd aplicacao-petcare && npm install",
-        "predeploy": "cd aplicacao-petcare && npm run build",
-        "deploy": "gh-pages -d dist"
+        "build": "react-scripts build"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",
