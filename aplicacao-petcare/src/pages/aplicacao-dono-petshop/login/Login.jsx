@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
 import {loginUser} from "../../../services/userService";
@@ -14,25 +15,20 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para visibilidade da senha
   const [error, setError] = useState('');
-  
+  const navigate = useNavigate();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const loginData = { email, password };
-      const response = await loginUser(loginData);
+      await loginUser(loginData);
 
+      // Exibe o toast de sucesso e redireciona após o fechamento
       toast.success("Login bem-sucedido! Você será redirecionado...", {
-        autoClose: 2500, 
-        onClose: () => {
-          window.location.href = 'http://localhost:3000/dono-petshop/inicio';
-        },
-        onClick: () => {
-          window.location.href = 'http://localhost:3000/dono-petshop/inicio';
-        }
+        autoClose: 2500,
+        onClose: () => navigate("/dono-petshop/inicio"), // Redireciona aqui
       });
-
     } catch (error) {
       console.error('Erro no login:', error);
       setError('Email ou senha incorretos');
