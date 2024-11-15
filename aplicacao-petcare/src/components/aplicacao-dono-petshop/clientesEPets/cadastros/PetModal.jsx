@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import * as petService from '../../../services/petService';
-import userService from '../../../services/userService';
+import * as petService from '../../../../services/petService';
+import userService from '../../../../services/userService';
 import modalWrapperStyles from './ModalWrapper.module.css'; // Estilo do fundo do modal
 import styles from './ModalWrapper.module.css'; // Estilo do fundo do modal
 

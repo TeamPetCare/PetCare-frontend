@@ -1,0 +1,149 @@
+table{
+  border-radius: 1em;
+}
+
+thead{
+  background-color: var(--cor-primaria-azul-escuro);
+  color: white;
+}
+
+.container {
+  border: 1px solid #e5e5ef;
+  border-radius: 1em;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  th {
+    font-size: 0.7em;
+    line-height: 1.2em;
+    width: fit-content;
+    padding: 0.9em 1.5em;
+  }
+
+  td {
+    font-size: 0.75em;
+    line-height: 0.9em;
+    align-items: center;
+  }
+}
+.scrollable-table {
+  border-radius: 10px;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.table-container {
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+td {
+  white-space: nowrap;
+  padding: 0.5rem;
+}
+
+tr {
+  cursor: pointer;
+
+  th:first-child,
+  th:nth-child(2) {
+    padding-left: 0.7em;
+  }
+}
+.content-div {
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  padding: 0.5rem;
+}
+
+.white-space-normal {
+  white-space: normal;
+}
+
+.white-space-nowrap {
+  white-space: nowrap;
+}
+
+.custom-checkbox input {
+  display: none; 
+}
+
+.custom-checkbox .checkmark {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid #ffffff; 
+  border-radius: 6px; 
+  margin-right: 10px; 
+  vertical-align: middle;
+  transition: background-color 0.3s, border-color 0.3s; 
+  cursor: pointer;
+}
+
+.custom-checkbox input:checked + .checkmark {
+  background-color: var(
+    --cor-primaria-azul-escuro
+  ); 
+  border-color: white;
+}
+
+.custom-checkbox input:checked + .checkmark::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  position: relative;
+  left: 5px;
+  top: 2px;
+}
+
+
+
+
+
+
+
+
+.custom-checkbox-t input {
+  display: none; 
+}
+
+.custom-checkbox-t .checkmark {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid var(--cor-primaria-azul-escuro); 
+  border-radius: 6px; 
+  margin-right: 10px; 
+  vertical-align: middle;
+  transition: background-color 0.3s, border-color 0.3s; 
+  cursor: pointer;
+}
+
+.custom-checkbox-t input:checked + .checkmark {
+  background-color: var(
+    --cor-primaria-azul-escuro
+  ); 
+  border-color: var(--cor-primaria-azul-escuro);
+}
+
+.custom-checkbox-t input:checked + .checkmark::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  position: relative;
+  left: 5px;
+  top: 2px;
+}

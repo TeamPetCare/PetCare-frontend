@@ -8,7 +8,7 @@ const userService = {
   // Função para criar um novo usuário
   createUser: async (userData) => {
     try {
-      const response = await axios.post('https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/api/auth/register', userData);
+      const response = await axios.post(REGISTER_URL, userData);
       return response.data; // Aqui você pode lidar com a resposta recebida
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
@@ -34,7 +34,7 @@ const userService = {
 
   getAllCustomerAndPets: async () => {
     try {
-      const response = await axios.get(API_URL + "/customers ", {
+      const response = await axios.get(API_URL + "/customers", {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         }

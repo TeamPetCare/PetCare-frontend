@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import userService from '../../../services/userService';
+import userService from '../../../../services/userService';
 import styles from './ModalWrapper.module.css';
 
 

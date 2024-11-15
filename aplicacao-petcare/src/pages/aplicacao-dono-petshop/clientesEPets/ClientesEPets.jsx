@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import userService from "../../../services/userService";
-import TableData from "../../../components/shared/tableData/TableData";
+import TableData from "../../../components/aplicacao-dono-petshop/clientesEPets/tableData/TableData";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
 import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/clientesEPets/mainButtonsHeader/mainButtonsHeader";
@@ -8,17 +8,17 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import styles from "./ClientesEPets.module.css";
-import ModalWrapper from "../../../components/aplicacao-dono-petshop/cadastroCliente/ModalWrapper";
-import ModalDelete from "../../../components/aplicacao-dono-petshop/shared/modal/ModalDelete"
-import ModalPut from "../../../components/aplicacao-dono-petshop/shared/modal/ModalPut"
+import ModalWrapper from "../../../components/aplicacao-dono-petshop/clientesEPets/cadastroCliente/ModalWrapper";
+import ModalDelete from "../../../components/aplicacao-dono-petshop/clientesEPets/modal/ModalDelete"
+import ModalPut from "../../../components/aplicacao-dono-petshop/clientesEPets/modal/ModalPut"
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 // import { RiWhatsappFill } from "react-icons/ri";
 import { useSelectedData } from "./SelectedDataContext";
 import { ThreeDot } from "react-loading-indicators"; 
-import ClientModal from '../../../components/aplicacao-dono-petshop/cadastros/ClientModal';
-import PlanModal from '../../../components/aplicacao-dono-petshop/cadastros/PlanModal';
-import PetModal from '../../../components/aplicacao-dono-petshop/cadastros/PetModal';
+import ClientModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/ClientModal';
+import PlanModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PlanModal';
+import PetModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PetModal';
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
