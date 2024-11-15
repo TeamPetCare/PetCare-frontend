@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
 import {loginUser} from "../../../services/userService";
@@ -14,6 +15,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para visibilidade da senha
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,10 +28,10 @@ const Login = () => {
       toast.success("Login bem-sucedido! Você será redirecionado...", {
         autoClose: 2500, 
         onClose: () => {
-          window.location.href = 'http://localhost:3000/dono-petshop/inicio';
+          navigate('/dono-petshop/inicio');
         },
         onClick: () => {
-          window.location.href = 'http://localhost:3000/dono-petshop/inicio';
+          navigate('/dono-petshop/inicio');
         }
       });
 
