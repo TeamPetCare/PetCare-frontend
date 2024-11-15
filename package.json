@@ -4,7 +4,9 @@
     "private": true,
     "scripts": {
         "start": "cd ./aplicacao-petcare && node app.js",
-        "postinstall": "cd aplicacao-petcare && npm install"
+        "postinstall": "cd aplicacao-petcare && npm install",
+        "predeploy": "cd aplicacao-petcare && npm run build",
+        "deploy": "gh-pages -d dist"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",
@@ -20,5 +22,8 @@
         "react-big-calendar": "^1.15.0",
         "react-datepicker": "^7.5.0",
         "react-loading-indicators": "^1.0.0"
+    },
+    "devDependencies": {
+        "gh-pages": "^6.2.0"
     }
 }
