@@ -65,4 +65,4 @@ jobs:
         with:
           app-name: 'Petcare-Web'
           slot-name: 'Production'
-          package: ./dist  # Certifique-se de que o deploy use a pasta dist
+          package: ./aplicacao-petcare/dist  # Certifique-se de que o deploy use a pasta dist
