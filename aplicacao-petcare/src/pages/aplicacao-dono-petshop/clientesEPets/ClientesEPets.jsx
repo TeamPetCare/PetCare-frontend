@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import userService from "../../../services/userService";
+import petService from "../../../services/petService";
 import TableData from "../../../components/aplicacao-dono-petshop/clientesEPets/tableData/TableData";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
@@ -85,27 +86,27 @@ const ClientesEPets = () => {
     }
   }
 
-  // async function deletarPets() {
-  //   if (selectedData && selectedData.length > 0) {
-  //     try {
-  //       const response = await userService.deleteCustomers(selectedData);
-  //       console.log("Pet(s) deletado(s) com sucesso:", response);
-  //       toast.success("Pet(s) deletado(s) com sucesso!", {
-  //         autoClose: 2500,
-  //         onClick: () => {
-  //           window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
-  //         }
-  //       });
-  //       recuperarValorClientes()
-  //     } catch (error) {
-  //       console.error("Erro ao deletar pet(s):", error);
-  //       toast.error("Erro ao deletar pet(s)");
-  //     }
-  //   } else {
-  //     console.log("Nenhum cliente selecionado para deletar.");
-  //     toast.error("Nenhum cliente selecionado para deletar.");
-  //   }
-  // }
+  async function deletarPets() {
+    if (selectedData && selectedData.length > 0) {
+      try {
+        const response = await userService.deletePet(selectedData);
+        console.log("Pet(s) deletado(s) com sucesso:", response);
+        toast.success("Pet(s) deletado(s) com sucesso!", {
+          autoClose: 2500,
+          onClick: () => {
+            window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+          }
+        });
+        recuperarValorClientes()
+      } catch (error) {
+        console.error("Erro ao deletar pet(s):", error);
+        toast.error("Erro ao deletar pet(s)");
+      }
+    } else {
+      console.log("Nenhum cliente selecionado para deletar.");
+      toast.error("Nenhum cliente selecionado para deletar.");
+    }
+  }
 
 
 
@@ -129,6 +130,12 @@ const ClientesEPets = () => {
           bairro: cliente.district,
           complemento: cliente.complement,
           numero_de_pets: cliente.pet.length,
+          dt_ultimo_agendamento: new Date(cliente.lastSchedule).toLocaleDateString('pt-BR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          }),
+          total_agendamentos: cliente.totalSchedules,
         }));
         setclientesData(clientesFormatados);
         setLoading(false); // Desativa o loading após a resposta
@@ -138,6 +145,9 @@ const ClientesEPets = () => {
         setLoading(false); // Desativa o loading em caso de erro
       });
   }
+
+  // "lastSchedule": "2024-11-15T15:00:00",
+	// 	"totalSchedules": 8
 
   function recuperarValorPets() {
     getAllCustomerAndPets()
@@ -150,12 +160,23 @@ const ClientesEPets = () => {
             especie: pet.specie.name,
             sexo: pet.gender,
             raça: pet.race.raceType,
-            dt_nascimento: pet.birthdate,
+            dt_nascimento: new Date(pet.birthdate).toLocaleDateString('pt-BR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            }),
             porte: pet.size.sizeType,
             peso_estimado: pet.estimatedWeight,
             cor: pet.color,
             dono: cliente.name,
+            dt_ultimo_agendamento: new Date(pet.lastSchedule).toLocaleDateString('pt-BR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            }),
+            total_agendamentos: pet.totalSchedules,
             observacoes: pet.petObservations,
+            plano: pet.plan.planType.name
           }))
         );
         setPetsData(petsFormatados);
@@ -183,9 +204,14 @@ const ClientesEPets = () => {
             ...clienteBase,
             pet: pet.name,
             raça: pet.race.raceType,
-            dt_nascimento: pet.birthdate,
+            dt_nascimento: new Date(pet.birthdate).toLocaleDateString('pt-BR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            }),
             porte: pet.size.sizeType,
             observacoes: pet.petObservations,
+            plano: pet.plan.planType.name
           }));
         });
         setclientesEPetsData(clientesEPetsFormatados);
@@ -232,15 +258,16 @@ const ClientesEPets = () => {
   }, [searchTerm, currentFilter, clientesData, petsData, clientesEPetsData]);
 
   const columnNamesClientesEPets = {
-    cliente: "Nome do Cliente",
+    cliente: "Cliente",
     whatsapp: "WhatsApp",
     endereco: "Endereço",
     numero_de_pets: "Número de Pets",
-    pet: "Nome do Pet",
+    pet: "Pet",
     raça: "Raça",
     dt_nascimento: "Nascimento (Estimado)",
     porte: "Porte",
     observacoes: "Observações",
+    plano: "Plano"
   };
 
   const sortableColumnsClientesEPets = [
@@ -249,34 +276,43 @@ const ClientesEPets = () => {
   ];
 
   const columnNamesClientes = {
-    cliente: "Nome do Cliente",
+    cliente: "Cliente",
     whatsapp: "WhatsApp",
     rua: "Rua",
     numero: "Nº Rua",
     bairro: "Bairro",
     complemento: "Complemento",
-    numero_de_pets: "Número de Pets"
+    numero_de_pets: "Número de Pets",
+    dt_ultimo_agendamento: "Último Agendamento",
+    total_agendamentos: "Total Agendamentos "
   };
 
   const sortableColumnsClientes = [
     "numero_de_pets",
+    "dt_ultimo_agendamento",
+    "total_agendamentos"
   ];
 
   const columnNamesPets = {
-    pet: "Nome do Pet",
+    pet: "Pet",
     especie: "Espécie",
     sexo: "Sexo",
     raça: "Raça",
-    dt_nascimento: "Nascimento (Estimado)",
+    dt_nascimento: "Nasc. (Estimado)",
     porte: "Porte",
-    peso_estimado: "Peso (Estimado)",
+    peso_estimado: "Peso.KG (Estimado)",
     cor: "Cor",
     dono: "Dono",
     observacoes: "Observações",
+    dt_ultimo_agendamento: "Último Agend.",
+    total_agendamentos: "Total Agend.",
+    plano: "Plano"
   };
 
   const sortableColumnsPets = [
     "dt_nascimento", 
+    "dt_ultimo_agendamento",
+    "total_agendamentos"
   ];
 
   const filterOptions = [

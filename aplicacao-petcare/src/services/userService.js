@@ -43,7 +43,7 @@ const userService = {
 
   getFileCsvCustomerAndPets: async () => {
     try {
-      const response = await api.get(API_URL + "/reportCustumersAndPets", {
+      const response = await api.get("/users/reportCustumersAndPets", {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         },
