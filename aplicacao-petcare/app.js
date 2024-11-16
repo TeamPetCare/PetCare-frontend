@@ -3,20 +3,20 @@ import cors from "cors";
 import path from "path";
 
 const app = express();
-const PORTA_APP = process.env.PORT || 3000;
+const PORTA_APP = process.env.PORT || 3000; 
 
-// Middleware para permitir o CORS
+// Middleware
 app.use(cors());
 
-// Middleware para servir arquivos estáticos
-app.use(express.static(path.join(process.cwd(), 'dist')));
+// Serve os arquivos estáticos da aplicação React
+app.use(express.static(path.join(process.cwd(), 'dist'))); 
 
-// Redirecionamento para `index.html` em rotas não reconhecidas
+// Rota para todas as requisições não tratadas
 app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'dist', 'index.html')); 
 });
 
-// Inicialização do servidor
+// Iniciar o servidor
 app.listen(PORTA_APP, () => {
-  console.log(`Servidor rodando em http://localhost:${PORTA_APP}`);
+    console.log(`Servidor rodando em http://localhost:${PORTA_APP}`);
 });

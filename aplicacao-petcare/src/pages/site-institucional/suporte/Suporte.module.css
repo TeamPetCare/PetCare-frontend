@@ -1,0 +1,21 @@
+.container-section02-forms {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  
+  .container-suporte {
+      width: 100%;
+      margin: 0;
+  }
+
+
+  .container-section02-forms{
+      display: flex;
+      flex-direction: column;
+  }
+
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import styles from "./EditEventModalCampos.module.css";
+import styles from "./EditEventModalCampo.module.css";
 import DropDown from "../../../../../shared/dropDown/DropDown";
 import TimePicker from "../../../../../shared/timePicker/TimePicker";
 import { PiUserCircleThin, PiPawPrintThin } from "react-icons/pi";
@@ -9,7 +9,7 @@ import { GoPeople } from "react-icons/go";
 import { SiContactlesspayment } from "react-icons/si";
 import { MdOutlineSchedule } from "react-icons/md";
 
-const EditEventModalCampos = ({
+const EditedEventModalCampo = ({
   editedEvent,
   handleChange,
   isEditing,
@@ -192,4 +192,4 @@ const EditEventModalCampos = ({
   );
 };
 
-export default EditEventModalCampos;
+export default EditedEventModalCampo;

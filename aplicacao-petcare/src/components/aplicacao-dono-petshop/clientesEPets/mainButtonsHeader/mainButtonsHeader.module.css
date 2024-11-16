@@ -30,7 +30,7 @@
     font-family: "Montserrat";
     font-weight: 700;
     font-size: 0.8em;
-    padding: 0.3em 0.9em;
+    padding: 0.3em 0.8em;
     border-radius: 0.35em;
     margin-bottom: 1em;
     transition: all 0.5s;
@@ -55,7 +55,7 @@
   .custom-btn:active,
   .custom-btn:checked,
   .custom-btn:focus {
-    padding: 0 15px;
+    padding: 0 11px;
     transition: all 0.5s;
   }
   

@@ -3,7 +3,7 @@ import styles from "./TableData.module.css";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { useState, useEffect } from "react";
-import { useSelectedData } from "../../../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext";
+import { useSelectedData } from "../../../../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext";
 import { RiWhatsappFill } from "react-icons/ri";
 
 const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = () => {} }) => {

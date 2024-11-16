@@ -9,7 +9,7 @@ function DropDownFilter({ options, onFilterChange }) {
 
   const handleSelect = (eventKey) => {
     setSelectedFilter(eventKey);
-    console.log("Filtro selecionado:", eventKey);
+    // console.log("Filtro selecionado:", eventKey);
     if (onFilterChange) {
       onFilterChange(eventKey); // Chama a função de callback passando o eventKey
     }
