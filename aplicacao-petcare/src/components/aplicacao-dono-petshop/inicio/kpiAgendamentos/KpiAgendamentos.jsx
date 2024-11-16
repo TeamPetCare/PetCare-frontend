@@ -1,13 +1,35 @@
+import React, { useState, useEffect } from "react";
 import styles from "./KpiAgendamentos.module.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { MdOutlineDownloadDone, MdCancel } from "react-icons/md";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi2";
-import { useState } from "react";
 
-const KpiAgendamentos = () => {
-  const [porcenNaoPagos, setPorcenNaoPagos] = useState(40);
-  const [porcenPagos, setPorcenPagos] = useState(70);
+const KpiAgendamentos = ({dadosAgendamentos}) => {
+  const [porcenNaoPagos, setPorcenNaoPagos] = useState(0);
+  const [porcenPagos, setPorcenPagos] = useState(0);
+  const [qtdNaoPagos, setQtdNaoPagos] = useState(0);
+  const [qtdPagos, setQtdPagos] = useState(0);
+
+ const statusCounts = dadosAgendamentos.reduce((acc, item) => {
+  acc[item.scheduleStatus] = (acc[item.scheduleStatus] || 0) + 1;
+  return acc;
+ }, {});
+
+
+ useEffect(() => {
+  const totalAtendimentos = dadosAgendamentos.length;
+  setQtdNaoPagos(dadosAgendamentos.filter(item => item.payment?.paymentStatus === "false").length);
+  setQtdPagos(dadosAgendamentos.filter(item => item.payment?.paymentStatus === "true").length);
+
+  console.log("Estu aqui " + qtdNaoPagos + " " + qtdPagos)
+
+
+  // Calcula as porcentagens com base no total
+  setPorcenPagos(((qtdPagos / totalAtendimentos) * 100).toFixed(2));
+  setPorcenNaoPagos(((qtdNaoPagos / totalAtendimentos) * 100).toFixed(2));
+}, [dadosAgendamentos]);
+
 
   return (
     <div className={styles["container"]}>
@@ -25,7 +47,7 @@ const KpiAgendamentos = () => {
               className={styles["icon-i"]}
               title="Total de atendimentos agendados, concluídos com sucesso e os cancelados, de acordo com o filtro selecionado."
             />
-            <p>10</p>
+            <p>{statusCounts.AGENDADO}</p>
           </div>
         </div>
         <div
@@ -36,7 +58,7 @@ const KpiAgendamentos = () => {
             <p>Concluídos</p>
           </div>
           <div className={styles["container-dados"]}>
-            <p>10</p>
+            <p>{statusCounts.CONCLUIDO}</p>
           </div>
         </div>
         <div
@@ -47,7 +69,7 @@ const KpiAgendamentos = () => {
             <p>Cancelados</p>
           </div>
           <div className={styles["container-dados"]}>
-            <p>10</p>
+            <p>{statusCounts.CANCELADO}</p>
           </div>
         </div>
       </div>
@@ -71,7 +93,7 @@ const KpiAgendamentos = () => {
               className={styles["progress-bar-red"]}
               variant="danger"
               now={porcenNaoPagos}
-              label={`${porcenNaoPagos}%`}
+              label={`${qtdNaoPagos}`}
             />
           </div>
           <div className={styles["progress-item"]}>
@@ -82,7 +104,7 @@ const KpiAgendamentos = () => {
               className={styles["progress-bar-green"]}
               variant="success"
               now={porcenPagos}
-              label={`${porcenPagos}%`}
+              label={`${qtdPagos}`}
             />
           </div>
         </div>

@@ -11,9 +11,10 @@ import EditEventModal from "./editEventModal/EditEventModal";
 import { toast } from "react-toastify";
 
 const paymentIcons = {
-  Pix: <FaPix color="#005472" size={14} />,
-  "Cartão de Crédito": <FaCreditCard color="#005472" size={14} />,
-  Dinheiro: <FaCashRegister color="#005472" size={14} />,
+  "PIX": <FaPix color="#005472" size={14} />,
+  "CARTAO_DEBITO": <FaCreditCard color="#005472" size={14} />,
+  "CARTAO_CREDITO": <FaCreditCard color="#005472" size={14} />,
+  "DINHEIRO": <FaCashRegister color="#005472" size={14} />,
 };
 
 const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
@@ -31,6 +32,10 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const [statusClass, setStatusClass] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showMoreVisible, setShowMoreVisible] = useState(true);
+
+  const capitalizeFirstLetter = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  };
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
@@ -82,7 +87,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const handleSave = () => {
     onUpdate(editedEvent);
     handleCloseModal();
-    // window.location.reload();
+    window.location.reload();
   };
 
   const handleCancelAction = (e) => {
@@ -92,29 +97,28 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+  
     setEditedEvent((prevEvent) => {
       const updatedEvent = { ...prevEvent };
-
-      if (name === "paymentStatus") {
-        updatedEvent.paymentStatus = value === "pago";
-      } else {
-        updatedEvent[name] = value;
-      }
-
-      if (name === "startTime" || name === "endTime") {
-        const timeParts = value.split(":").map(Number);
-        const dateKey = name === "startTime" ? "start" : "end";
-        const updatedDate = new Date(updatedEvent[dateKey]);
-        updatedDate.setHours(timeParts[0]);
-        updatedDate.setMinutes(timeParts[1]);
-        updatedEvent[dateKey] = updatedDate.toISOString();
-      }
-
+      updatedEvent[name] = value;
+      // if (name === "startTime" || name === "endTime") {
+      //   const timeParts = value.split(":").map(Number);
+      //   const dateKey = name === "startTime" ? "start" : "end";
+      //   const updatedDate = new Date(updatedEvent[dateKey]);
+      //   updatedDate.setHours(timeParts[0]);
+      //   updatedDate.setMinutes(timeParts[1]);
+      //   updatedEvent[dateKey] = updatedDate.toISOString();
+      // } else {
+      //   updatedEvent[name] = value;
+      // }
+  
       return updatedEvent;
     });
+  
+    console.log("updatedEvent: "+ name + " " + "value " + value);
   };
-
+  
+  
   // const handleCancelEvent = () => {
   //   const updatedEvent = { ...editedEvent, status: "Cancelado" };
   //   console.log("Passei aqui, status: ", updatedEvent);
@@ -125,17 +129,17 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
 
   useEffect(() => {
     const statusClass =
-      editedEvent.status === "Concluído"
+      editedEvent.scheduleStatus === "CONCLUIDO"
         ? styles.concluido
-        : editedEvent.status === "Agendado"
+        : editedEvent.scheduleStatus === "AGENDADO"
         ? styles.agendado
-        : editedEvent.status === "Cancelado"
+        : editedEvent.scheduleStatus === "CANCELADO"
         ? styles.cancelado
         : "";
 
     setStatusClass(statusClass);
    
-  }, [editedEvent.status]);
+  }, [editedEvent.scheduleStatus]);
 
 
   let timeDisplay;
@@ -158,23 +162,21 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                   marginBottom: ".2em",
                 }}
               >
-                {Array.isArray(event.title)
-                    ? event.title.join(", ")
-                    : event.title}
+              {event.services.map(service => service.name).join(", ")}
               </p>
             </div>
             <p
-              style={{
+              style={{             
                 fontWeight: "600",
                 fontSize: ".8em",
                 fontFamily: "Montserrat",
                 lineHeight: ".9em",
               }}
             >
-              {formatTime(event.start)} - {formatTime(event.end)}
+             {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".8em" }}>
-              Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+              Pag.: {event.payment.paymentStatus ? "Pago" : "Pendente"}
             </p>
           </div>
         </div>
@@ -197,9 +199,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                   lineHeight: ".9em",
                 }}
               >
-              {Array.isArray(event.title)
-                    ? event.title.join(", ")
-                    : event.title}
+              {event.services.map(service => service.name).join(", ")}
               </p>
             </div>
             <p
@@ -209,7 +209,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                 fontFamily: "Montserrat",
               }}
             >
-              {formatTime(event.start)} - {formatTime(event.end)}
+            {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".9em" }}>
               Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
@@ -217,9 +217,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
           </div>
           <div
             className={styles["container-icon"]}
-            style={{ padding: "8px 9px", top: "50%" }}
+            style={{ padding: "4px 5px", top: "20%" }}
           >
-            {paymentIcons[event.paymentMethod] || null}
+             {paymentIcons[event.payment.paymentMethod] || null}
           </div>
         </div>
       </div>
@@ -237,19 +237,19 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
         <div className={styles["container-status"]}>
           <div>
             <h3 style={{ fontSize: "1em", fontWeight: "700", margin: "0" }}>
-            {Array.isArray(event.title)
-                    ? event.title.join(", ")
-                    : event.title}
+             {event.services.map(service => service.name).join(", ")}
             </h3>
             <p style={{ fontSize: "1em", fontWeight: "300" }}>
+            Status: {capitalizeFirstLetter(event.scheduleStatus)} | 
               Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+              
             </p>
           </div>
           <div
             className={styles["container-icon"]}
             style={{ position: "unset", padding: ".3em .5em" }}
           >
-            {paymentIcons[event.paymentMethod] || null}
+            {paymentIcons[event.payment.paymentMethod] || null}
           </div>
         </div>
       </div>
@@ -274,9 +274,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                     textOverflow: "ellipsis"
                   }}
                 >
-                  {Array.isArray(event.title)
-                    ? event.title.join(", ")
-                    : event.title}
+                   {event.services.map(service => service.name).join(", ")}
                 </p>
               </div>
 

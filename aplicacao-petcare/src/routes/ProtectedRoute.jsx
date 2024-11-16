@@ -1,29 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import tokenService from '../services/tokenService';
 import { Navigate } from 'react-router-dom';
+import tokenService from '../services/tokenService';
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
+  // // Serviço de validação do token
+  // const tokenService = {
+  //   verifyToken: async () => {
+  //     try {
+  //       const token = localStorage.getItem("userToken"); // Obtém o token do localStorage
+  //       if (!token) return false; // Retorna false se o token não existir
+        
+  //       // Simulação de validação de token (substitua pela lógica real, se necessário)
+  //       const isValid = token === "validToken"; // Exemplo de validação
+  //       return isValid;
+  //     } catch (error) {
+  //       console.error("Erro ao verificar o token:", error);
+  //       return false;
+  //     }
+  //   },
+  // };
+
   useEffect(() => {
     const checkToken = async () => {
-        console.log("ENTREI AQUI")
       const validToken = await tokenService.verifyToken();
       setIsAuthenticated(validToken);
     };
-    
+
     checkToken();
   }, []);
 
   if (isAuthenticated === null) {
-    return <div>Carregando...</div>;
+    return <div>Carregando...</div>; // Exibe um carregamento enquanto verifica o token
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/dono-petshop/login" replace />;
+    return <Navigate to="/dono-petshop/login" replace />; // Redireciona se o token não for válido
   }
 
-  return children;
+  return children; // Renderiza os filhos se o usuário estiver autenticado
 };
 
 export default ProtectedRoute;
