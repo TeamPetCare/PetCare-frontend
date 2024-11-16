@@ -6,24 +6,59 @@ import styles from './mainButtonsHeader.module.css';
 import { LuDownloadCloud } from "react-icons/lu";
 import { IoMdAddCircle } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { PiBoundingBoxFill } from "react-icons/pi";
+import { MdAssignment } from "react-icons/md";
 
-function MainButtonsHeader({ onCreateClick, onDeleteClick }) {
-    return (
-      <div className={styles["containers-btn"]}>
-        <button className={`${styles["custom-btn"]} ${styles["delete"]}`} onClick={onDeleteClick}>
+function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
+  return (
+    <div className={styles["containers-btn"]}>
+
+      {/*CLIENTES*/}
+      {/* Condição para mostrar ou esconder o botão de DELETAR DO CLIENTE*/}
+      {filter === "Clientes" && (
+        <button className={`${styles["custom-btn"]} ${styles["delete"]}`} onClick={onDeleteClickCliente}>
           <RiDeleteBinLine />
-          Deletar
+          Deletar Cliente(s)
         </button>
-        <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreateClick}>
-          <IoMdAddCircle />
-          Cliente
+      )}
+
+
+      {/*PETS*/}
+      {/* Condição para mostrar o botão de DELETAR de acordo com o filtro DO PET */}
+      {filter === "Pets" && (
+        <button className={`${styles["custom-btn"]} ${styles["delete"]}`}>
+          <RiDeleteBinLine />
+          Deletar Pet(s)
         </button>
-        <button className={`${styles["custom-btn"]} ${styles["report"]}`}>
-          <LuDownloadCloud />
-          Gerar Relatório
-        </button>
-      </div>
-    );
-  }
-  
-  export default MainButtonsHeader;
+      )}
+
+
+
+      {/* Botões sempre visíveis */}
+      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreateClickCliente}>
+        <IoMdAddCircle />
+        Cliente
+      </button>
+
+
+      {/* modal da DANIELA, sua cowgirl */}
+      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreatePet}>
+        <IoMdAddCircle />
+        Pet
+      </button>
+
+      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onAssignPlain}>
+        <MdAssignment />
+        Atribuir Plano
+      </button>
+
+      <button className={`${styles["custom-btn"]} ${styles["report"]}`} onClick={onGenerateReport}>
+        <LuDownloadCloud />
+        Gerar Relatório
+      </button>
+    </div>
+  );
+}
+
+
+export default MainButtonsHeader;

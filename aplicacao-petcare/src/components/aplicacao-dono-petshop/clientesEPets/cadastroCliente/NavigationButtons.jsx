@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './NavigationButtons.module.css';
+// import styles from './NavigationButtons.module.css';
 
 const NavigationButtons = ({ onCancel, onBack, onNext, isFinalStep }) => (
   <div className={styles.buttonContainer}>

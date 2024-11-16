@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationButtons from './NavigationButtons';
 import styles from './Step3Form.module.css';
-import cachorroImg from '../../../utils/assets/aplicacao-dono-petshop/cadastroCliente/cachorro.jpg';
+import cachorroImg from '../../../../utils/assets/aplicacao-dono-petshop/cadastroCliente/cachorro.jpg';
 
 const Step3Form = ({ onBack, onSubmit }) => (
   <div className={styles.formContainer}>
