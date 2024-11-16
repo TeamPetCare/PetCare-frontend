@@ -132,3 +132,23 @@
   fill: var(--cor-primaria-azul-escuro);
   cursor: pointer;
 }
+
+
+@media (max-width: 480px) {
+  
+.container-title,
+.container-dados,
+.container-dados-first {
+  p {
+    font-size: 0.6em;
+  }
+}
+
+.container-dados,
+.container-dados-first {
+  p {
+    font-size: .7em;
+  }
+}
+
+}

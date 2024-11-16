@@ -28,6 +28,7 @@ function Calendario({ dadosAgendamentos }) {
     console.log("Dados de Agendamentos:", dadosAgendamentos);
   }, [dadosAgendamentos]);
 
+  
   const handleUpdateEvent = (updatedEvent) => {
     setAllEvents((prevEvents) =>
       prevEvents.map((event) =>
@@ -85,7 +86,6 @@ function Calendario({ dadosAgendamentos }) {
           fontWeight: 700,
           overflowY: "auto",
         }}
-        popup={true}
         formats={formats}
         onView={setView}
         components={{

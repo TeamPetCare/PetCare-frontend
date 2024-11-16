@@ -6,52 +6,43 @@ import styles from "./DropDown.module.css";
 function DropDown({
   agendamento,
   options,
+  onChange,
   titulo,
   icon: Icon,
   selectedItem,
   exibirInformacao,
   isDisabled,
+  isRequired,
 }) {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(selectedItem);
 
   useEffect(() => {
-    if (agendamento) {
-      setSelectedOption(selectedItem);
-    } else if (titulo.includes("status")) {
-      setSelectedOption("Agendado"); 
-    } else {
-      setSelectedOption(titulo);
-    }
-  }, [agendamento, titulo]); 
+    // Sincroniza selectedOption com selectedItem vindo do pai
+    setSelectedOption(selectedItem);
+  }, [selectedItem]);
 
   const handleSelectItem = (option) => {
+    // Propaga a mudança para o componente pai
+    if (onChange) {
+      onChange({ target: { name: "scheduleStatus", value: option } });
+    }
+
+    // Atualiza o estado local
     setSelectedOption(option);
-    console.log("isDisabled:", isDisabled);
   };
 
   return (
     <div className={styles["container"]}>
-      <Dropdown
-        data-bs-theme="light"
-        as={ButtonGroup}
-        className={styles["dropdown"]}
-      >
-        <Dropdown.Toggle
-          id="dropdown-custom-1"
-          className={styles["custom-btn-dropdown"]}
-          disabled={isDisabled}
-        >
+      <Dropdown data-bs-theme="light" as={ButtonGroup} className={styles["dropdown"]}>
+        <Dropdown.Toggle id="dropdown-custom-1" className={styles["custom-btn-dropdown"]} disabled={isDisabled}>
           <div className={styles["user-selected"]}>
             <Icon size={17} />
-            {selectedOption ? selectedOption : titulo}
+            {selectedOption || titulo}
           </div>
         </Dropdown.Toggle>
         <Dropdown.Menu className={styles["super-colors"]}>
           {options.map((option, index) => (
-            <Dropdown.Item
-              key={index}
-              onClick={() => !isDisabled && handleSelectItem(option)}
-            >
+            <Dropdown.Item key={index} onClick={() => !isDisabled && handleSelectItem(option)}>
               {option}
             </Dropdown.Item>
           ))}
@@ -61,33 +52,33 @@ function DropDown({
       {exibirInformacao && selectedOption && (
         <div className={styles["container-informacao"]}>
           <div>
+            {/* Informações adicionais baseadas na opção selecionada */}
             {titulo.includes("pet") ? (
               <div className={styles["container-info-geral"]}>
                 <div className={styles["container-img-user"]}>
-                  <img src={agendamento.cliente.pet.foto} alt="" />
+                  {/* <img src={agendamento.cliente.pet.foto} alt="" /> */}
                 </div>
-
                 <div className={styles["container-info-user"]}>
-                  <p>{agendamento.cliente.pet.nome}</p>
-                  <p>{agendamento.cliente.pet.raca}</p>
+                  <p>{agendamento.pet.name}</p>
+                  <p>{agendamento.pet.race.raceType}</p>
                 </div>
               </div>
             ) : (
               <div className={styles["container-info-geral"]}>
                 <div className={styles["container-img-user"]}>
-                  <img src={agendamento.cliente.foto} alt="" />
+                  {/* <img src={agendamento.cliente.foto} alt="" /> */}
                 </div>
                 <div className={styles["container-info-user"]}>
-                  <p>{agendamento.cliente.nome}</p>
+                  <p>{agendamento.payment.user.name}</p>
                   <a
-                    href={`https://wa.me/${agendamento.cliente.whatsapp.replace(
+                    href={`https://wa.me/${agendamento.payment.user.cellphone.replace(
                       /[^0-9]/g,
                       ""
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {agendamento.cliente.whatsapp}
+                    {agendamento.payment.user.cellphone}
                   </a>
                 </div>
               </div>
