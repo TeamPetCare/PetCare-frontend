@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import Step1Form from './Step1Form';
 import Step2Form from './Step2Form';
 import Step3Form from './Step3Form';
-import userService from '../../../services/userService';
-import styles from './ModalWrapper.module.css';
+import userService from '../../../../services/userService';
+// import styles from './ModalWrapper.module.css';
 
 const ModalWrapper = () => {
   const [currentStep, setCurrentStep] = useState(1);

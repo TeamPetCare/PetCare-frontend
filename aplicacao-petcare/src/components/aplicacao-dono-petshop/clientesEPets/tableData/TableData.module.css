@@ -1,3 +1,9 @@
+table{
+  border-radius: 1em;
+}
+
+
+
 .container {
   border: 1px solid #e5e5ef;
   border-radius: 1em;
@@ -16,11 +22,6 @@
     line-height: 0.9em;
     align-items: center;
   }
-
-  table{
-    border-radius: 1em;
-  }
-  
   thead{
     background-color: var(--cor-primaria-azul-escuro);
     color: white;

@@ -17,7 +17,7 @@ const tokenService = {
       });
 
       const isValidToken = response.data ? true : false;
-      console.log("Token vÃ¡lido:", isValidToken); 
+      console.log("Token válido:", isValidToken); 
 
       return isValidToken; 
 
