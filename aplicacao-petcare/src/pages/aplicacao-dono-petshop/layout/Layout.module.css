@@ -22,3 +22,10 @@
 .content.sidebar-closed {
   padding-left: 4vw; 
 }
+
+@media (max-width: 480px) {
+  .content.sidebar-open, .content.sidebar-closed {
+    padding: 1.2em 1.3em; 
+    overflow: overlay;
+  }
+}

@@ -1,0 +1,107 @@
+.container {
+    width: 100%;
+    display: flex;
+    padding-top: 5px; 
+    overflow: hidden;
+    font-family: 'Montserrat';
+}
+
+.container-texto {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4em;
+    color: var(--cor-primaria-azul-escuro);
+
+    h1 {
+        font-size: 2.90em;
+        line-height: 46px;
+        font-weight: 900;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        width: 91%;
+        gap: 2px;
+    }
+
+    button {
+        outline: none;
+        padding: 8px 26px; 
+        width: fit-content;
+        font-weight: 800;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border: none;
+        border-radius: 2em;
+        background: linear-gradient(to bottom, var(--cor-secundaria-amarelo-claro), #F3B72C);
+        cursor: pointer;
+        transition: all 0.8s ease-in-out;
+    }
+
+    button:hover {
+        padding: 12px 40px;
+    }
+}
+
+.container-texto-central {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
+    margin-bottom: 14px;
+}
+
+.texto-central-amarelo {
+    color: #F3B72C;
+}
+
+@media (max-width: 768px) {
+
+    .container {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .container-texto {
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+
+        div {
+            width: 85%;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 3em;
+            line-height: 0.9em;
+        }
+
+        button {
+            width: fit-content;
+            padding: 12px 25px;
+            font-size: 0.8em;
+        }
+
+        button:hover {
+            padding: 12px 30px;
+        }
+    }
+
+    .container-texto-central {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+}

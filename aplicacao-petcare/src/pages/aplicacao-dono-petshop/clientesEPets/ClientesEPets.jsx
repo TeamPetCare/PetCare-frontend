@@ -19,6 +19,7 @@ import { ThreeDot } from "react-loading-indicators";
 import ClientModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/ClientModal';
 import PlanModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PlanModal';
 import PetModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PetModal';
+import { getAllCustomerAndPets } from '../../../services/userService';
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
@@ -116,7 +117,7 @@ const ClientesEPets = () => {
   // Funções para recuperar os dados
   function recuperarValorClientes() {
     setLoading(true); // Ativa o loading antes de iniciar a requisição
-    userService.getAllCustomerAndPets()
+    getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];
         const clientesFormatados = data.map(cliente => ({
@@ -139,7 +140,7 @@ const ClientesEPets = () => {
   }
 
   function recuperarValorPets() {
-    userService.getAllCustomerAndPets()
+    getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];
         const petsFormatados = data.flatMap(cliente =>
@@ -167,7 +168,7 @@ const ClientesEPets = () => {
   }
 
   function recuperarValorClientesEPets() {
-    userService.getAllCustomerAndPets()
+    getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];
         const clientesEPetsFormatados = data.flatMap(cliente => {

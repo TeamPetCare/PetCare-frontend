@@ -4,6 +4,8 @@ const API_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsi
 
 const tokenService = {
   verifyToken: async () => {
+  console.log("Passei por aqui");
+
     const token = sessionStorage.getItem("userToken");
     if (!token) return false;
 

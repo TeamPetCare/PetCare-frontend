@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
-import userService from '../../../services/userService';
+import {loginUser} from "../../../services/userService";
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import { FaUserAlt } from "react-icons/fa";
@@ -14,24 +15,20 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para visibilidade da senha
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const loginData = { email, password };
-      const response = await userService.loginUser(loginData);
+      await loginUser(loginData);
 
+      // Exibe o toast de sucesso e redireciona após o fechamento
       toast.success("Login bem-sucedido! Você será redirecionado...", {
-        autoClose: 2500, 
-        onClose: () => {
-          window.location.href = 'http://localhost:3000/dono-petshop/inicio';
-        },
-        onClick: () => {
-          window.location.href = 'http://localhost:3000/dono-petshop/inicio';
-        }
+        autoClose: 2500,
+        onClose: () => navigate("/dono-petshop/inicio"), // Redireciona aqui
       });
-
     } catch (error) {
       console.error('Erro no login:', error);
       setError('Email ou senha incorretos');
@@ -83,11 +80,12 @@ const Login = () => {
               </div>
             </div>
             <button type="submit" className={styles.loginButton}>Entrar</button>
-          </form>
-          <div className={styles.footer}>
+            <div className={styles.footer}>
             <a href="/" className={styles.forgotPassword}>Esqueceu a senha?</a>
             <a href="/" className={styles.voltarButton}>Voltar</a>
           </div>
+          </form>
+          
           <p className={styles.helpText}>
             <span className={styles.negrito}>Enfrentando dificuldades para fazer login?</span> Este portal de acesso é exclusivo para donos de petshops. Se você é um tutor de pet, acesse a PetCare por este <a href="/">site</a>.
           </p>

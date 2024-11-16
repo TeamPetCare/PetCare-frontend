@@ -2,10 +2,7 @@ table{
   border-radius: 1em;
 }
 
-thead{
-  background-color: var(--cor-primaria-azul-escuro);
-  color: white;
-}
+
 
 .container {
   border: 1px solid #e5e5ef;
@@ -24,6 +21,10 @@ thead{
     font-size: 0.75em;
     line-height: 0.9em;
     align-items: center;
+  }
+  thead{
+    background-color: var(--cor-primaria-azul-escuro);
+    color: white;
   }
 }
 .scrollable-table {

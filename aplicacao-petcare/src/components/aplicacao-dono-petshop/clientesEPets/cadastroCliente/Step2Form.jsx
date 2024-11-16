@@ -67,7 +67,7 @@ const Step2Form = ({ onNext, onBack }) => {
         <div>
           <label className={styles.radioLabel}>Espécie:</label>
           <select name="species" onChange={handleInputChange}>
-            <option value="">Selecione a Espécie</option>
+            <option value="">Selecione a Espécie*</option>
             <option value="cachorro">Cachorro</option>
             <option value="gato">Gato</option>
             <option value="outro">Outro</option>
