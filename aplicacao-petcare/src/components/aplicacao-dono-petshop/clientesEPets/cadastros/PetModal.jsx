@@ -4,6 +4,7 @@ import * as petService from '../../../../services/petService';
 import userService from '../../../../services/userService';
 import modalWrapperStyles from './ModalWrapper.module.css'; // Estilo do fundo do modal
 import styles from './ModalWrapper.module.css'; // Estilo do fundo do modal
+import petStyles from './PetModal.module.css'; // Personalizações do ClientModal
 
 const PetModal = ({ isOpen, onClose }) => {
   const [petData, setPetData] = useState({});
@@ -46,29 +47,110 @@ const PetModal = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <div className={modalWrapperStyles.backdrop} onClick={onClose}></div> {/* Usa o estilo de ModalWrapper */}
-      <div className={styles.modal}> {/* Usa o estilo de PetModal */}
-        <h2>Cadastrar Pet</h2>
-        <select onChange={(e) => setSelectedClient(e.target.value)}>
-          <option value="">Selecione o Cliente</option>
-          {clients.map((client) => (
-            <option key={client.id} value={client.id}>
-              {client.name}
-            </option>
-          ))}
-        </select>
-        <input type="text" name="petName" placeholder="Nome do Pet" onChange={handleInputChange} />
-        <input type="date" name="birthDate" placeholder="Data de Nascimento" onChange={handleInputChange} />
-        <input type="text" name="sexo" placeholder="Sexo" onChange={handleInputChange} />
-        <input type="text" name="species" placeholder="Espécie" onChange={handleInputChange} />
-        <input type="text" name="breed" placeholder="Raça" onChange={handleInputChange} />
-        <input type="text" name="color" placeholder="Cor" onChange={handleInputChange} />
-        <input type="number" name="weight" placeholder="Peso" onChange={handleInputChange} />
-        <input type="text" name="size" placeholder="Porte" onChange={handleInputChange} />
-        <textarea name="observations" placeholder="Observações" onChange={handleInputChange} />
-        <button onClick={handleSubmit}>Cadastrar</button>
-        <button onClick={onClose}>Cancelar</button>
-      </div>
+ <div className={modalWrapperStyles.backdrop} onClick={onClose}></div>
+<div className={`${modalWrapperStyles.modal} ${petStyles.customModal}`}>
+  <h2 className={petStyles.title}>Cadastrar Pet</h2>
+  <div className={petStyles.formGroup}>
+    <div className={petStyles.row}>
+      <select
+        className={petStyles.select}
+        onChange={(e) => setSelectedClient(e.target.value)}
+      >
+        <option value="">Selecione o Cliente</option>
+        {clients.map((client) => (
+          <option key={client.id} value={client.id}>
+            {client.name}
+          </option>
+        ))}
+      </select>
+    </div>
+    <div className={petStyles.row}>
+      <input
+        type="text"
+        name="petName"
+        placeholder="Nome do Pet"
+        className={petStyles.fullInput}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={petStyles.row}>
+      <input
+        type="date"
+        name="birthDate"
+        placeholder="Data de Nascimento"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+      <input
+        type="text"
+        name="sexo"
+        placeholder="Sexo"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={petStyles.row}>
+      <input
+        type="text"
+        name="species"
+        placeholder="Espécie"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+      <input
+        type="text"
+        name="breed"
+        placeholder="Raça"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={petStyles.row}>
+      <input
+        type="text"
+        name="color"
+        placeholder="Cor"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+      <input
+        type="number"
+        name="weight"
+        placeholder="Peso"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={petStyles.row}>
+      <input
+        type="text"
+        name="size"
+        placeholder="Porte"
+        className={petStyles.halfInput}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className={petStyles.row}>
+      <textarea
+        name="observations"
+        placeholder="Observações"
+        className={petStyles.fullTextarea}
+        onChange={handleInputChange}
+      />
+    </div>
+  </div>
+  <div className={petStyles.buttonGroup}>
+    <button className={petStyles.submitButton} onClick={handleSubmit}>
+      Cadastrar
+    </button>
+    <button className={petStyles.cancelButton} onClick={onClose}>
+      Cancelar
+    </button>
+  </div>
+</div>
+
+
+
     </>
   );
 };
