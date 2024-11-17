@@ -1,0 +1,103 @@
+.customModal {
+    padding: 32px; 
+  }
+  
+  .title {
+    text-align: center;
+    color: var(--cor-primaria-azul-escuro);
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+  }
+  
+  /* Formulário */
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; 
+  }
+  
+  .row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .fullInput {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .halfInput {
+    flex: 1; 
+    min-width: calc(50% - 16px);
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .smallInput {
+    width: 25%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .largeInput {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .input:focus {
+    border-color: var(--cor-primaria-azul-escuro);
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.3);
+  }
+  
+  /* Botões */
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+  }
+  
+  .submitButton {
+    background-color: var(--cor-primaria-azul-escuro);
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .submitButton:hover {
+    background-color: #003366;
+    transform: scale(1.05);
+  }
+  
+  .cancelButton {
+    background-color: #f5f5f5;
+    color: #333333;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+  }
+  

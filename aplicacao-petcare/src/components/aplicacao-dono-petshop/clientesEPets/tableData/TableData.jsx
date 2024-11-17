@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { useSelectedData } from "../../../../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext";
 import { RiWhatsappFill } from "react-icons/ri";
 
-const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = () => {} }) => {
+const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = () => { } }) => {
   const [isDown, setIsDown] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -47,6 +47,9 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
     }
   };
 
+  const getDisplayValue = (value) => {
+    return value == null || value === "" ? "Sem dados" : value;
+  };
   // Filtrar e renomear colunas dinamicamente
   const columns = dados.length > 0 ? Object.keys(dados[0]).filter((col) => col !== "id") : [];
 
@@ -116,7 +119,6 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
           <tbody>
             {sortedData.map((item, index) => (
               <tr key={index} onClick={() => toggleSelectRow(index)}>
-                {/* Condição para exibir ou ocultar os elementos de seleção e edição */}
                 {filtro !== "Clientes & Pets" && (
                   <>
                     <td>
@@ -160,33 +162,36 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
                 )}
                 {columns.map((col, colIndex) => (
                   <td key={colIndex}>
-                    {typeof item[col] === "object" ? (
+                    {col === "plano" ? ( // Condição para aplicar estilo específico à coluna 'plano'
+                      <div className={styles["plano-container"]}>
+                        {getDisplayValue(item[col])} {/* Usando a função aqui */}
+                      </div>
+                    ) : typeof item[col] === "object" && item[col] !== null ? (
                       <div className={styles["content-div"]}>
                         {Object.values(item[col]).map((subItem, subIndex) => (
                           <div key={subIndex} className={styles["content-div"]}>
-                            {subItem}
+                            {getDisplayValue(subItem)} {/* Usando a função aqui */}
                           </div>
                         ))}
                       </div>
                     ) : col === "whatsapp" ? (
                       <a
-                        href={`https://wa.me/${item[col].replace(/[^0-9]/g, '')}`}
+                        href={`https://wa.me/${item[col]?.replace(/[^0-9]/g, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles["content-div"]}
                       >
                         <RiWhatsappFill />
-                        {item[col]}
+                        {getDisplayValue(item[col])} {/* Usando a função aqui */}
                       </a>
                     ) : (
                       <div
-                        className={`${styles["content-div"]} ${
-                          col === "observacoes"
-                            ? styles["white-space-normal"]
-                            : styles["white-space-nowrap"]
-                        }`}
+                        className={`${styles["content-div"]} ${col === "observacoes"
+                          ? styles["white-space-normal"]
+                          : styles["white-space-nowrap"]
+                          }`}
                       >
-                        {item[col]}
+                        {getDisplayValue(item[col])} {/* Usando a função aqui */}
                       </div>
                     )}
                   </td>

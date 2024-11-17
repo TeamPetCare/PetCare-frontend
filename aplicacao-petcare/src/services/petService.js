@@ -3,7 +3,7 @@ import api from './api';  // Importa o Axios configurado no api.js
 // Criar novo pet
 export const createPet = async (petData) => {
   try {
-    const response = await api.post('/api/pets', petData);
+    const response = await api.post('/pets', petData);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar pet:', error);

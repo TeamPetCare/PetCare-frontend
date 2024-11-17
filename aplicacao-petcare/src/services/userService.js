@@ -43,20 +43,20 @@ const userService = {
 
   getFileCsvCustomerAndPets: async () => {
     try {
-      const response = await api.get(API_URL + "/reportCustumersAndPets", {
+      const response = await api.get("/users/reportCustumersAndPets", {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         },
         responseType: 'blob' // Define o tipo de resposta como blob
       });
-  
+
       return response.data; // Retorna o blob do arquivo
     } catch (error) {
       throw error;
     }
   }
-  
+
 
 };
 
-export default userService;
+export default userService;
