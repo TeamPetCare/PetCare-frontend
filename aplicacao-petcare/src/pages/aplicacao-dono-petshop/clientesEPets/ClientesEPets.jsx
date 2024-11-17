@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import userService from "../../../services/userService";
-import { createPet, deletePet, getPetById, getAllPets, updatePet } from "../../../services/petService";
+import { createPet, deletePet, getPetById, getAllPets, updatePet, deletePetList } from "../../../services/petService";
 import TableData from "../../../components/aplicacao-dono-petshop/clientesEPets/tableData/TableData";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
@@ -85,18 +85,31 @@ const ClientesEPets = () => {
       toast.error("Nenhum cliente selecionado para deletar.");
     }
   }
+
   async function deletarPets() {
     if (selectedData && selectedData.length > 0) {
       try {
-        const response = await userService.deletePet(selectedData);
+        // Filtra e transforma os dados em um array de inteiros
+        const idsToDelete = selectedData.map((item) => parseInt(item.id, 10)).filter(Number.isInteger);
+        console.log(idsToDelete)
+  
+        if (idsToDelete.length === 0) {
+          console.log("Nenhum ID válido encontrado para deletar.");
+          toast.error("Nenhum ID válido encontrado para deletar.");
+          return;
+        }
+  
+        const response = await deletePetList(idsToDelete); // Passa apenas os IDs para a função
         console.log("Pet(s) deletado(s) com sucesso:", response);
+  
         toast.success("Pet(s) deletado(s) com sucesso!", {
           autoClose: 2500,
           onClick: () => {
             window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
           }
         });
-        recuperarValorClientes()
+  
+        recuperarValorPets();
       } catch (error) {
         console.error("Erro ao deletar pet(s):", error);
         toast.error("Erro ao deletar pet(s)");
@@ -106,6 +119,7 @@ const ClientesEPets = () => {
       toast.error("Nenhum cliente selecionado para deletar.");
     }
   }
+  
 
 
 
@@ -345,6 +359,11 @@ const ClientesEPets = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Esse aqui é o modal do delete
+  const [showP, setShowP] = useState(false);
+  const handleCloseP = () => setShowP(false);
+  const handleShowP = () => setShowP(true);
+
   // Esse aqui é o modal de edição
   const [showPut, setShowPut] = useState(false);
   const handleClosePut = () => setShowPut(false);
@@ -367,6 +386,7 @@ const ClientesEPets = () => {
         <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
         <MainButtonsHeader filter={currentFilter}
           onDeleteClickCliente={selectedData.length > 0 ? handleShow : null}
+          onDeleteClickPet={selectedData.length > 0 ? handleShowP : null}
           onCreateClickCliente={openModal}
           onCreatePet={handleShowAddPet}
           onAssignPlain={handleShowAssignPlain}
@@ -411,8 +431,11 @@ const ClientesEPets = () => {
       {/* // Para o modal de atribuir plano */}
       {showAssignPlain && <PlanModal isOpen={showAssignPlain} onClose={handleCloseAssignPlain} pets={petsData} />}
 
-      {/* Modal de deletar */}
+      {/* Modal de deletar Cliente */}
       {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes} />}
+
+      {/* Modal de deletar Pet */}
+      {showP && <ModalDelete show={showP} handleClose={handleCloseP} onDelete={deletarPets} />}
 
       {/* Modal de update */}
       {showPut && <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={deletarClientes} dados={selectedData} title="Editar Cliente" />}

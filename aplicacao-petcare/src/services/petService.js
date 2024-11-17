@@ -53,3 +53,14 @@ export const deletePet = async (id) => {
     throw error;
   }
 };
+
+export const deletePetList = async (selectedData) => {
+  try {
+    const response = await api.delete("/pets/pets-list",selectedData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
