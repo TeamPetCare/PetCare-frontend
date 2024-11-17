@@ -18,8 +18,8 @@ const UserHeader = () => {
           <img src={ftUser} alt="Foto do Usuário" />
           {isDesktop && (
             <div className={styles["container-info-profile"]}>
-              <h3>Jaqueline Freitas</h3>
-              <p>Gerente</p>
+              <h3>{sessionStorage.getItem('userName')}</h3>
+              <p>Dono</p>
             </div>
           )}
         </div>
