@@ -56,11 +56,14 @@ export const deletePet = async (id) => {
 
 export const deletePetList = async (selectedData) => {
   try {
-    const response = await api.delete("/pets/pets-list",selectedData);
+    const response = await api.delete("/pets/pets-list", {
+      data: selectedData, // O corpo da requisição DELETE é enviado aqui
+    });
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
+
 

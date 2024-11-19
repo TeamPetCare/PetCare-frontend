@@ -142,6 +142,7 @@ const ClientesEPets = () => {
           numero: cliente.number,
           bairro: cliente.district,
           complemento: cliente.complement,
+          cep: cliente.cep,
           numero_de_pets: cliente.pet.length,
           dt_ultimo_agendamento: new Date(cliente.lastSchedule).toLocaleDateString('pt-BR', {
             year: 'numeric',
@@ -295,6 +296,7 @@ const ClientesEPets = () => {
     numero: "Nº Rua",
     bairro: "Bairro",
     complemento: "Complemento",
+    cep: "CEP",
     numero_de_pets: "Número de Pets",
     dt_ultimo_agendamento: "Último Agendamento",
     total_agendamentos: "Total Agendamentos "
