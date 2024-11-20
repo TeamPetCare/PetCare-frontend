@@ -42,9 +42,9 @@ const ClientesEPets = () => {
     cep: "",
     numeroDePets: 0,
     dtUltimoAgendamento: "",
-    totalAgendamentos: 0
+    totalAgendamentos: 0,
   });
-  
+
 
   const handleGenerateReport = async () => {
     try {
@@ -79,31 +79,37 @@ const ClientesEPets = () => {
   };
 
   async function atualizarClientes(cliente) {
-    console.log("Eu Tô aqui:")
-    console.log(cliente)
-  }
+    console.log("Cliente Antes:", cliente);
 
-  async function deletarClientes() {
-    if (selectedData && selectedData.length > 0) {
-      try {
-        const response = await userService.deleteCustomers(selectedData);
-        console.log("Cliente(s) deletado(s) com sucesso:", response);
-        toast.success("Cliente(s) deletado(s) com sucesso!", {
-          autoClose: 2500,
-          onClick: () => {
-            window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
-          }
-        });
-        recuperarValorClientes()
-      } catch (error) {
-        console.error("Erro ao deletar cliente(s):", error);
+    // Garantir que id seja um número
+    const idCliente = parseInt(cliente.id, 10);
 
-      }
-    } else {
-      console.log("Nenhum cliente selecionado para deletar.");
-      toast.error("Nenhum cliente selecionado para deletar.");
+    if (isNaN(idCliente)) {
+      console.error("ID inválido");
+      toast.error("ID inválido.");
+      return;
+    }
+
+    const clienteComId = { ...cliente, id: idCliente };
+
+    try {
+      // Chama o serviço para atualizar o cliente
+      const response = await userService.updateCliente(clienteComId);
+      console.log("Cliente atualizado com sucesso:", response);
+
+      toast.success("Cliente atualizado com sucesso!", {
+        autoClose: 2500,
+        onClick: () => {
+          window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+        }
+      });
+      recuperarValorClientes();
+    } catch (error) {
+      console.error("Erro ao atualizar cliente:", error);
+      toast.error("Erro ao atualizar cliente.");
     }
   }
+
 
   async function deletarPets() {
     if (selectedData && selectedData.length > 0) {
@@ -389,7 +395,25 @@ const ClientesEPets = () => {
   // Esse aqui é o modal de edição
   const [showPut, setShowPut] = useState(false);
   const handleClosePut = () => setShowPut(false);
-  const handleShowPut = () => setShowPut(true);
+  const handleShowPut = () => {
+    if (selectedData.length > 0) {
+      const dadosCliente = selectedData[0]; // Usa o primeiro item como referência
+      setClienteAtual({
+        id: dadosCliente.id || 0,
+        cliente: dadosCliente.cliente || "",
+        WhatsApp: dadosCliente.WhatsApp || "",
+        rua: dadosCliente.rua || "",
+        numero: dadosCliente.numero || 0,
+        bairro: dadosCliente.bairro || "",
+        complemento: dadosCliente.complemento || "",
+        cep: dadosCliente.cep || "",
+        numeroDePets: dadosCliente.numeroDePets || 0,
+        dtUltimoAgendamento: dadosCliente.dtUltimoAgendamento || "",
+        totalAgendamentos: dadosCliente.totalAgendamentos || 0,
+      });
+    }
+    setShowPut(true);
+  };
 
   // Esse é o modal de crate de pet
   const [showAddPet, setAddPet] = useState(false);
@@ -462,8 +486,17 @@ const ClientesEPets = () => {
       {/* Modal de update de Cliente*/}
       {showPut && selectedData.length > 0 && (
 
-        <ModalPut showPut={showPut} handleClosePut={handleClosePut} cliente={clienteAtual} onPut={() => atualizarClientes(clienteAtual)} dados={selectedData} nonEditableFields={['id','numeroDePets', 'totalAgendamentos', 'dtUltimoAgendamento']}// Nome do campo que não será editável title="Editar Cliente"
-/>        
+        <ModalPut
+          showPut={showPut}
+          handleClosePut={handleClosePut}
+          cliente={clienteAtual}
+          setClienteAtual={setClienteAtual} // Passar o setter diretamente
+          onPut={() => atualizarClientes(clienteAtual)}
+          dados={selectedData}
+          nonEditableFields={['id', 'numeroDePets', 'totalAgendamentos']}
+          title="Editar Cliente"
+        />
+
       )}
 
 

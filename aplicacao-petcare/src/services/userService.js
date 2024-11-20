@@ -54,9 +54,20 @@ const userService = {
     } catch (error) {
       throw error;
     }
-  }
+  },
 
+  updateCliente: async (selectedData) => {
+    try {
+      const response = await api.put(`/users/customers/${selectedData.id}`, selectedData); // Passa selectedData como corpo da requisição
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  
 
 };
+
 
 export default userService;
