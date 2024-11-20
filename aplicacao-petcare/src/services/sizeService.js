@@ -1,55 +1,16 @@
-import api from './api';  // Importa o Axios configurado no api.js
+import api from './api'; // Importa o Axios configurado no api.js
 
-// Criar novo tamanho
-export const createSize = async (sizeData) => {
-  try {
-    const response = await api.post('/api/sizes', sizeData);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao criar tamanho:', error);
-    throw error;
-  }
+const sizeService = {
+  // Obter todos os tamanhos
+  getAllSizes: async () => {
+    try {
+      const response = await api.get('/api/sizes'); // Endpoint para buscar todos os tamanhos
+      return response.data; // Retorna a lista de tamanhos
+    } catch (error) {
+      console.error('Erro ao buscar tamanhos:', error);
+      throw error; // Propaga o erro para ser tratado no componente
+    }
+  },
 };
 
-// Atualizar tamanho existente
-export const updateSize = async (id, sizeData) => {
-  try {
-    const response = await api.put(`/api/sizes/${id}`, sizeData);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao atualizar tamanho:', error);
-    throw error;
-  }
-};
-
-// Obter tamanho por ID
-export const getSizeById = async (id) => {
-  try {
-    const response = await api.get(`/api/sizes/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao buscar tamanho por ID:', error);
-    throw error;
-  }
-};
-
-// Listar todos os tamanhos
-export const getAllSizes = async () => {
-  try {
-    const response = await api.get('/api/sizes');
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao listar tamanhos:', error);
-    throw error;
-  }
-};
-
-// Deletar tamanho
-export const deleteSize = async (id) => {
-  try {
-    await api.delete(`/api/sizes/${id}`);
-  } catch (error) {
-    console.error('Erro ao deletar tamanho:', error);
-    throw error;
-  }
-};
+export default sizeService;

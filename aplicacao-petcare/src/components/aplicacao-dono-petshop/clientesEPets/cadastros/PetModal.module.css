@@ -1,163 +1,99 @@
 .customModal {
-    padding: 32px;
-  }
-  
-  .title {
-    text-align: center;
-    color: var(--cor-primaria-azul-escuro);
-    margin-bottom: 24px;
-    font-size: 1.5rem;
-  }
-  
-  .formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .row {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  
-  .fullInput,
-  .fullTextarea {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .halfInput,
-  .select {
-    flex: 1;
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .fullTextarea {
-    height: 80px;
-  }
-  
-  input:focus,
-  textarea:focus,
-  select:focus {
-    border-color: var(--cor-primaria-azul-escuro);
-    box-shadow: 0 0 5px rgba(0, 0, 255, 0.3);
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 24px;
-  }
-  
-  .submitButton {
-    background-color: var(--cor-primaria-azul-escuro);
-    color: #ffffff;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s ease;
-  }
-  
-  .submitButton:hover {
-    background-color: #003366;
-    transform: scale(1.05);
-  }
-  
-  .cancelButton {
-    background-color: #f5f5f5;
-    color: #333333;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s ease;
-  }
-  
-  .cancelButton:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.05);
-  }
-  
-  .formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* Espaçamento entre os campos */
-  }
-  
-  .field {
-    display: flex;
-    flex-direction: column; /* Label em cima do input/select */
-    gap: 8px;
-  }
-  
-  .row {
-    display: flex;
-    gap: 16px;
-  }
-  
-  .label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .input:focus {
-    border-color: var(--cor-primaria-azul-escuro);
-    box-shadow: 0 0 5px rgba(0, 0, 255, 0.3);
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 24px;
-  }
-  
-  .submitButton {
-    background-color: var(--cor-primaria-azul-escuro);
-    color: #fff;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s ease;
-  }
-  
-  .submitButton:hover {
-    background-color: #003366;
-    transform: scale(1.05);
-  }
-  
-  .cancelButton {
-    background-color: #f5f5f5;
-    color: #333;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s ease;
-  }
-  
-  .cancelButton:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.05);
-  }
-  
+  padding: 32px;
+}
+
+.title {
+  text-align: center;
+  color: var(--cor-primaria-azul-escuro);
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espaçamento entre label e input/select */
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.input,
+.select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff; /* Fundo branco */
+  color: #333; /* Texto preto */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input:focus,
+textarea:focus,
+.select:focus {
+  border-color: var(--cor-primaria-azul-escuro);
+  box-shadow: 0 0 5px rgba(0, 0, 255, 0.3);
+}
+
+.select option {
+  color: #000; /* Texto preto */
+  background-color: #fff; /* Fundo branco */
+}
+
+.fullTextarea {
+  height: 80px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.submitButton,
+.cancelButton {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.submitButton {
+  background-color: var(--cor-primaria-azul-escuro);
+  color: #fff;
+}
+
+.submitButton:hover {
+  background-color: #003366;
+  transform: scale(1.05);
+}
+
+.cancelButton {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
