@@ -31,6 +31,20 @@ const ClientesEPets = () => {
   const [currentFilter, setCurrentFilter] = useState("Clientes"); // Filtro atual
   const { selectedData } = useSelectedData() || {};
   const [loading, setLoading] = useState(false);
+  const [clienteAtual, setClienteAtual] = useState({
+    id: 0,
+    cliente: "",
+    WhatsApp: "",
+    rua: "",
+    numero: 0,
+    bairro: "",
+    complemento: "",
+    cep: "",
+    numeroDePets: 0,
+    dtUltimoAgendamento: "",
+    totalAgendamentos: 0
+  });
+  
 
   const handleGenerateReport = async () => {
     try {
@@ -64,6 +78,9 @@ const ClientesEPets = () => {
     }
   };
 
+  async function atualizarClientes() {
+  }
+
   async function deletarClientes() {
     if (selectedData && selectedData.length > 0) {
       try {
@@ -92,23 +109,23 @@ const ClientesEPets = () => {
         // Filtra e transforma os dados em um array de inteiros
         const idsToDelete = selectedData.map((item) => parseInt(item.id, 10)).filter(Number.isInteger);
         console.log(idsToDelete)
-  
+
         if (idsToDelete.length === 0) {
           console.log("Nenhum ID válido encontrado para deletar.");
           toast.error("Nenhum ID válido encontrado para deletar.");
           return;
         }
-  
+
         const response = await deletePetList(idsToDelete); // Passa apenas os IDs para a função
         console.log("Pet(s) deletado(s) com sucesso:", response);
-  
+
         toast.success("Pet(s) deletado(s) com sucesso!", {
           autoClose: 2500,
           onClick: () => {
             window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
           }
         });
-  
+
         recuperarValorPets();
       } catch (error) {
         console.error("Erro ao deletar pet(s):", error);
@@ -119,7 +136,7 @@ const ClientesEPets = () => {
       toast.error("Nenhum cliente selecionado para deletar.");
     }
   }
-  
+
 
 
 
@@ -128,28 +145,29 @@ const ClientesEPets = () => {
     // Aqui você pode renderizar os dados transferidos ou fazer o que precisar
   }, [selectedData])
 
-  // Funções para recuperar os dados
   function recuperarValorClientes() {
     setLoading(true); // Ativa o loading antes de iniciar a requisição
     getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];
-        const clientesFormatados = data.map(cliente => ({
+        const clientesFormatados = data.map((cliente) => ({
           id: cliente.id,
           cliente: cliente.name,
-          whatsapp: cliente.cellphone,
+          WhatsApp: cliente.cellphone,
           rua: cliente.street,
           numero: cliente.number,
           bairro: cliente.district,
           complemento: cliente.complement,
           cep: cliente.cep,
-          numero_de_pets: cliente.pet.length,
-          dt_ultimo_agendamento: new Date(cliente.lastSchedule).toLocaleDateString('pt-BR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-          }),
-          total_agendamentos: cliente.totalSchedules,
+          numeroDePets: cliente.pet.length,
+          dtUltimoAgendamento: cliente.lastSchedule
+            ? new Date(cliente.lastSchedule).toLocaleDateString('pt-BR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+            : "Sem dados", // Substituir por "Sem dados" se for null
+          totalAgendamentos: cliente.totalSchedules,
         }));
         setclientesData(clientesFormatados);
         setLoading(false); // Desativa o loading após a resposta
@@ -291,21 +309,21 @@ const ClientesEPets = () => {
 
   const columnNamesClientes = {
     cliente: "Cliente",
-    whatsapp: "WhatsApp",
+    WhatsApp: "WhatsApp",
     rua: "Rua",
     numero: "Nº Rua",
     bairro: "Bairro",
     complemento: "Complemento",
     cep: "CEP",
-    numero_de_pets: "Número de Pets",
-    dt_ultimo_agendamento: "Último Agendamento",
-    total_agendamentos: "Total Agendamentos "
+    numeroDePets: "Número de Pets",
+    dtUltimoAgendamento: "Último Agendamento",
+    totalAgendamentos: "Total Agendamentos "
   };
 
   const sortableColumnsClientes = [
-    "numero_de_pets",
-    "dt_ultimo_agendamento",
-    "total_agendamentos"
+    "numeroDePets",
+    "dtUltimoAgendamento",
+    "totalAgendamentos"
   ];
 
   const columnNamesPets = {
@@ -439,8 +457,12 @@ const ClientesEPets = () => {
       {/* Modal de deletar Pet */}
       {showP && <ModalDelete show={showP} handleClose={handleCloseP} onDelete={deletarPets} />}
 
-      {/* Modal de update */}
-      {showPut && <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={deletarClientes} dados={selectedData} title="Editar Cliente" />}
+      {/* Modal de update de Cliente*/}
+      {showPut && selectedData.length > 0 && (
+        <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={(atualizarClientes)} dados={selectedData} nonEditableFields={['id','numeroDePets', 'totalAgendamentos', 'dtUltimoAgendamento']} // Nome do campo que não será editável title="Editar Cliente"
+/>        
+      )}
+
 
 
     </div>
