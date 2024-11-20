@@ -78,7 +78,9 @@ const ClientesEPets = () => {
     }
   };
 
-  async function atualizarClientes() {
+  async function atualizarClientes(cliente) {
+    console.log("Eu Tô aqui:")
+    console.log(cliente)
   }
 
   async function deletarClientes() {
@@ -459,7 +461,8 @@ const ClientesEPets = () => {
 
       {/* Modal de update de Cliente*/}
       {showPut && selectedData.length > 0 && (
-        <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={(atualizarClientes)} dados={selectedData} nonEditableFields={['id','numeroDePets', 'totalAgendamentos', 'dtUltimoAgendamento']} // Nome do campo que não será editável title="Editar Cliente"
+
+        <ModalPut showPut={showPut} handleClosePut={handleClosePut} cliente={clienteAtual} onPut={() => atualizarClientes(clienteAtual)} dados={selectedData} nonEditableFields={['id','numeroDePets', 'totalAgendamentos', 'dtUltimoAgendamento']}// Nome do campo que não será editável title="Editar Cliente"
 />        
       )}
 

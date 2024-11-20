@@ -1,101 +1,167 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 import styles from './ModalPut.module.css'; // Supondo que você tenha esse arquivo CSS
 
 function ModalPut({
-    showPut,
-    handleClosePut,
-    onPut,
-    dados = [],
-    title = "Editar Dados",
-    nonEditableFields = [] // Array de campos que não devem ser editáveis
+  showPut,
+  handleClosePut,
+  onPut,
+  dados = [],
+  title = "Editar Cliente",
+  cliente = {},
+  nonEditableFields = [], // Campos não editáveis
 }) {
-    const handlePutClick = () => {
-        onPut(); // Chama a função passada como prop
-        handleClosePut(); // Fecha o modal após a edição
-    };
+  const [clienteAtual, setClienteAtual] = useState(cliente);
 
+  useEffect(() => {
+    if (dados.length > 0) {
+      const dataOriginal = dados[0].dtUltimoAgendamento;
+      const dataFormatada = formatarDataParaIso(dataOriginal);
 
-    // converter os dados para o tipo especificado no DTO, precisa?
-    const handleShowPut = (cliente) => {
-        setClienteAtual({
-          id: cliente.id,
-          cliente: cliente.cliente,
-          WhatsApp: cliente.WhatsApp,
-          rua: cliente.rua,
-          numero: cliente.numero,
-          bairro: cliente.bairro,
-          complemento: cliente.complemento,
-          cep: cliente.cep,
-          numeroDePets: cliente.numeroDePets,
-          dtUltimoAgendamento: cliente.dtUltimoAgendamento,
-          totalAgendamentos: cliente.totalAgendamentos
-        });
-      };
-      
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setClienteAtual((prevState) => ({
-          ...prevState,
-          [name]: value
-        }));
-      };
-      
+      setClienteAtual({
+        ...dados[0],
+        dtUltimoAgendamento: dataFormatada,
+      });
+    }
+  }, [dados, showPut]);
 
-    return (
-        <Modal
-            show={showPut}
-            onHide={handleClosePut}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter" className={styles["title"]}>
-                    {title}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {dados.length > 0 && (
-                    <div>
-                        {dados.map((item, index) => (
-                            <div key={index} className={styles.container}>
-                                {Object.keys(item).map((key, i) => (
-                                    <div key={i} className={styles.inputGroup}>
-                                        <label>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
-                                        {nonEditableFields.includes(key) ? (
-                                            // Campo não editável, mas estilizado como os demais
-                                            <input
-                                                type="text"
-                                                value={item[key]}
-                                                readOnly // Torna o campo somente leitura
-                                                disabled
-                                                style={{ opacity: 0.5 }}
-                                            />
-                                        ) : (
-                                            // Campo editável
-                                            <input
-                                                type="text"
-                                                defaultValue={item[key]}
-                                                style={{ marginTop: '5px' }}
-                                            />
-                                        )}
-                                    </div>
-                                ))}
+  const formatarDataParaIso = (data) => {
+    if (!data) return "";
+    const partes = data.split("/");
+    if (partes.length === 3) {
+      const [dia, mes, ano] = partes;
+      return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
+    }
+    return data; // Retorna como está caso o formato não seja o esperado
+  };
 
-                                <hr /> {/* Linha para separar cada cliente/pet */}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="primary" onClick={handlePutClick} className={styles["cancelButton"]}>Fechar</Button>
-                <Button variant="secondary" onClick={handleClosePut} className={styles["submitButton"]}>Salvar Alterações</Button>
-            </Modal.Footer>
-        </Modal>
-    );
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (!nonEditableFields.includes(name)) {
+      setClienteAtual((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onPut(clienteAtual);
+    handleClosePut();
+  };
+
+  return (
+    <Modal
+      show={showPut}
+      onHide={handleClosePut}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      className={styles["modal"]}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter" className={styles["title"]}>
+          {title}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={handleSubmit} className={styles["container"]}>
+          {/** Campos de Formulário **/}
+          <Form.Group controlId="formNome">
+            <Form.Label>Nome</Form.Label>
+            <Form.Control
+              type="text"
+              name="cliente"
+              value={clienteAtual.cliente || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("cliente")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formWhatsApp">
+            <Form.Label>WhatsApp</Form.Label>
+            <Form.Control
+              type="text"
+              name="WhatsApp"
+              value={clienteAtual.WhatsApp || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("WhatsApp")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formRua">
+            <Form.Label>Rua</Form.Label>
+            <Form.Control
+              type="text"
+              name="rua"
+              value={clienteAtual.rua || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("rua")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formNumero">
+            <Form.Label>Número</Form.Label>
+            <Form.Control
+              type="text"
+              name="numero"
+              value={clienteAtual.numero || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("numero")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBairro">
+            <Form.Label>Bairro</Form.Label>
+            <Form.Control
+              type="text"
+              name="bairro"
+              value={clienteAtual.bairro || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("bairro")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formComplemento">
+            <Form.Label>Complemento</Form.Label>
+            <Form.Control
+              type="text"
+              name="complemento"
+              value={clienteAtual.complemento || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("complemento")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formCep">
+            <Form.Label>CEP</Form.Label>
+            <Form.Control
+              type="text"
+              name="cep"
+              value={clienteAtual.cep || ""}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("cep")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formDtUltimoAgendamento">
+            <Form.Label>Data do Último Agendamento</Form.Label>
+            <Form.Control
+              type="date"
+              name="dtUltimoAgendamento"
+              value={clienteAtual.dtUltimoAgendamento || ""}
+              onChange={handleInputChange}
+              readOnly
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" type="submit" className={styles["submitButton"]} onClick={handleSubmit}>
+          Salvar Alterações
+        </Button>
+        <Button variant="secondary" onClick={handleClosePut} className={styles["cancelButton"]}>
+          Fechar
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
 
 export default ModalPut;

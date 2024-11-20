@@ -1,22 +1,13 @@
-/* ModalPut.module.css */
-.inputGroup {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 2;
-    margin-bottom: 10px;
-}
-
 .container {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-
 .title {
     text-align: center;
     color: var(--cor-primaria-azul-escuro);
-    margin-bottom: 24px;
     font-size: 1.8rem;
     font-weight: 700;
 
@@ -68,7 +59,7 @@
   }
   
   .cancelButton:hover {
-    background-color: #e0e0e0;
+    background-color: #7a7878;
     transform: scale(1.05);
   }
   
