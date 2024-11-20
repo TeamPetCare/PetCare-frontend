@@ -86,10 +86,10 @@ const PetModal = ({ isOpen, onClose }) => {
         <h2 className={petStyles.title}>Cadastrar Pet</h2>
         <div className={petStyles.formGroup}>
           {/* Cliente */}
-          <div className={petStyles.row}>
-            <label>Cliente</label>
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Cliente</label>
             <select
-              className={petStyles.select}
+              className={petStyles.input}
               value={selectedClient}
               onChange={(e) => setSelectedClient(e.target.value)}
             >
@@ -103,22 +103,22 @@ const PetModal = ({ isOpen, onClose }) => {
           </div>
   
           {/* Nome do Pet */}
-          <div className={petStyles.row}>
-            <label>Nome do Pet</label>
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Nome do Pet</label>
             <input
               type="text"
               name="petName"
               placeholder="Nome do Pet"
-              className={petStyles.fullInput}
+              className={petStyles.input}
               onChange={handleInputChange}
             />
           </div>
   
           {/* Espécie */}
-          <div className={petStyles.row}>
-            <label>Espécie</label>
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Espécie</label>
             <select
-              className={petStyles.select}
+              className={petStyles.input}
               value={selectedEspecie}
               onChange={(e) => setSelectedEspecie(e.target.value)}
             >
@@ -132,42 +132,45 @@ const PetModal = ({ isOpen, onClose }) => {
           </div>
   
           {/* Raça */}
-          <div className={petStyles.row}>
-            <label>Raça</label>
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Raça</label>
             <select
-              className={petStyles.select}
+              className={petStyles.input}
               value={selectedRace}
               onChange={(e) => setSelectedRace(e.target.value)}
             >
               <option value="">Selecione a Raça</option>
               {races.map((race) => (
                 <option key={race.id} value={race.id}>
-                  {race.raceType}
+                  {race.name}
                 </option>
               ))}
             </select>
           </div>
-  
+
           {/* Data de Nascimento e Sexo */}
           <div className={petStyles.row}>
-            <div className={petStyles.halfWidth}>
-              <label>Data de Nascimento</label>
+            <div className={petStyles.field}>
+              <label className={petStyles.label}>Data de Nascimento</label>
               <input
                 type="date"
                 name="birthDate"
-                className={petStyles.fullInput}
+                className={petStyles.input}
                 onChange={handleInputChange}
               />
             </div>
-            <div className={petStyles.halfWidth}>
-              <label>Sexo</label>
-              <input
-                type="text"
+            <div className={petStyles.field}>
+              <label className={petStyles.label}>Sexo</label>
+              <select
                 name="sexo"
-                placeholder="Sexo"
-                className={petStyles.fullInput}
+                className={petStyles.input}
+                value={petData.sexo || ''}
                 onChange={handleInputChange}
-              />
+              >
+                <option value="">Selecione o Sexo</option>
+                <option value="Macho">Macho</option>
+                <option value="Fêmea">Fêmea</option>
+              </select>
             </div>
           </div>
         </div>
