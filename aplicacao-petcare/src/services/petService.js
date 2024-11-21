@@ -1,12 +1,28 @@
-import api from './api';  // Importa o Axios configurado no api.js
+// petService.js
+import api from './api'; // Importa o Axios configurado no api.js
 
-// Criar novo pet
+// Criar novo pet sem imagem
 export const createPet = async (petData) => {
   try {
     const response = await api.post('/pets', petData);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar pet:', error);
+    throw error;
+  }
+};
+
+// Criar novo pet com imagem
+export const createPetWithImage = async (formData) => {
+  try {
+    const response = await api.post('/pets', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao criar pet com imagem:', error);
     throw error;
   }
 };
@@ -54,6 +70,7 @@ export const deletePet = async (id) => {
   }
 };
 
+// Deletar múltiplos pets
 export const deletePetList = async (selectedData) => {
   try {
     const response = await api.delete("/pets/pets-list", {
@@ -66,4 +83,15 @@ export const deletePetList = async (selectedData) => {
   }
 };
 
+// Exportação default contendo todas as funções
+const petService = {
+  createPet,
+  createPetWithImage,
+  updatePet,
+  getPetById,
+  getAllPets,
+  deletePet,
+  deletePetList,
+};
 
+export default petService;

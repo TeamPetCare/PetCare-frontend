@@ -2,58 +2,61 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import raceService from '../../../../services/racaService';
 import especieService from '../../../../services/especieService';
-import { getAllCustomerAndPets } from '../../../../services/userService'; // Import do método correto
-import modalWrapperStyles from './ModalWrapper.module.css'; // Estilo genérico do modal
-import petStyles from './PetModal.module.css'; // Estilo específico para PetModal
-import { createPet, deletePet, getPetById, getAllPets, updatePet } from "../../../../services/petService";
-
+import { getAllCustomerAndPets } from '../../../../services/userService';
+import petService from '../../../../services/petService';
+import sizeService from '../../../../services/sizeService';
+import modalWrapperStyles from './ModalWrapper.module.css';
+import petStyles from './PetModal.module.css';
 
 const PetModal = ({ isOpen, onClose }) => {
-  const [petData, setPetData] = useState({});
+  const [petData, setPetData] = useState({
+    petName: '',
+    sexo: '',
+    color: '',
+    birthDate: '',
+    observations: '',
+  });
+
   const [clients, setClients] = useState([]);
   const [races, setRaces] = useState([]);
   const [especies, setEspecies] = useState([]);
+  const [sizes, setSizes] = useState([]);
+
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedRace, setSelectedRace] = useState('');
   const [selectedEspecie, setSelectedEspecie] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
-    // Buscar clientes
-    const fetchClients = async () => {
-      try {
-        const clientList = await getAllCustomerAndPets(); // Usando o método correto
-        setClients(clientList);
-      } catch (error) {
-        console.error('Erro ao buscar clientes:', error);
-      }
-    };
+    if (isOpen) {
+      const fetchData = async () => {
+        try {
+          console.log('Iniciando a busca de dados...');
+          const [clientList, raceList, especieList, sizeList] = await Promise.all([
+            getAllCustomerAndPets(),
+            raceService.getAllRaces(),
+            especieService.getAllEspecies(),
+            sizeService.getAllSizes(),
+          ]);
 
-    // Buscar raças
-    const fetchRaces = async () => {
-      try {
-        const raceList = await raceService.getAllRaces();
-        console.log('Raças carregadas:', raceList); // Verifique o que está sendo retornado
-        setRaces(raceList);
-      } catch (error) {
-        console.error('Erro ao buscar raças:', error);
-      }
-    };
-  
+          console.log('Clientes carregados:', clientList);
+          console.log('Raças carregadas:', raceList);
+          console.log('Espécies carregadas:', especieList);
+          console.log('Tamanhos carregados:', sizeList);
 
-    // Buscar espécies
-    const fetchEspecies = async () => {
-      try {
-        const especieList = await especieService.getAllEspecies();
-        setEspecies(especieList);
-      } catch (error) {
-        console.error('Erro ao buscar espécies:', error);
-      }
-    };
+          setClients(clientList);
+          setRaces(raceList);
+          setEspecies(especieList);
+          setSizes(sizeList);
+        } catch (error) {
+          console.error('Erro ao buscar dados:', error);
+          toast.error('Erro ao carregar os dados. Tente novamente.');
+        }
+      };
 
-    fetchClients();
-    fetchRaces();
-    fetchEspecies();
-  }, []);
+      fetchData();
+    }
+  }, [isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,17 +66,24 @@ const PetModal = ({ isOpen, onClose }) => {
   const handleSubmit = async () => {
     try {
       const dataToSave = {
-        ...petData,
-        ownerId: selectedClient,
-        raceId: selectedRace,
-        especieId: selectedEspecie,
+        name: petData.petName,
+        gender: petData.sexo,
+        color: petData.color,
+        birthDate: petData.birthDate,
+        observations: petData.observations,
+        specieId: parseInt(selectedEspecie, 10),
+        raceId: parseInt(selectedRace, 10),
+        sizeId: parseInt(selectedSize, 10),
+        userId: parseInt(selectedClient, 10),
       };
-      await createPet(dataToSave);
+
+      console.log('Dados para salvar:', dataToSave);
+      await petService.createPet(dataToSave);
       toast.success('Pet cadastrado com sucesso!');
       onClose();
-    } catch (err) {
-      console.error('Erro ao cadastrar pet:', err);
-      toast.error('Erro ao cadastrar pet. Tente novamente.');
+    } catch (error) {
+      console.error('Erro ao cadastrar pet:', error);
+      toast.error('Erro ao cadastrar pet. Verifique os dados e tente novamente.');
     }
   };
 
@@ -101,7 +111,7 @@ const PetModal = ({ isOpen, onClose }) => {
               ))}
             </select>
           </div>
-  
+
           {/* Nome do Pet */}
           <div className={petStyles.field}>
             <label className={petStyles.label}>Nome do Pet</label>
@@ -113,7 +123,7 @@ const PetModal = ({ isOpen, onClose }) => {
               onChange={handleInputChange}
             />
           </div>
-  
+
           {/* Espécie */}
           <div className={petStyles.field}>
             <label className={petStyles.label}>Espécie</label>
@@ -130,7 +140,7 @@ const PetModal = ({ isOpen, onClose }) => {
               ))}
             </select>
           </div>
-  
+
           {/* Raça */}
           <div className={petStyles.field}>
             <label className={petStyles.label}>Raça</label>
@@ -148,33 +158,62 @@ const PetModal = ({ isOpen, onClose }) => {
             </select>
           </div>
 
-          {/* Data de Nascimento e Sexo */}
-          <div className={petStyles.row}>
-            <div className={petStyles.field}>
-              <label className={petStyles.label}>Data de Nascimento</label>
-              <input
-                type="date"
-                name="birthDate"
-                className={petStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={petStyles.field}>
-              <label className={petStyles.label}>Sexo</label>
-              <select
-                name="sexo"
-                className={petStyles.input}
-                value={petData.sexo || ''}
-                onChange={handleInputChange}
-              >
-                <option value="">Selecione o Sexo</option>
-                <option value="Macho">Macho</option>
-                <option value="Fêmea">Fêmea</option>
-              </select>
-            </div>
+          {/* Porte */}
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Porte</label>
+            <select
+              className={petStyles.input}
+              value={selectedSize}
+              onChange={(e) => setSelectedSize(e.target.value)}
+            >
+              <option value="">Selecione o Porte</option>
+              {sizes.map((size) => (
+                <option key={size.id} value={size.id}>
+                  {size.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Data de Nascimento */}
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Data de Nascimento</label>
+            <input
+              type="date"
+              name="birthDate"
+              className={petStyles.input}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          {/* Sexo */}
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Sexo</label>
+            <select
+              name="sexo"
+              className={petStyles.input}
+              value={petData.sexo || ''}
+              onChange={handleInputChange}
+            >
+              <option value="">Selecione o Sexo</option>
+              <option value="Macho">Macho</option>
+              <option value="Fêmea">Fêmea</option>
+            </select>
+          </div>
+
+          {/* Observações */}
+          <div className={petStyles.field}>
+            <label className={petStyles.label}>Observações</label>
+            <textarea
+              name="observations"
+              placeholder="Observações sobre o Pet"
+              className={petStyles.input}
+              onChange={handleInputChange}
+              rows="3"
+            ></textarea>
           </div>
         </div>
-  
+
         {/* Botões */}
         <div className={petStyles.buttonGroup}>
           <button className={petStyles.submitButton} onClick={handleSubmit}>
@@ -187,8 +226,6 @@ const PetModal = ({ isOpen, onClose }) => {
       </div>
     </>
   );
-  
-  
 };
 
 export default PetModal;
