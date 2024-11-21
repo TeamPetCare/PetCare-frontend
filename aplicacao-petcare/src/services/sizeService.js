@@ -4,7 +4,7 @@ const sizeService = {
   // Obter todos os tamanhos
   getAllSizes: async () => {
     try {
-      const response = await api.get('/api/sizes'); // Endpoint para buscar todos os tamanhos
+      const response = await api.get('/sizes'); // Endpoint para buscar todos os tamanhos
       return response.data; // Retorna a lista de tamanhos
     } catch (error) {
       console.error('Erro ao buscar tamanhos:', error);

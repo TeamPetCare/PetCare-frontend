@@ -25,7 +25,7 @@ export const updatePet = async (id, petData) => {
 // Obter pet por ID
 export const getPetById = async (id) => {
   try {
-    const response = await api.get(`/api/pets/${id}`);
+    const response = await api.get(`/pets/${id}`);
     return response.data;
   } catch (error) {
     console.error('Erro ao buscar pet por ID:', error);
