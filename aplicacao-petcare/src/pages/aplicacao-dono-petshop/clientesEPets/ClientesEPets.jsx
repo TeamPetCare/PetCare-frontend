@@ -12,6 +12,7 @@ import styles from "./ClientesEPets.module.css";
 import ModalWrapper from "../../../components/aplicacao-dono-petshop/clientesEPets/cadastroCliente/ModalWrapper";
 import ModalDelete from "../../../components/aplicacao-dono-petshop/clientesEPets/modal/ModalDelete"
 import ModalPut from "../../../components/aplicacao-dono-petshop/clientesEPets/modal/ModalPut"
+import ModalPutPet from "../../../components/aplicacao-dono-petshop/clientesEPets/modal/ModalPutPet"
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 // import { RiWhatsappFill } from "react-icons/ri";
@@ -21,6 +22,7 @@ import ClientModal from '../../../components/aplicacao-dono-petshop/clientesEPet
 import PlanModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PlanModal';
 import PetModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PetModal';
 import { getAllCustomerAndPets } from '../../../services/userService';
+import { IoMdPricetag } from 'react-icons/io';
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
@@ -42,9 +44,25 @@ const ClientesEPets = () => {
     cep: "",
     numeroDePets: 0,
     dtUltimoAgendamento: "",
-    totalAgendamentos: 0
+    totalAgendamentos: 0,
   });
-  
+  const [petAtual, setpetAtual] = useState({
+    id: 0,
+    pet: "",
+    especie: 0,
+    sexo: "",
+    raca: 0,
+    dtNascimento: "", // isso aqui é tipo date.
+    porte: 0,
+    pesoEstimado: 0.0, // isso é double
+    cor: "",
+    dono: 0,
+    observacoes: "",
+    dtUltimoAgendamento: "",
+    totalAgendamentos: 0,
+    plano: 0
+  });
+
 
   const handleGenerateReport = async () => {
     try {
@@ -79,8 +97,68 @@ const ClientesEPets = () => {
   };
 
   async function atualizarClientes(cliente) {
-    console.log("Eu Tô aqui:")
-    console.log(cliente)
+    console.log("Cliente Antes:", cliente);
+
+    // Garantir que id seja um número
+    const idCliente = parseInt(cliente.id, 10);
+
+    if (isNaN(idCliente)) {
+      console.error("ID inválido");
+      toast.error("ID inválido.");
+      return;
+    }
+
+    const clienteComId = { ...cliente, id: idCliente };
+
+    try {
+      // Chama o serviço para atualizar o cliente
+      const response = await userService.updateCliente(clienteComId);
+      console.log("Cliente atualizado com sucesso:", response);
+
+      toast.success("Cliente atualizado com sucesso!", {
+        autoClose: 2500,
+        onClick: () => {
+          window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+        }
+      });
+      recuperarValorClientes();
+      recuperarValorPets()
+    } catch (error) {
+      console.error("Erro ao atualizar cliente:", error);
+      toast.error("Erro ao atualizar cliente.");
+    }
+  }
+
+  async function atualizarPets(pet) {
+    console.log("Pet Antes:", pet);
+    // Garantir que id seja um número
+    const idPet = parseInt(pet.id, 10);
+
+    if (isNaN(idPet)) {
+      console.error("ID inválido");
+      toast.error("ID inválido.");
+      return;
+    }
+
+    const petComId = { ...pet, id: idPet };
+
+    try {
+      // Chama o serviço para atualizar o cliente
+      const response = await updatePet(idPet, petComId);
+      console.log("Pet atualizado com sucesso:", response);
+
+      toast.success("Pet atualizado com sucesso!", {
+        autoClose: 2500,
+        onClick: () => {
+          window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+        }
+      });
+      recuperarValorPets();
+      recuperarValorClientes()
+    } catch (error) {
+      console.error("Erro ao atualizar pet:", error);
+      toast.error("Erro ao atualizar pet.");
+    }
   }
 
   async function deletarClientes() {
@@ -97,13 +175,10 @@ const ClientesEPets = () => {
         recuperarValorClientes()
       } catch (error) {
         console.error("Erro ao deletar cliente(s):", error);
-
       }
-    } else {
-      console.log("Nenhum cliente selecionado para deletar.");
-      toast.error("Nenhum cliente selecionado para deletar.");
     }
   }
+
 
   async function deletarPets() {
     if (selectedData && selectedData.length > 0) {
@@ -169,6 +244,7 @@ const ClientesEPets = () => {
               day: '2-digit',
             })
             : "Sem dados", // Substituir por "Sem dados" se for null
+          // dtUAISO: cliente.lastSchedule ? new Date(cliente.lastSchedule).toISOString() : null,
           totalAgendamentos: cliente.totalSchedules,
         }));
         setclientesData(clientesFormatados);
@@ -183,6 +259,7 @@ const ClientesEPets = () => {
   // "lastSchedule": "2024-11-15T15:00:00",
   // 	"totalSchedules": 8
   function recuperarValorPets() {
+    setLoading(true); // Ativa o loading antes de iniciar a requisição
     getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];
@@ -192,23 +269,25 @@ const ClientesEPets = () => {
             pet: pet.name,
             especie: pet.specie.name,
             sexo: pet.gender,
-            raça: pet.race.raceType,
-            dt_nascimento: new Date(pet.birthdate).toLocaleDateString('pt-BR', {
+            raca: pet.race.raceType,
+            dtNascimento: new Date(pet.birthdate).toLocaleDateString('pt-BR', {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit'
             }),
+            dtNISO: pet.birthdate ? new Date(pet.birthdate).toISOString().slice(0, -5) : null,
             porte: pet.size.sizeType,
-            peso_estimado: pet.estimatedWeight,
+            pesoEstimado: pet.estimatedWeight,
             cor: pet.color,
             dono: cliente.name,
-            dt_ultimo_agendamento: new Date(pet.lastSchedule).toLocaleDateString('pt-BR', {
+            observacoes: pet.petObservations,
+            dtUltimoAgendamento: new Date(pet.lastSchedule).toLocaleDateString('pt-BR', {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit'
             }),
-            total_agendamentos: pet.totalSchedules,
-            observacoes: pet.petObservations,
+            dtUANISO: pet.lastSchedule ? new Date(pet.lastSchedule).toISOString().slice(0, -5) : null,
+            totalAgendamentos: pet.totalSchedules,
             plano: pet.plan.planType.name
           }))
         );
@@ -332,15 +411,15 @@ const ClientesEPets = () => {
     pet: "Pet",
     especie: "Espécie",
     sexo: "Sexo",
-    raça: "Raça",
-    dt_nascimento: "Nasc. (Estimado)",
+    raca: "Raça",
+    dtNascimento: "Nasc. (Estimado)",
     porte: "Porte",
-    peso_estimado: "Peso.KG (Estimado)",
+    pesoEstimado: "Peso.KG (Estimado)",
     cor: "Cor",
     dono: "Dono",
     observacoes: "Observações",
-    dt_ultimo_agendamento: "Último Agend.",
-    total_agendamentos: "Total Agend.",
+    dtUltimoAgendamento: "Último Agend.",
+    totalAgendamentos: "Total Agend.",
     plano: "Plano"
   };
 
@@ -386,10 +465,70 @@ const ClientesEPets = () => {
   const handleCloseP = () => setShowP(false);
   const handleShowP = () => setShowP(true);
 
-  // Esse aqui é o modal de edição
+  // Esse aqui é o modal de edição do cliente
   const [showPut, setShowPut] = useState(false);
   const handleClosePut = () => setShowPut(false);
-  const handleShowPut = () => setShowPut(true);
+  const handleShowPut = () => {
+    if (selectedData.length > 0) {
+      if (currentFilter === "Clientes") {
+        const dadosCliente = selectedData[0]; // Usa o primeiro item como referência
+        setClienteAtual({
+          id: dadosCliente.id || 0,
+          cliente: dadosCliente.cliente || "",
+          WhatsApp: dadosCliente.WhatsApp || "",
+          rua: dadosCliente.rua || "",
+          numero: dadosCliente.numero || 0,
+          bairro: dadosCliente.bairro || "",
+          complemento: dadosCliente.complemento || "",
+          cep: dadosCliente.cep || "",
+          numeroDePets: dadosCliente.numeroDePets || 0,
+          dtUltimoAgendamento: dadosCliente.dtUltimoAgendamento || "",
+          totalAgendamentos: dadosCliente.totalAgendamentos || 0,
+        });
+        setShowPut(true);
+      } else if (currentFilter === "Pets") {
+        setpetAtual(null)
+        const idPet = selectedData[0].id;
+        const dtUltimoAgend = selectedData[0].dtUANISO // Usa o primeiro item como referência
+        const dtN = selectedData[0].dtNISO
+        const ts = selectedData[0].totalAgendamentos
+        // setLoading(true); // Ativa o loading antes de iniciar a requisição
+        getPetById(idPet)
+          .then((response) => {
+            const data = Array.isArray(response) ? response : [response];
+            const PetFormatado = data.map((pet) => ({
+              id: pet.id,
+              pet: pet.name,
+              especie: pet.specieId,
+              sexo: pet.gender,
+              raca: pet.raceId,
+              dtNascimento: dtN,
+              porte: pet.sizeId,
+              pesoEstimado: pet.estimatedWeight,
+              cor: pet.color,
+              dono: pet.userId,
+              observacoes: pet.petObservations,
+              dtUltimoAgendamento: dtUltimoAgend,
+              totalAgendamentos: ts,
+              plano: pet.planId
+            }));
+            setpetAtual(PetFormatado);
+            setShowPutP(true);
+            console.log(petAtual)
+            // setLoading(false); // Desativa o loading após a resposta
+          })
+          .catch((error) => {
+            console.log(error);
+            // setLoading(false); // Desativa o loading em caso de erro
+          });
+      }
+    }
+  };
+
+
+  // Esse aqui é o modal de edição do pet
+  const [showPutP, setShowPutP] = useState(false);
+  const handleClosePutP = () => setShowPutP(false);
 
   // Esse é o modal de crate de pet
   const [showAddPet, setAddPet] = useState(false);
@@ -462,8 +601,32 @@ const ClientesEPets = () => {
       {/* Modal de update de Cliente*/}
       {showPut && selectedData.length > 0 && (
 
-        <ModalPut showPut={showPut} handleClosePut={handleClosePut} cliente={clienteAtual} onPut={() => atualizarClientes(clienteAtual)} dados={selectedData} nonEditableFields={['id','numeroDePets', 'totalAgendamentos', 'dtUltimoAgendamento']}// Nome do campo que não será editável title="Editar Cliente"
-/>        
+        <ModalPut
+          showPut={showPut}
+          handleClosePut={handleClosePut}
+          cliente={clienteAtual}
+          setClienteAtual={setClienteAtual} // Passar o setter diretamente
+          onPut={() => atualizarClientes(clienteAtual)}
+          dados={selectedData}
+          nonEditableFields={['id', 'numeroDePets', 'totalAgendamentos']}
+          title="Editar Cliente"
+        />
+
+      )}
+
+      {/* Modal de update de Pet */}
+      {showPutP && selectedData.length > 0 && (
+
+        <ModalPutPet
+          showPut={showPutP}
+          handleClosePut={handleClosePutP}
+          pet={petAtual}
+          setPetAtual={setpetAtual} // Passar o setter diretamente
+          onPut={() => atualizarPets(petAtual)}
+          nonEditableFields={['id', 'dtUltimoAgendamento', 'totalAgendamentos', 'plano']}
+          title="Editar Pet"
+        />
+
       )}
 
 
@@ -471,5 +634,6 @@ const ClientesEPets = () => {
     </div>
   );
 };
+
 
 export default ClientesEPets;

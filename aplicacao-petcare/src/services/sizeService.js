@@ -3,9 +3,8 @@ import api from './api'; // Importa o Axios configurado no api.js
 const sizeService = {
   getAllSizes: async () => {
     try {
-      const response = await api.get('/sizes'); // Tenta buscar os dados do backend
-      console.log('Tamanhos carregados:', response.data);
-      return response.data; // Retorna os dados reais
+      const response = await api.get('/api/sizes'); // Endpoint para buscar todos os tamanhos
+      return response.data; // Retorna a lista de tamanhos
     } catch (error) {
       console.error('Erro ao buscar tamanhos:', error);
       console.log('Usando dados simulados para tamanhos.');

@@ -7,16 +7,15 @@ import styles from './ModalPut.module.css'; // Supondo que você tenha esse arqu
 function ModalPut({
   showPut,
   handleClosePut,
-  onPut,
+  onPut = () => { },
   dados = [],
   title = "Editar Cliente",
   cliente = {},
-  nonEditableFields = [], // Campos não editáveis
+  setClienteAtual,
+  nonEditableFields = [],
 }) {
-  const [clienteAtual, setClienteAtual] = useState(cliente);
-
   useEffect(() => {
-    if (dados.length > 0) {
+    if (showPut && dados.length > 0 && !cliente.id) {
       const dataOriginal = dados[0].dtUltimoAgendamento;
       const dataFormatada = formatarDataParaIso(dataOriginal);
 
@@ -25,7 +24,7 @@ function ModalPut({
         dtUltimoAgendamento: dataFormatada,
       });
     }
-  }, [dados, showPut]);
+  }, [dados, showPut, cliente.id, setClienteAtual]);
 
   const formatarDataParaIso = (data) => {
     if (!data) return "";
@@ -34,7 +33,17 @@ function ModalPut({
       const [dia, mes, ano] = partes;
       return `${ano}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
     }
-    return data; // Retorna como está caso o formato não seja o esperado
+    return data;
+  };
+
+  const formatarDataParaExibicao = (data) => {
+    if (!data) return "";
+    const partes = data.split("-");
+    if (partes.length === 3) {
+      const [ano, mes, dia] = partes;
+      return `${dia}/${mes}/${ano}`;
+    }
+    return data;
   };
 
   const handleInputChange = (e) => {
@@ -49,7 +58,8 @@ function ModalPut({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onPut(clienteAtual);
+    console.log(cliente); // Agora reflete diretamente o estado principal
+    onPut(cliente); // Envia o estado atualizado para o componente principal
     handleClosePut();
   };
 
@@ -69,13 +79,12 @@ function ModalPut({
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit} className={styles["container"]}>
-          {/** Campos de Formulário **/}
           <Form.Group controlId="formNome">
             <Form.Label>Nome</Form.Label>
             <Form.Control
               type="text"
               name="cliente"
-              value={clienteAtual.cliente || ""}
+              value={cliente.cliente || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("cliente")}
             />
@@ -85,7 +94,7 @@ function ModalPut({
             <Form.Control
               type="text"
               name="WhatsApp"
-              value={clienteAtual.WhatsApp || ""}
+              value={cliente.WhatsApp || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("WhatsApp")}
             />
@@ -95,7 +104,7 @@ function ModalPut({
             <Form.Control
               type="text"
               name="rua"
-              value={clienteAtual.rua || ""}
+              value={cliente.rua || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("rua")}
             />
@@ -105,7 +114,7 @@ function ModalPut({
             <Form.Control
               type="text"
               name="numero"
-              value={clienteAtual.numero || ""}
+              value={cliente.numero || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("numero")}
             />
@@ -115,7 +124,7 @@ function ModalPut({
             <Form.Control
               type="text"
               name="bairro"
-              value={clienteAtual.bairro || ""}
+              value={cliente.bairro || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("bairro")}
             />
@@ -125,7 +134,7 @@ function ModalPut({
             <Form.Control
               type="text"
               name="complemento"
-              value={clienteAtual.complemento || ""}
+              value={cliente.complemento || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("complemento")}
             />
@@ -135,30 +144,54 @@ function ModalPut({
             <Form.Control
               type="text"
               name="cep"
-              value={clienteAtual.cep || ""}
+              value={cliente.cep || ""}
               onChange={handleInputChange}
               readOnly={nonEditableFields.includes("cep")}
+            />
+          </Form.Group>
+          <Form.Group controlId="formNumeroDePets">
+            <Form.Label>Número de Pets</Form.Label>
+            <Form.Control
+              type="number"
+              name="numeroDePets"
+              value={cliente.numeroDePets || 0}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("numeroDePets")}
+              disabled
             />
           </Form.Group>
           <Form.Group controlId="formDtUltimoAgendamento">
             <Form.Label>Data do Último Agendamento</Form.Label>
             <Form.Control
-              type="date"
+              type="text"
               name="dtUltimoAgendamento"
-              value={clienteAtual.dtUltimoAgendamento || ""}
+              value={formatarDataParaExibicao(cliente.dtUltimoAgendamento) || ""}
               onChange={handleInputChange}
               readOnly
+              disabled
             />
           </Form.Group>
+          <Form.Group controlId="formTotalAgendamentos">
+            <Form.Label>Total de Agendamentos</Form.Label>
+            <Form.Control
+              type="number"
+              name="totalAgendamentos"
+              value={cliente.totalAgendamentos || 0}
+              onChange={handleInputChange}
+              readOnly={nonEditableFields.includes("totalAgendamentos")}
+              disabled
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" className={styles["submitButton"]}>
+            Salvar Alterações
+          </Button>
+          <Button variant="secondary" onClick={handleClosePut} className={styles["cancelButton"]}>
+            Fechar
+          </Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" type="submit" className={styles["submitButton"]} onClick={handleSubmit}>
-          Salvar Alterações
-        </Button>
-        <Button variant="secondary" onClick={handleClosePut} className={styles["cancelButton"]}>
-          Fechar
-        </Button>
+
       </Modal.Footer>
     </Modal>
   );
