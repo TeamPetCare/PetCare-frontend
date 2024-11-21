@@ -22,6 +22,7 @@ import ClientModal from '../../../components/aplicacao-dono-petshop/clientesEPet
 import PlanModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PlanModal';
 import PetModal from '../../../components/aplicacao-dono-petshop/clientesEPets/cadastros/PetModal';
 import { getAllCustomerAndPets } from '../../../services/userService';
+import { IoMdPricetag } from 'react-icons/io';
 
 const ClientesEPets = () => {
   const [clientesData, setclientesData] = useState([]);
@@ -121,6 +122,7 @@ const ClientesEPets = () => {
         }
       });
       recuperarValorClientes();
+      recuperarValorPets()
     } catch (error) {
       console.error("Erro ao atualizar cliente:", error);
       toast.error("Erro ao atualizar cliente.");
@@ -129,6 +131,34 @@ const ClientesEPets = () => {
 
   async function atualizarPets(pet) {
     console.log("Pet Antes:", pet);
+    // Garantir que id seja um número
+    const idPet = parseInt(pet.id, 10);
+
+    if (isNaN(idPet)) {
+      console.error("ID inválido");
+      toast.error("ID inválido.");
+      return;
+    }
+
+    const petComId = { ...pet, id: idPet };
+
+    try {
+      // Chama o serviço para atualizar o cliente
+      const response = await updatePet(idPet, petComId);
+      console.log("Pet atualizado com sucesso:", response);
+
+      toast.success("Pet atualizado com sucesso!", {
+        autoClose: 2500,
+        onClick: () => {
+          window.location.href = 'http://localhost:3000/dono-petshop/clientes-pets';
+        }
+      });
+      recuperarValorPets();
+      recuperarValorClientes()
+    } catch (error) {
+      console.error("Erro ao atualizar pet:", error);
+      toast.error("Erro ao atualizar pet.");
+    }
   }
 
   async function deletarClientes() {
@@ -229,6 +259,7 @@ const ClientesEPets = () => {
   // "lastSchedule": "2024-11-15T15:00:00",
   // 	"totalSchedules": 8
   function recuperarValorPets() {
+    setLoading(true); // Ativa o loading antes de iniciar a requisição
     getAllCustomerAndPets()
       .then((response) => {
         const data = Array.isArray(response) ? response : [response];

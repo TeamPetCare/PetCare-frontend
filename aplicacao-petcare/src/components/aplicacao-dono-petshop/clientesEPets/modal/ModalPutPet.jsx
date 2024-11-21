@@ -19,7 +19,7 @@ function ModalPutPet({
   nonEditableFields = [],
 }) {
 
-  const [petData, setPetData] = useState({});
+  const [petData, setPetData] = useState(pet);
   const [clients, setClients] = useState([]);
   const [races, setRaces] = useState([]);
   const [especies, setEspecies] = useState([]);
@@ -30,7 +30,6 @@ function ModalPutPet({
   const [selectedSize, setSelectedSize] = useState('');
   const [dataFormatadaCore, setDataFormatadaCore] = useState("");
   const [isDateInput, setIsDateInput] = useState(false);
-  const [tempDate, setTempDate] = useState(pet.dtNascimento);
 
   useEffect(() => {
     // Buscar clientes
@@ -86,12 +85,13 @@ function ModalPutPet({
 
   useEffect(() => {
     if (showPut && pet && !pet.id) {
-      const dataOriginal = pet[0].dtUltimoAgendamento;
-      const dataFormatada = formatarDataParaIso(dataOriginal);
-      setDataFormatadaCore(dataFormatada);
+      // const dataOriginal = pet[0].dtNascimento;
+      // const dataFormatada = formatarDataParaIso(dataOriginal);
+      // setDataFormatadaCore(dataFormatada);
 
       setPetAtual({
-        ...pet[0],
+        ...pet[0]
+        // dtNascimento: dataFormatada
       });
 
     }
@@ -107,23 +107,34 @@ function ModalPutPet({
     return data;
   };
 
-  const formatarDataParaExibicao = (data) => {
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (!nonEditableFields.includes(name)) {
-      setPetAtual((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
+
+    setPetAtual((prevState) => ({
+      ...prevState,
+      [name]:
+        name === "dtNascimento" && value.includes("/") // Checa se é uma data no formato DD/MM/YYYY
+          ? value.split("/").reverse().join("-") // Converte para YYYY-MM-DD ao salvar no estado
+          : value, // Para outros casos, apenas salva o valor
+    }));
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(pet); // Agora reflete diretamente o estado principal
-    onPut(pet); // Envia o estado atualizado para o componente principal
+    console.log("Antes da conversão:", pet);
+
+    // Converte a data para ISO antes de enviar
+    const dataConvertida = formatarDataParaIso(pet.dtNascimento);
+    console.log("Data convertida para ISO:", dataConvertida);
+
+    // Simula um evento para passar a data convertida ao handleInputChange
+    setPetData({ dtNascimento: dataConvertida })
+
+    console.log("O fdp aí ó:")
+    console.log(pet)
+
+    onPut(petData); // Envia o objeto atualizado
     handleClosePut();
   };
 
@@ -138,17 +149,16 @@ function ModalPutPet({
   };
 
   const handleDateChange = (e) => {
-    const { value } = e.target;
-    // Se for uma data válida, converta para o formato DD/MM/YYYY
+    const { value } = e.target; // Formato: YYYY-MM-DD
     if (value) {
+      // Atualiza o estado com a data em formato DD/MM/YYYY
       const [ano, mes, dia] = value.split("-");
-      setTempDate(`${dia}/${mes}/${ano}`);
-      setPet((prevState) => ({
+      setPetAtual((prevState) => ({
         ...prevState,
-        dtNascimento: `${dia}/${mes}/${ano}`, // Armazena no formato DD/MM/YYYY
+        dtNascimento: `${ano}-${mes}-${dia}`, // Armazena no formato DD/MM/YYYY
       }));
     }
-    setIsDateInput(false); // Volta ao input de texto
+    setIsDateInput(false); // Retorna ao campo de texto, se necessário
   };
 
   return (
@@ -280,23 +290,34 @@ function ModalPutPet({
               <Form.Control
                 type="date"
                 name="dtNascimento"
-                value={pet.dtNascimento
-                  .split("/")
-                  .reverse()
-                  .join("-")} // Converte para o formato YYYY-MM-DD
-                onBlur={handleBlur}
-                onChange={handleDateChange}
+                value={
+                  pet.dtNascimento && pet.dtNascimento.includes("/")
+                    ? pet.dtNascimento.split("/").reverse().join("-") // Converte para YYYY-MM-DD
+                    : pet.dtNascimento || ""
+                }
+                onBlur={handleBlur} // Lógica opcional ao desfocar
+                onChange={handleInputChange} // Usa um único manipulador
               />
             ) : (
               <Form.Control
                 type="text"
                 name="dtNascimento"
-                value={pet.dtNascimento || ""}
+                value={
+                  pet.dtNascimento
+                    ? pet.dtNascimento.includes("T") // Checa se a data está no formato ISO com "T"
+                      ? pet.dtNascimento.split("T")[0].split("-").reverse().join("/") // Converte YYYY-MM-DD para DD/MM/YYYY
+                      : pet.dtNascimento.includes("-") // Verifica se está no formato YYYY-MM-DD
+                        ? pet.dtNascimento.split("-").reverse().join("/") // Converte para DD/MM/YYYY
+                        : pet.dtNascimento // Se já estiver no formato esperado, mantém
+                    : ""
+                }
                 onChange={handleInputChange}
-                onFocus={handleFocus} // Altera o tipo para 'date' quando o campo receber foco
+                onFocus={handleFocus}
               />
+
             )}
           </Form.Group>
+
 
           {/* Peso Estimado */}
           <Form.Group controlId="formPesoEstimado">
@@ -340,7 +361,11 @@ function ModalPutPet({
             <Form.Control
               type="text"
               name="dtUltimoAgendamento"
-              value={pet.dtUltimoAgendamento || "Sem dados"}
+              value={new Date(pet.dtUltimoAgendamento).toLocaleDateString('pt-BR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              }) || "Sem dados"}
               readOnly
               disabled
             />

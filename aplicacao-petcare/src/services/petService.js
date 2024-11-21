@@ -14,7 +14,7 @@ export const createPet = async (petData) => {
 // Atualizar pet existente
 export const updatePet = async (id, petData) => {
   try {
-    const response = await api.put(`/api/pets/${id}`, petData);
+    const response = await api.put(`/pets/pets-list/${id}`, petData);
     return response.data;
   } catch (error) {
     console.error('Erro ao atualizar pet:', error);
