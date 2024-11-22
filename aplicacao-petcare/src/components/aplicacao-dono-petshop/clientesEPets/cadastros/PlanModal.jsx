@@ -1,10 +1,40 @@
-import React, { useState } from 'react';
-import styles from './ModalWrapper.module.css'; // Estilo genérico do modal
-import planStyles from './PlanModal.module.css'; // Estilo específico para PlanModal
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import plansService from '../../../../services/plansService';
+import petService from '../../../../services/petService';
+import styles from './ModalWrapper.module.css';
+import planStyles from './PlanModal.module.css';
 
-const PlanModal = ({ isOpen, onClose, pets }) => {
+const PlanModal = ({ isOpen, onClose }) => {
+  const [plans, setPlans] = useState([]);
+  const [pets, setPets] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState('');
   const [selectedPet, setSelectedPet] = useState('');
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchData = async () => {
+        try {
+          console.log('Buscando planos e pets...');
+          const [planList, petList] = await Promise.all([
+            plansService.getAllPlans(),
+            petService.getAllPets(),
+          ]);
+
+          console.log('Planos carregados:', planList);
+          setPlans(planList);
+
+          console.log('Pets carregados:', petList);
+          setPets(petList);
+        } catch (error) {
+          console.error('Erro ao buscar dados:', error);
+          toast.error('Erro ao carregar os dados. Tente novamente.');
+        }
+      };
+
+      fetchData();
+    }
+  }, [isOpen]);
 
   const handlePlanChange = (e) => {
     setSelectedPlan(e.target.value);
@@ -14,10 +44,25 @@ const PlanModal = ({ isOpen, onClose, pets }) => {
     setSelectedPet(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!selectedPlan || !selectedPet) {
+      toast.error('Por favor, selecione um plano e um pet.');
+      return;
+    }
+
     console.log('Plano selecionado:', selectedPlan);
     console.log('Pet selecionado:', selectedPet);
-    onClose();
+
+    try {
+      // Simule o envio ao backend
+      console.log('Atribuindo plano ao pet...');
+      // Aqui você pode integrar a chamada ao backend, se necessário
+      toast.success('Plano atribuído ao pet com sucesso!');
+      onClose();
+    } catch (error) {
+      console.error('Erro ao atribuir plano ao pet:', error);
+      toast.error('Erro ao atribuir plano. Tente novamente.');
+    }
   };
 
   if (!isOpen) return null;
@@ -26,33 +71,25 @@ const PlanModal = ({ isOpen, onClose, pets }) => {
     <>
       <div className={styles.backdrop} onClick={onClose}></div>
       <div className={`${styles.modal} ${planStyles.customModal}`}>
-        <h2 className={planStyles.title}>Atribuir Plano</h2>
+        <h2 className={planStyles.title}>Atribuir Plano ao Pet</h2>
         <div className={planStyles.formGroup}>
+          {/* Listar Planos */}
           <label className={planStyles.label}>Selecione o Plano:</label>
-          <div className={planStyles.radioGroup}>
-            <label className={planStyles.radioOption}>
-              <input
-                type="radio"
-                name="plan"
-                value="Mensal"
-                checked={selectedPlan === 'Mensal'}
-                onChange={handlePlanChange}
-              />
-              Mensal
-            </label>
-            <label className={planStyles.radioOption}>
-              <input
-                type="radio"
-                name="plan"
-                value="Quinzenal"
-                checked={selectedPlan === 'Quinzenal'}
-                onChange={handlePlanChange}
-              />
-              Quinzenal
-            </label>
-          </div>
+          <select
+            className={planStyles.select}
+            value={selectedPlan}
+            onChange={handlePlanChange}
+          >
+            <option value="">Selecione um plano</option>
+            {plans?.map((plan) => (
+              <option key={plan.id} value={plan.id}>
+                {plan.name} - R$ {plan.price}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={planStyles.formGroup}>
+          {/* Listar Pets */}
           <label className={planStyles.label}>Selecione o Pet:</label>
           <select
             className={planStyles.select}
@@ -60,9 +97,9 @@ const PlanModal = ({ isOpen, onClose, pets }) => {
             onChange={handlePetChange}
           >
             <option value="">Selecione um pet</option>
-            {pets.map((pet) => (
+            {pets?.map((pet) => (
               <option key={pet.id} value={pet.id}>
-                {pet.name}
+                {pet.name || 'Sem Nome'}
               </option>
             ))}
           </select>

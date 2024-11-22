@@ -50,15 +50,31 @@ export const getPetById = async (id) => {
 };
 
 // Listar todos os pets
+// export const getAllPets = async () => {
+//   try {
+//     console.log('Iniciando busca de pets no serviço...');
+//     const response = await api.get('/api/pets');
+//     console.log('Resposta da API (pets):', response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Erro ao listar pets:', error);
+//     throw error;
+//   }
+// };
+
 export const getAllPets = async () => {
   try {
-    const response = await api.get('/api/pets');
+    console.log('Iniciando busca de pets no serviço...');
+    const response = await api.get('/pets');
+    console.log('Resposta da API (pets):', response.data); // Log da resposta da API
     return response.data;
   } catch (error) {
-    console.error('Erro ao listar pets:', error);
+    console.error('Erro ao listar pets no serviço:', error); // Log de erro
     throw error;
   }
 };
+
+
 
 // Deletar pet
 export const deletePet = async (id) => {

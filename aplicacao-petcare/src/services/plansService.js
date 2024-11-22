@@ -4,7 +4,7 @@ const plansService = {
   // Buscar todos os planos
   getAllPlans: async () => {
     try {
-      const response = await api.get('/api/plans');
+      const response = await api.get('/plans'); // Corrigido o endpoint
       return response.data;
     } catch (error) {
       console.error('Erro ao buscar planos:', error);
