@@ -143,37 +143,39 @@ const PetModal = ({ isOpen, onClose }) => {
 
           {/* Raça */}
           <div className={petStyles.field}>
-            <label className={petStyles.label}>Raça</label>
-            <select
-              className={petStyles.input}
-              value={selectedRace}
-              onChange={(e) => setSelectedRace(e.target.value)}
-            >
-              <option value="">Selecione a Raça</option>
-              {races.map((race) => (
-                <option key={race.id} value={race.id}>
-                  {race.name}
-                </option>
-              ))}
-            </select>
-          </div>
+  <label className={petStyles.label}>Raça</label>
+  <select
+    className={petStyles.input}
+    value={selectedRace}
+    onChange={(e) => setSelectedRace(e.target.value)}
+  >
+    <option value="">Selecione a Raça</option>
+    {races?.map((race) => (
+      <option key={race.id} value={race.id}>
+        {race.raceType}
+      </option>
+    ))}
+  </select>
+</div>
+
 
           {/* Porte */}
           <div className={petStyles.field}>
-            <label className={petStyles.label}>Porte</label>
-            <select
-              className={petStyles.input}
-              value={selectedSize}
-              onChange={(e) => setSelectedSize(e.target.value)}
-            >
-              <option value="">Selecione o Porte</option>
-              {sizes.map((size) => (
-                <option key={size.id} value={size.id}>
-                  {size.name}
-                </option>
-              ))}
-            </select>
-          </div>
+  <label className={petStyles.label}>Porte</label>
+  <select
+    className={petStyles.input}
+    value={selectedSize}
+    onChange={(e) => setSelectedSize(e.target.value)}
+  >
+    <option value="">Selecione o Porte</option>
+    {sizes?.map((size) => (
+      <option key={size.id} value={size.id}>
+        {size.sizeType}
+      </option>
+    ))}
+  </select>
+</div>
+
 
           {/* Data de Nascimento */}
           <div className={petStyles.field}>
