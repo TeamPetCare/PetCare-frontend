@@ -164,7 +164,18 @@ const ClientesEPets = () => {
   async function deletarClientes() {
     if (selectedData && selectedData.length > 0) {
       try {
-        const response = await userService.deleteCustomers(selectedData);
+         // Filtra e transforma os dados em um array de inteiros
+         const idsToDelete = selectedData.map((item) => parseInt(item.id, 10)).filter(Number.isInteger);
+         console.log(idsToDelete)
+ 
+         if (idsToDelete.length === 0) {
+           console.log("Nenhum ID válido encontrado para deletar.");
+           toast.error("Nenhum ID válido encontrado para deletar.");
+           return;
+         }
+ 
+         const response = await userService.deleteCustomers(idsToDelete); // Passa apenas os IDs para a função
+
         console.log("Cliente(s) deletado(s) com sucesso:", response);
         toast.success("Cliente(s) deletado(s) com sucesso!", {
           autoClose: 2500,
@@ -335,6 +346,7 @@ const ClientesEPets = () => {
 
 
   useEffect(() => {
+    
     recuperarValorClientes();
     recuperarValorPets();
     recuperarValorClientesEPets();
