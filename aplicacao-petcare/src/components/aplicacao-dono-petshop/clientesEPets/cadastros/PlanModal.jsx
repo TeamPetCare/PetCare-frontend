@@ -1,68 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import plansService from '../../../../services/plansService';
-import petService from '../../../../services/petService';
+import { getAllCustomerAndPets } from '../../../../services/userService';
 import styles from './ModalWrapper.module.css';
 import planStyles from './PlanModal.module.css';
 
-const PlanModal = ({ isOpen, onClose }) => {
-  const [plans, setPlans] = useState([]);
-  const [pets, setPets] = useState([]);
-  const [selectedPlan, setSelectedPlan] = useState('');
-  const [selectedPet, setSelectedPet] = useState('');
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
+library.add(faUser, faTrash);
+
+
+const PlanModal = ({ isOpen, onClose, onNext }) => {
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
-      const fetchData = async () => {
+      const fetchClients = async () => {
         try {
-          console.log('Buscando planos e pets...');
-          const [planList, petList] = await Promise.all([
-            plansService.getAllPlans(),
-            petService.getAllPets(),
-          ]);
-
-          console.log('Planos carregados:', planList);
-          setPlans(planList);
-
-          console.log('Pets carregados:', petList);
-          setPets(petList);
+          const clientList = await getAllCustomerAndPets();
+          setClients(clientList);
         } catch (error) {
-          console.error('Erro ao buscar dados:', error);
-          toast.error('Erro ao carregar os dados. Tente novamente.');
+          console.error('Erro ao buscar clientes:', error);
+          toast.error('Erro ao carregar os clientes. Tente novamente.');
         }
       };
 
-      fetchData();
+      fetchClients();
     }
   }, [isOpen]);
 
-  const handlePlanChange = (e) => {
-    setSelectedPlan(e.target.value);
+  const handleClientSelect = (e) => {
+    const clientId = e.target.value;
+    const client = clients.find((c) => c.id === parseInt(clientId));
+    setSelectedClient(client);
   };
 
-  const handlePetChange = (e) => {
-    setSelectedPet(e.target.value);
+  const clearSelection = () => {
+    setSelectedClient(null);
   };
 
-  const handleSubmit = async () => {
-    if (!selectedPlan || !selectedPet) {
-      toast.error('Por favor, selecione um plano e um pet.');
+  const handleNext = () => {
+    if (!selectedClient) {
+      toast.error('Por favor, selecione um cliente.');
       return;
     }
-
-    console.log('Plano selecionado:', selectedPlan);
-    console.log('Pet selecionado:', selectedPet);
-
-    try {
-      // Simule o envio ao backend
-      console.log('Atribuindo plano ao pet...');
-      // Aqui você pode integrar a chamada ao backend, se necessário
-      toast.success('Plano atribuído ao pet com sucesso!');
-      onClose();
-    } catch (error) {
-      console.error('Erro ao atribuir plano ao pet:', error);
-      toast.error('Erro ao atribuir plano. Tente novamente.');
-    }
+    onNext(selectedClient);
   };
 
   if (!isOpen) return null;
@@ -71,45 +54,61 @@ const PlanModal = ({ isOpen, onClose }) => {
     <>
       <div className={styles.backdrop} onClick={onClose}></div>
       <div className={`${styles.modal} ${planStyles.customModal}`}>
-        <h2 className={planStyles.title}>Atribuir Plano ao Pet</h2>
+        <h2 className={planStyles.title}>Atribuir Cliente</h2>
+        <p className={planStyles.subtitle}>*Campos obrigatórios</p>
+
         <div className={planStyles.formGroup}>
-          {/* Listar Planos */}
-          <label className={planStyles.label}>Selecione o Plano:</label>
-          <select
-            className={planStyles.select}
-            value={selectedPlan}
-            onChange={handlePlanChange}
-          >
-            <option value="">Selecione um plano</option>
-            {plans?.map((plan) => (
-              <option key={plan.id} value={plan.id}>
-                {plan.name} - R$ {plan.price}
-              </option>
-            ))}
-          </select>
+          {/* <label className={planStyles.label}>Cliente</label> */}
+
+          <div className={planStyles.selectWrapper}>
+  <select
+    className={planStyles.select}
+    onChange={handleClientSelect}
+    value={selectedClient?.id || ''}
+  >
+    <option value="">Selecione um cliente*</option>
+    {clients.map((client) => (
+      <option key={client.id} value={client.id}>
+        {client.name}
+      </option>
+    ))}
+  </select>
+  <FontAwesomeIcon icon="user" className={planStyles.iconInsideSelect} />
+</div>
+
+
+          {selectedClient && (
+            <div className={planStyles.selectedClient}>
+              <img
+                src={selectedClient.photo || '/default-user.png'}
+                alt="Cliente"
+                className={planStyles.clientPhoto}
+              />
+              <div>
+                <p className={planStyles.clientName}>{selectedClient.name}</p>
+                <p className={planStyles.clientPhone}>
+                  {selectedClient.cellphone || 'Sem número'} {/* Mostra o número do cliente */}
+                </p>
+              </div>
+              {selectedClient && (
+                <button className={`${planStyles.deleteButton} ${planStyles.rightAligned}`} onClick={clearSelection}>
+  <FontAwesomeIcon icon="trash" />
+</button>
+
+)}
+            </div>
+          )}
         </div>
-        <div className={planStyles.formGroup}>
-          {/* Listar Pets */}
-          <label className={planStyles.label}>Selecione o Pet:</label>
-          <select
-            className={planStyles.select}
-            value={selectedPet}
-            onChange={handlePetChange}
-          >
-            <option value="">Selecione um pet</option>
-            {pets?.map((pet) => (
-              <option key={pet.id} value={pet.id}>
-                {pet.name || 'Sem Nome'}
-              </option>
-            ))}
-          </select>
-        </div>
+
         <div className={planStyles.buttonGroup}>
-          <button className={planStyles.submitButton} onClick={handleSubmit}>
-            Confirmar
-          </button>
           <button className={planStyles.cancelButton} onClick={onClose}>
             Cancelar
+          </button>
+          <button
+            className={planStyles.nextButton}
+            onClick={handleNext}
+          >
+            Próximo - Atribuir Plano
           </button>
         </div>
       </div>
