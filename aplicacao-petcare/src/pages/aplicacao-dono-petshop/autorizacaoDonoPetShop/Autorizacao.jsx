@@ -20,11 +20,8 @@ const Autorizacao = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true); // Estado para controle de carregamento
 
   useEffect(() => {
-    const token = sessionStorage.getItem("userToken");
+    const token = localStorage.getItem("userToken");
     const isProtectedRoute = showSideBarRoutes.includes(location.pathname);
-
-    console.log("Token:", token);
-    console.log("Is Protected Route:", isProtectedRoute);
 
     if (isProtectedRoute) {
       if (!token) {
@@ -41,11 +38,8 @@ const Autorizacao = ({ children }) => {
         const decodedPayload = JSON.parse(atob(payloadBase64));
         const isExpired = decodedPayload.exp * 1000 < Date.now();
 
-        console.log("Token Decoded:", decodedPayload);
-        console.log("Is Token Expired:", isExpired);
-
         if (isExpired) {
-          sessionStorage.removeItem("userToken");
+          localStorage.removeItem("userToken");
           navigate("/");
           setIsLoading(false);
           return;

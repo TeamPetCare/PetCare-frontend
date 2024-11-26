@@ -53,3 +53,13 @@ export const deletePet = async (id) => {
     throw error;
   }
 };
+
+export const getAllPetsAndPlans = async () => {
+  try {
+    const response = await api.get("pets/pets-list");
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao listar pets e planos:', error);
+    throw error;
+  }
+}
