@@ -9,12 +9,15 @@ import styles from "./Event.module.css";
 import { FaPix, FaCreditCard, FaCashRegister } from "react-icons/fa6";
 import EditEventModal from "./editEventModal/EditEventModal";
 import { toast } from "react-toastify";
+import { getUserById } from "../../../../../services/userService";
+import { updateSchedule } from "../../../../../services/scheduleService";
+import { updatePayment } from "../../../../../services/paymentService";
 
 const paymentIcons = {
-  "PIX": <FaPix color="#005472" size={14} />,
-  "CARTAO_DEBITO": <FaCreditCard color="#005472" size={14} />,
-  "CARTAO_CREDITO": <FaCreditCard color="#005472" size={14} />,
-  "DINHEIRO": <FaCashRegister color="#005472" size={14} />,
+  PIX: <FaPix color="#005472" size={14} />,
+  CARTAO_DEBITO: <FaCreditCard color="#005472" size={14} />,
+  CARTAO_CREDITO: <FaCreditCard color="#005472" size={14} />,
+  DINHEIRO: <FaCashRegister color="#005472" size={14} />,
 };
 
 const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
@@ -30,102 +33,171 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedEvent, setEditedEvent] = useState({ ...event });
   const [statusClass, setStatusClass] = useState("");
+  const [originalEvent, setOriginalEvent] = useState({ ...event });
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showMoreVisible, setShowMoreVisible] = useState(true);
+  const [tempEditedEvent, setTempEditedEvent] = useState({ ...event });
 
   const capitalizeFirstLetter = (text) => {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   };
 
   const handleOpenModal = () => {
+    console.log("updated dat HELLOOO " + JSON.stringify(editedEvent));
+    console.log("TEMP CLOSE MODAL: " + JSON.stringify(tempEditedEvent));
+    // setEditedEvent(editedEvent);
     setShowModal(!showModal);
+    setShowMoreVisible(false);
     setIsEditing(false);
-    setEditedEvent({ ...event });
-    setShowMoreVisible(false); 
+
     const overlayElements = document.querySelectorAll('[class*="rbc-overlay"]');
-    overlayElements.forEach(element => {
+    overlayElements.forEach((element) => {
       const handleClick = (e) => {
         e.stopPropagation();
-        console.log('Clique no overlay, mas sem interferir em outros eventos');
       };
-      
-      element.addEventListener('click', handleClick);
+      element.addEventListener("click", handleClick);
 
-      // Remove o listener quando o componente é desmontado
       return () => {
-        element.removeEventListener('click', handleClick);
+        element.removeEventListener("click", handleClick);
       };
     });
   };
-  const eventRef = useRef();
 
-  useImperativeHandle(ref, () => ({
-    handleOpenModalEvent: () => {
-      handleOpenModal(); // Chama a função para abrir o modal de edição
-      console.log("Abrindo modal para o evento:", editedEvent.title);
-    },
-    handleCancelEvent: () => {
-      const updatedEvent = { ...editedEvent, status: "Cancelado" };
-      console.log("Passei aqui, status: ", updatedEvent);
-      setEditedEvent(updatedEvent);
-      onCancelEvent(updatedEvent);
-      toast.success("Evento cancelado com sucesso!"); // Exibe o toast
-      setShowConfirmModal(true);
-    },
-  }));
-
+  // Fechar o modal sem salvar
   const handleCloseModal = () => {
     setShowModal(false);
-    setShowMoreVisible(true); 
+    setShowMoreVisible(true);
+    console.log(
+      "ORIGINAL EVENT NO HANDLE CLOSE " + JSON.stringify({ ...originalEvent })
+    );
+    console.log("EDITED EVENT NO CLOSE: " + JSON.stringify(editedEvent));
+    console.log("TEMP CLOSE MODAL 2: " + JSON.stringify(tempEditedEvent));
+    
+    // setEditedEvent(tempEditedEvent);
+    // console.log("EDITED EVENT NO CLOSE after: " + JSON.stringify(editedEvent));
+
+    // setTempEditedEvent(editedEvent);  // Restaurar para os dados originais
   };
 
   const handleEdit = (e) => {
-    // e.stopPropagation();
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    onUpdate(editedEvent);
-    handleCloseModal();
-    window.location.reload();
+  function formatTimeHours(dateTime) {
+    const date = new Date(dateTime);
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  const handleSave = async () => {
+    const updatedData = {
+      id: tempEditedEvent.id,
+      scheduleStatus: tempEditedEvent.scheduleStatus,
+      scheduleDate: tempEditedEvent.scheduleDate,
+      scheduleTime: formatTimeHours(tempEditedEvent.scheduleDate),
+      creationDate: tempEditedEvent.creationDate,
+      scheduleNote: tempEditedEvent.scheduleNote,
+      petId: tempEditedEvent.pet.id || null,
+      paymentId: tempEditedEvent.payment.id || null,
+      serviceIds: tempEditedEvent.services.map((service) => service.id),
+      employeeId: tempEditedEvent.employee?.id || null,
+    };
+
+    const paymentData = {
+      id: tempEditedEvent.payment.id,
+      price: tempEditedEvent.payment.price || 0.0, 
+      paymentDate: tempEditedEvent.payment.paymentDate || new Date().toISOString(), 
+      paymentId: tempEditedEvent.payment.paymentId || null,
+      paymentStatus: tempEditedEvent.payment.paymentStatus || false, 
+      paymentMethod: tempEditedEvent.payment.paymentMethod || "DINHEIRO",
+      userId: tempEditedEvent.pet.user.id || null, // ID do usuário
+    };
+
+    try {
+    
+      await updateSchedule(updatedData.id, updatedData);
+      onUpdate(updatedData);
+      console.log("ID: " + tempEditedEvent.payment.id)
+      console.log("COPRPTP: "+ JSON.stringify(tempEditedEvent.payment))
+      await updatePayment(paymentData.id, paymentData); 
+
+      toast.success("Evento atualizado com sucesso!", {
+        autoClose: 2000,
+      });
+
+      setOriginalEvent(tempEditedEvent); // Atualiza a versão original com os dados novos
+      setEditedEvent(tempEditedEvent); // Atualiza o editedEvent apenas após salvar
+      // setTempEditedEvent(updatedData);   // Atualiza o editedEvent apenas após salvar
+      console.log("UPDATES DATAAAAAAAA " + JSON.stringify(editedEvent));
+      handleCloseModal(); // Fecha o modal
+    } catch (error) {
+      console.error("Erro ao salvar o evento:", error);
+      toast.error(
+        `Falha ao salvar o evento. Detalhes: ${
+          error.message || "Tente novamente."
+        }`
+      );
+    }
   };
 
   const handleCancelAction = (e) => {
     e.stopPropagation();
     setIsEditing(false);
+    setEditedEvent({ ...originalEvent }); // Restaura o estado original do evento
+    setTempEditedEvent({ ...originalEvent }); // Garante que o estado temporário também seja restaurado
+    setTimeout(() => {
+      handleCloseModal();
+    }, 100);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-  
-    setEditedEvent((prevEvent) => {
+  const getFuncionarioInfo = async (id) => {
+    try {
+      const funcionarioInfo = await getUserById(id);
+      return funcionarioInfo;
+    } catch (error) {
+      console.error("Erro ao buscar informações do funcionario: " + error);
+    }
+  };
+
+  async function handleFuncionarioUpdate(event, updatedEvent) {
+    try {
+      const funcionario = await getFuncionarioInfo(event.target.value.id);
+      if (funcionario) {
+        updatedEvent.employee = funcionario;
+      }
+
+      return funcionario;
+    } catch (error) {
+      console.error("Erro ao atualizar informações do funcionário:", error);
+    }
+  }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setTempEditedEvent((prevEvent) => {
       const updatedEvent = { ...prevEvent };
-      updatedEvent[name] = value;
-      // if (name === "startTime" || name === "endTime") {
-      //   const timeParts = value.split(":").map(Number);
-      //   const dateKey = name === "startTime" ? "start" : "end";
-      //   const updatedDate = new Date(updatedEvent[dateKey]);
-      //   updatedDate.setHours(timeParts[0]);
-      //   updatedDate.setMinutes(timeParts[1]);
-      //   updatedEvent[dateKey] = updatedDate.toISOString();
-      // } else {
-      //   updatedEvent[name] = value;
-      // }
-  
+      if (name.includes("Configure um status")) {
+        updatedEvent.scheduleStatus = event.target.option
+          .toUpperCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+      } else if (name.includes("Selecione um funcionário")) {
+        handleFuncionarioUpdate(event, updatedEvent).then((updatedEmployee) => {
+          updatedEvent.employee = updatedEmployee;
+          setTempEditedEvent(updatedEvent);
+        });
+      } else if (name === "paymentStatus") {
+        console.log("HEGEUI AQUI")
+        updatedEvent.payment.paymentStatus =
+          value === "true" || value === "false" ? JSON.parse(value) : value;
+      } else if (name === "observacoes") {
+        updatedEvent.scheduleNote = value;
+      }
       return updatedEvent;
     });
-  
-    console.log("updatedEvent: "+ name + " " + "value " + value);
   };
-  
-  
-  // const handleCancelEvent = () => {
-  //   const updatedEvent = { ...editedEvent, status: "Cancelado" };
-  //   console.log("Passei aqui, status: ", updatedEvent);
-  //   setEditedEvent(updatedEvent);
-  //   onCancelEvent(updatedEvent);
-  //   setShowConfirmModal(true);
-  // };
 
   useEffect(() => {
     const statusClass =
@@ -138,9 +210,24 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
         : "";
 
     setStatusClass(statusClass);
-   
   }, [editedEvent.scheduleStatus]);
 
+  useEffect(() => {
+    setTempEditedEvent(editedEvent);
+  }, [editedEvent]);
+
+  useEffect(() => {
+    setOriginalEvent({ ...event }); // Garante que o estado inicial está correto
+    setEditedEvent({ ...event });
+    setTempEditedEvent({ ...event });
+    console.log(
+      "ORIGINAL EVENT NO HANDLE CLOSE USE EFFTES" + JSON.stringify({ ...originalEvent })
+    );
+    console.log("EDITED EVENT NO CLOSE USE EFFTES: " + JSON.stringify(editedEvent));
+    console.log("TEMP CLOSE MODAL 2 USE EFFTES: " + JSON.stringify(tempEditedEvent));
+
+    console.log("Evento original carregado: ", event);
+  }, [event]);
 
   let timeDisplay;
 
@@ -162,18 +249,18 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                   marginBottom: ".2em",
                 }}
               >
-              {event.services.map(service => service.name).join(", ")}
+                {event.services.map((service) => service.name).join(", ")}
               </p>
             </div>
             <p
-              style={{             
+              style={{
                 fontWeight: "600",
                 fontSize: ".8em",
                 fontFamily: "Montserrat",
                 lineHeight: ".9em",
               }}
             >
-             {formatTime(event.start)} - {formatTime(event.end)}
+              {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".8em" }}>
               Pag.: {event.payment.paymentStatus ? "Pago" : "Pendente"}
@@ -199,7 +286,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                   lineHeight: ".9em",
                 }}
               >
-              {event.services.map(service => service.name).join(", ")}
+                {event.services.map((service) => service.name).join(", ")}
               </p>
             </div>
             <p
@@ -209,7 +296,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                 fontFamily: "Montserrat",
               }}
             >
-            {formatTime(event.start)} - {formatTime(event.end)}
+              {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".9em" }}>
               Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
@@ -219,7 +306,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
             className={styles["container-icon"]}
             style={{ padding: "4px 5px", top: "20%" }}
           >
-             {paymentIcons[event.payment.paymentMethod] || null}
+            {paymentIcons[event.payment.paymentMethod] || null}
           </div>
         </div>
       </div>
@@ -237,12 +324,11 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
         <div className={styles["container-status"]}>
           <div>
             <h3 style={{ fontSize: "1em", fontWeight: "700", margin: "0" }}>
-             {event.services.map(service => service.name).join(", ")}
+              {event.services.map((service) => service.name).join(", ")}
             </h3>
             <p style={{ fontSize: "1em", fontWeight: "300" }}>
-            Status: {capitalizeFirstLetter(event.scheduleStatus)} | 
-              Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
-              
+              Status: {capitalizeFirstLetter(event.scheduleStatus)} | Pag.:{" "}
+              {event.paymentStatus ? "Pago" : "Pendente"}
             </p>
           </div>
           <div
@@ -257,7 +343,6 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   } else if (view === "month") {
     timeDisplay = (
       <div className={`${styles.container} ${statusClass}`}>
-        
         <div className={styles["container-status"]}>
           <div style={{ width: "100%" }}>
             <div className={styles["container-hours"]}>
@@ -271,10 +356,10 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
                     width: "95%",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
-                    textOverflow: "ellipsis"
+                    textOverflow: "ellipsis",
                   }}
                 >
-                   {event.services.map(service => service.name).join(", ")}
+                  {event.services.map((service) => service.name).join(", ")}
                 </p>
               </div>
 
@@ -303,15 +388,19 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
     <div className={styles["container-div"]} onClick={handleOpenModal}>
       {timeDisplay}
       <EditEventModal
+        key={editedEvent.id + JSON.stringify(tempEditedEvent.scheduleDate)}
         show={showModal}
         handleOpen={handleOpenModal}
         handleClose={handleCloseModal}
-        editedEvent={editedEvent}
+        editedEvent={tempEditedEvent}
         handleChange={handleChange}
         isEditing={isEditing}
         handleSave={handleSave}
         handleEdit={handleEdit}
-        handleCancelEvent={onCancelEvent}
+        handleCancelEvent={() => {
+          onCancelEvent();
+          setTempEditedEvent({ ...originalEvent });
+        }}
         handleCancelAction={handleCancelAction}
         event={event}
       />

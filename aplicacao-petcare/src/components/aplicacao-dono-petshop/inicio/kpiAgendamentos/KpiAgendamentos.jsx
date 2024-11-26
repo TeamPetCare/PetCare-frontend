@@ -5,31 +5,58 @@ import { MdOutlineDownloadDone, MdCancel } from "react-icons/md";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { HiInformationCircle } from "react-icons/hi2";
 
-const KpiAgendamentos = ({dadosAgendamentos}) => {
+const KpiAgendamentos = ({ dadosAgendamentos, month }) => {
   const [porcenNaoPagos, setPorcenNaoPagos] = useState(0);
   const [porcenPagos, setPorcenPagos] = useState(0);
   const [qtdNaoPagos, setQtdNaoPagos] = useState(0);
   const [qtdPagos, setQtdPagos] = useState(0);
 
- const statusCounts = dadosAgendamentos.reduce((acc, item) => {
-  acc[item.scheduleStatus] = (acc[item.scheduleStatus] || 0) + 1;
-  return acc;
- }, {});
+  const formatEventMonth = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 7); // Retorna "YYYY-MM"
+  };
 
+  // Função para filtrar os eventos pelo mês
+  const filterByMonth = (events, month) => {
+    console.log("Month Prop: " + month);
 
- useEffect(() => {
-  const totalAtendimentos = dadosAgendamentos.length;
-  setQtdNaoPagos(dadosAgendamentos.filter(item => item.payment?.paymentStatus === "false").length);
-  setQtdPagos(dadosAgendamentos.filter(item => item.payment?.paymentStatus === "true").length);
+    return events.filter((event) => {
+      const eventMonth = formatEventMonth(event.scheduleDate);
+      // console.log("Event Month: " + eventMonth);
+      return eventMonth === month; // Comparar com o currentMonth
+    });
+  };
 
-  console.log("Estu aqui " + qtdNaoPagos + " " + qtdPagos)
+  // Filtrando os eventos que pertencem ao mês atual
+  const eventosFiltrados = month ? filterByMonth(dadosAgendamentos, month) : [];
 
+  // Contando o status dos eventos filtrados
+  const statusCounts = eventosFiltrados.reduce((acc, item) => {
+    acc[item.scheduleStatus] = (acc[item.scheduleStatus] || 0) + 1;
+    return acc;
+  }, {});
 
-  // Calcula as porcentagens com base no total
-  setPorcenPagos(((qtdPagos / totalAtendimentos) * 100).toFixed(2));
-  setPorcenNaoPagos(((qtdNaoPagos / totalAtendimentos) * 100).toFixed(2));
-}, [dadosAgendamentos]);
+  // Calcular a quantidade de "Pagos" e "Não Pagos"
+  useEffect(() => {
+    const totalAtendimentos = eventosFiltrados.length;
 
+    const naoPagos = eventosFiltrados.filter(
+      (item) => item.payment?.paymentStatus === false
+    ).length;
+    const pagos = eventosFiltrados.filter(
+      (item) => item.payment?.paymentStatus === true
+    ).length;
+
+    setQtdNaoPagos(naoPagos);
+    setQtdPagos(pagos);
+
+    setPorcenPagos(
+      totalAtendimentos > 0 ? ((pagos / totalAtendimentos) * 100).toFixed(2) : 0
+    );
+    setPorcenNaoPagos(
+      totalAtendimentos > 0 ? ((naoPagos / totalAtendimentos) * 100).toFixed(2) : 0
+    );
+  }, [eventosFiltrados]);
 
   return (
     <div className={styles["container"]}>
@@ -47,7 +74,7 @@ const KpiAgendamentos = ({dadosAgendamentos}) => {
               className={styles["icon-i"]}
               title="Total de atendimentos agendados, concluídos com sucesso e os cancelados, de acordo com o filtro selecionado."
             />
-            <p>{statusCounts.AGENDADO}</p>
+            <p>{statusCounts.AGENDADO || 0}</p>
           </div>
         </div>
         <div
@@ -58,7 +85,7 @@ const KpiAgendamentos = ({dadosAgendamentos}) => {
             <p>Concluídos</p>
           </div>
           <div className={styles["container-dados"]}>
-            <p>{statusCounts.CONCLUIDO}</p>
+            <p>{statusCounts.CONCLUIDO || 0}</p>
           </div>
         </div>
         <div
@@ -69,7 +96,7 @@ const KpiAgendamentos = ({dadosAgendamentos}) => {
             <p>Cancelados</p>
           </div>
           <div className={styles["container-dados"]}>
-            <p>{statusCounts.CANCELADO}</p>
+            <p>{statusCounts.CANCELADO || 0}</p>
           </div>
         </div>
       </div>
