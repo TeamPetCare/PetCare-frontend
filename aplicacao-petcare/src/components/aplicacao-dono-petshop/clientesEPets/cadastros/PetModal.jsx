@@ -62,18 +62,46 @@ const PetModal = ({ isOpen, onClose }) => {
         name: petData.petName,
         gender: petData.sexo,
         color: petData.color,
-        birthDate: petData.birthDate,
-        observations: petData.observations,
-        specieId: parseInt(selectedEspecie, 10),
-        raceId: parseInt(selectedRace, 10),
-        sizeId: parseInt(selectedSize, 10),
-        userId: parseInt(selectedClient, 10),
+        birthdate: petData.birthDate || null,
+        petObservations: petData.observations || null,
+        estimatedWeight: 0,
+        petImg: 'not found',
+        planId: 3,
+        specieId: selectedEspecie ? parseInt(selectedEspecie, 10) : null,
+        raceId: selectedRace ? parseInt(selectedRace, 10) : null,
+        sizeId: selectedSize ? parseInt(selectedSize, 10) : null,
+        userId: selectedClient ? parseInt(selectedClient, 10) : null,
       };
+
+  
+  // const handleSubmit = async () => {
+  //   try {
+  //     const dataToSave = {
+  //       name: "branquinha",
+  //       gender: "Fêmea",
+  //       color: "branca",
+  //       estimatedWeight: 10.0,
+  //       birthdate: "2010-10-20",
+  //       petObservations: "pet",
+  //       petImg: 'not found',
+  //       planId: 2,
+  //       specieId: 1,
+  //       raceId: 1,
+  //       sizeId:1,
+  //       userId:24,
+  //     };
+      console.log(dataToSave)
+
+      if (!selectedClient) {
+        toast.error('Por favor, selecione um cliente.');
+        return;
+      }
 
       await petService.createPet(dataToSave);
       toast.success('Pet cadastrado com sucesso!');
       onClose();
     } catch (error) {
+      console.error('Erro ao cadastrar pet:', error);
       toast.error('Erro ao cadastrar pet. Verifique os dados e tente novamente.');
     }
   };
@@ -87,47 +115,67 @@ const PetModal = ({ isOpen, onClose }) => {
         <h2 className={petStyles.title}>Cadastrar Pets</h2>
         <p className={petStyles.subtitle}>*Campos obrigatórios</p>
         <div className={petStyles.formGroup}>
+          {/* Seleção de Cliente */}
+          <div className={petStyles.row}>
+            <div className={`${petStyles.field} ${petStyles.wideInput}`}>
+              <label className={petStyles.label}>
+                Cliente <span>*</span>
+              </label>
+              <select
+                className={petStyles.input}
+                value={selectedClient}
+                onChange={(e) => setSelectedClient(e.target.value)}
+              >
+                <option value="">Selecione um Cliente</option>
+                {clients.map((client) => (
+                  <option key={client.id} value={client.id}>
+                    {client.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Nome, Data de Nascimento e Sexo */}
           <div className={petStyles.row}>
-  <div className={`${petStyles.field} ${petStyles.wideInput}`}>
-    <label className={petStyles.label}>
-      Nome <span>*</span>
-    </label>
-    <input
-      type="text"
-      name="petName"
-      className={petStyles.input}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className={`${petStyles.field} ${petStyles.narrowInput}`}>
-    <label className={petStyles.label}>
-      Data de Nascimento <span>*</span>
-    </label>
-    <input
-      type="date"
-      name="birthDate"
-      className={petStyles.input}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className={`${petStyles.field} ${petStyles.narrowInput}`}>
-    <label className={petStyles.label}>
-      Sexo <span>*</span>
-    </label>
-    <select
-      name="sexo"
-      className={petStyles.input}
-      value={petData.sexo || ''}
-      onChange={handleInputChange}
-    >
-      <option value="">Selecione o Sexo</option>
-      <option value="Macho">Macho</option>
-      <option value="Fêmea">Fêmea</option>
-    </select>
-  </div>
-</div>
-
+            <div className={`${petStyles.field} ${petStyles.wideInput}`}>
+              <label className={petStyles.label}>
+                Nome <span>*</span>
+              </label>
+              <input
+                type="text"
+                name="petName"
+                className={petStyles.input}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className={`${petStyles.field} ${petStyles.narrowInput}`}>
+              <label className={petStyles.label}>
+                Data de Nascimento <span>*</span>
+              </label>
+              <input
+                type="date"
+                name="birthDate"
+                className={petStyles.input}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className={`${petStyles.field} ${petStyles.narrowInput}`}>
+              <label className={petStyles.label}>
+                Sexo <span>*</span>
+              </label>
+              <select
+                name="sexo"
+                className={petStyles.input}
+                value={petData.sexo || ''}
+                onChange={handleInputChange}
+              >
+                <option value="">Selecione o Sexo</option>
+                <option value="Macho">Macho</option>
+                <option value="Fêmea">Fêmea</option>
+              </select>
+            </div>
+          </div>
 
           {/* Espécie, Raça, Cor e Porte */}
           <div className={petStyles.row}>
