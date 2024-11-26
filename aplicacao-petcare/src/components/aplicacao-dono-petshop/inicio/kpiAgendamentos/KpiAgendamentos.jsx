@@ -13,33 +13,25 @@ const KpiAgendamentos = ({ dadosAgendamentos, month }) => {
 
   const formatEventMonth = (dateString) => {
     const date = new Date(dateString);
-    return date.toISOString().slice(0, 7); // Retorna "YYYY-MM"
+    return date.toISOString().slice(0, 7); 
   };
 
-  // Função para filtrar os eventos pelo mês
   const filterByMonth = (events, month) => {
-    console.log("Month Prop: " + month);
-
     return events.filter((event) => {
       const eventMonth = formatEventMonth(event.scheduleDate);
-      // console.log("Event Month: " + eventMonth);
-      return eventMonth === month; // Comparar com o currentMonth
+      return eventMonth === month; 
     });
   };
 
-  // Filtrando os eventos que pertencem ao mês atual
   const eventosFiltrados = month ? filterByMonth(dadosAgendamentos, month) : [];
 
-  // Contando o status dos eventos filtrados
   const statusCounts = eventosFiltrados.reduce((acc, item) => {
     acc[item.scheduleStatus] = (acc[item.scheduleStatus] || 0) + 1;
     return acc;
   }, {});
 
-  // Calcular a quantidade de "Pagos" e "Não Pagos"
   useEffect(() => {
     const totalAtendimentos = eventosFiltrados.length;
-
     const naoPagos = eventosFiltrados.filter(
       (item) => item.payment?.paymentStatus === false
     ).length;

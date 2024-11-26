@@ -43,9 +43,6 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   };
 
   const handleOpenModal = () => {
-    console.log("updated dat HELLOOO " + JSON.stringify(editedEvent));
-    console.log("TEMP CLOSE MODAL: " + JSON.stringify(tempEditedEvent));
-    // setEditedEvent(editedEvent);
     setShowModal(!showModal);
     setShowMoreVisible(false);
     setIsEditing(false);
@@ -67,16 +64,6 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const handleCloseModal = () => {
     setShowModal(false);
     setShowMoreVisible(true);
-    console.log(
-      "ORIGINAL EVENT NO HANDLE CLOSE " + JSON.stringify({ ...originalEvent })
-    );
-    console.log("EDITED EVENT NO CLOSE: " + JSON.stringify(editedEvent));
-    console.log("TEMP CLOSE MODAL 2: " + JSON.stringify(tempEditedEvent));
-    
-    // setEditedEvent(tempEditedEvent);
-    // console.log("EDITED EVENT NO CLOSE after: " + JSON.stringify(editedEvent));
-
-    // setTempEditedEvent(editedEvent);  // Restaurar para os dados originais
   };
 
   const handleEdit = (e) => {
@@ -119,19 +106,15 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
     
       await updateSchedule(updatedData.id, updatedData);
       onUpdate(updatedData);
-      console.log("ID: " + tempEditedEvent.payment.id)
-      console.log("COPRPTP: "+ JSON.stringify(tempEditedEvent.payment))
       await updatePayment(paymentData.id, paymentData); 
 
       toast.success("Evento atualizado com sucesso!", {
         autoClose: 2000,
       });
 
-      setOriginalEvent(tempEditedEvent); // Atualiza a versão original com os dados novos
-      setEditedEvent(tempEditedEvent); // Atualiza o editedEvent apenas após salvar
-      // setTempEditedEvent(updatedData);   // Atualiza o editedEvent apenas após salvar
-      console.log("UPDATES DATAAAAAAAA " + JSON.stringify(editedEvent));
-      handleCloseModal(); // Fecha o modal
+      setOriginalEvent(tempEditedEvent); 
+      setEditedEvent(tempEditedEvent);
+      handleCloseModal(); 
     } catch (error) {
       console.error("Erro ao salvar o evento:", error);
       toast.error(
@@ -145,8 +128,8 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   const handleCancelAction = (e) => {
     e.stopPropagation();
     setIsEditing(false);
-    setEditedEvent({ ...originalEvent }); // Restaura o estado original do evento
-    setTempEditedEvent({ ...originalEvent }); // Garante que o estado temporário também seja restaurado
+    setEditedEvent({ ...originalEvent }); 
+    setTempEditedEvent({ ...originalEvent });
     setTimeout(() => {
       handleCloseModal();
     }, 100);
@@ -189,7 +172,6 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
           setTempEditedEvent(updatedEvent);
         });
       } else if (name === "paymentStatus") {
-        console.log("HEGEUI AQUI")
         updatedEvent.payment.paymentStatus =
           value === "true" || value === "false" ? JSON.parse(value) : value;
       } else if (name === "observacoes") {
@@ -217,16 +199,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
   }, [editedEvent]);
 
   useEffect(() => {
-    setOriginalEvent({ ...event }); // Garante que o estado inicial está correto
+    setOriginalEvent({ ...event }); 
     setEditedEvent({ ...event });
     setTempEditedEvent({ ...event });
-    console.log(
-      "ORIGINAL EVENT NO HANDLE CLOSE USE EFFTES" + JSON.stringify({ ...originalEvent })
-    );
-    console.log("EDITED EVENT NO CLOSE USE EFFTES: " + JSON.stringify(editedEvent));
-    console.log("TEMP CLOSE MODAL 2 USE EFFTES: " + JSON.stringify(tempEditedEvent));
-
-    console.log("Evento original carregado: ", event);
   }, [event]);
 
   let timeDisplay;

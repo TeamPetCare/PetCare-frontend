@@ -26,8 +26,6 @@ const EditEventModal = ({
     return `${hours}:${minutes}`;
   };
   useEffect(() => {
-    console.log("Dados do evento no modal:", editedEvent);
-
   }, [editedEvent]);
   
   
@@ -51,8 +49,8 @@ const EditEventModal = ({
     );
   };
 
-  const progressWidth = `${(currentStep / 1) * 100}%`; // Ajuste conforme o número de passos
-  const isComplete = currentStep === 1; // Indica se o processo está completo
+  const progressWidth = `${(currentStep / 1) * 100}%`; 
+  const isComplete = currentStep === 1; 
 
   return (
     <Modal

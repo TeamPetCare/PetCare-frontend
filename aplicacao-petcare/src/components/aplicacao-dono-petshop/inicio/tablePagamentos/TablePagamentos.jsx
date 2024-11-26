@@ -26,8 +26,7 @@ const TablePagamentos = () => {
       try {
         const petsEPlanos = await getAllPetsAndPlans();
         setDadosPetsEPlanos(petsEPlanos);
-        setDadosOrdenados(petsEPlanos); // Inicializa com os dados carregados
-        console.log("Pets e Planos:", petsEPlanos);
+        setDadosOrdenados(petsEPlanos); 
       } catch (error) {
         console.error("Erro ao carregar Pets e Planos:", error);
       }

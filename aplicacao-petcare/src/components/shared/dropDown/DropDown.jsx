@@ -19,26 +19,8 @@ function DropDown({
 }) {
   const [selectedOption, setSelectedOption] = useState(selectedItem);
 
-  // useEffect(() => {
-  //   setSelectedOption(selectedItem);
-  // }, [selectedItem]);
-
   const handleSelectItem = (optionSelected, option) => {
-    console.log("Option:", option);
-    console.log("Option Selected: ", optionSelected);
-
-    // Se option for um objeto, usamos option[optionKey], caso contrário, usamos optionSelected
-
-    // Atualizando o selectedOption com o nome da opção ou o valor diretamente
     setSelectedOption(optionSelected);
-
-    console.log(
-      "SLA:",
-      typeof option === "object" ? option[optionName] : optionSelected
-    );
-    console.log("option optionName" + option[optionName]);
-
-    // Enviando o valor correto no evento onChange
     onChange({ target: { name: titulo, option } });
   };
 
@@ -72,11 +54,9 @@ function DropDown({
             let displayValue;
             let displayName;
 
-            // Determinando o valor a ser exibido com base no tipo de option (objeto ou não)
             if (typeof option === "object") {
               displayValue = option[optionKey] || JSON.stringify(option);
               displayName = option[optionName];
-              console.log("DISPLAYNAME: " + option[optionName]);
             } else {
               displayValue = option;
               displayName = option;

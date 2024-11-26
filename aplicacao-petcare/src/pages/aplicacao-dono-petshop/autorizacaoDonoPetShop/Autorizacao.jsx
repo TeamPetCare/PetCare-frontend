@@ -38,9 +38,6 @@ const Autorizacao = ({ children }) => {
         const decodedPayload = JSON.parse(atob(payloadBase64));
         const isExpired = decodedPayload.exp * 1000 < Date.now();
 
-        console.log("Token Decoded:", decodedPayload);
-        console.log("Is Token Expired:", isExpired);
-
         if (isExpired) {
           localStorage.removeItem("userToken");
           navigate("/");

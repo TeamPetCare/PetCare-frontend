@@ -13,7 +13,6 @@ const UserHeader = () => {
 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem("userData")));
-    console.log(userData?.name); // Exibe "Cirilo Dono"
   }, []);
 
   return (
