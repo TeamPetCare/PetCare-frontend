@@ -29,7 +29,7 @@ table{
 }
 .scrollable-table {
   border-radius: 10px;
-  max-height: 65vh;
+  max-height: 26vh;
   overflow-y: auto;
 }
 

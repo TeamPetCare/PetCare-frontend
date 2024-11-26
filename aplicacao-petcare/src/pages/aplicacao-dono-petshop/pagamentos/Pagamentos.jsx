@@ -10,6 +10,7 @@ import { TrendingUp, DollarSign, Calendar, Activity } from 'lucide-react';
 import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/pagamentos/mainButtonsHeader/mainButtonsHeader.jsx";
 import { getUserById } from '../../../services/userService';
 import { ThreeDot } from "react-loading-indicators";
+// import TableRelatorios from "../../../components/aplicacao-dono-petshop/pagamentos/tableRelatorios/TableRelatorios.jsx";
 import TableData from "../../../components/aplicacao-dono-petshop/pagamentos/tableData/TableData";
 import DropDownFilterChart from "../../../components/aplicacao-dono-petshop/pagamentos/dropDownFilterChart/DropDownFilterChart.jsx"
 
@@ -31,31 +32,31 @@ const Pagamentos = () => {
     const prices = [];
 
     const today = new Date(); // Defina a data de hoje aqui
-  
+
     // Verifica se o filtro é semanal ou mensal, para agrupar os pagamentos.
     if (currentFilterChart === "Semanal") {
       const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
       const weekData = new Array(7).fill(0); // Array para armazenar os valores dos 7 dias da semana
-  
+
       data.forEach((pagamento) => {
         const pagamentoDate = new Date(pagamento.paymentDate);
         const dayOfWeek = pagamentoDate.getDay();
         weekData[dayOfWeek] += pagamento.price;
       });
-  
+
       weekData.forEach((total, index) => {
         labels.push(weekDays[index]);
         prices.push(total);
       });
     } else if (currentFilterChart === "Mensal") {
       const monthData = new Array(4).fill(0); // Assumindo 4 semanas no mês
-  
+
       data.forEach((pagamento) => {
         const pagamentoDate = new Date(pagamento.paymentDate);
         const weekNumber = Math.floor(pagamentoDate.getDate() / 7); // Determina a semana do mês
         monthData[weekNumber] += pagamento.price;
       });
-  
+
       monthData.forEach((total, index) => {
         labels.push(`Semana ${index + 1}`);
         prices.push(total);
@@ -63,24 +64,24 @@ const Pagamentos = () => {
     } else if (currentFilterChart === "Anual") {
       const yearData = new Array(12).fill(0); // 12 meses no ano
       const monthInitials = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-    
+
       data.forEach((pagamento) => {
         const pagamentoDate = new Date(pagamento.paymentDate);
         const month = pagamentoDate.getMonth(); // Obtém o índice do mês (0 a 11)
         yearData[month] += pagamento.price;
       });
-    
+
       yearData.forEach((total, index) => {
         labels.push(monthInitials[index]); // Adiciona as iniciais do mês ao invés de números
         prices.push(total);
       });
     }
-     else if (currentFilterChart === "Hoje") {
+    else if (currentFilterChart === "Hoje") {
       const todayPayments = data.filter((pagamento) => {
         const pagamentoDate = new Date(pagamento.paymentDate);
         return pagamentoDate.toLocaleDateString('pt-BR') === today.toLocaleDateString('pt-BR');
       });
-  
+
       todayPayments.forEach((pagamento) => {
         labels.push(new Date(pagamento.paymentDate).toLocaleTimeString('pt-BR'));
         prices.push(pagamento.price);
@@ -92,7 +93,7 @@ const Pagamentos = () => {
         prices.push(pagamento.price);
       });
     }
-  
+
     return {
       labels,
       datasets: [
@@ -116,8 +117,8 @@ const Pagamentos = () => {
       ]
     };
   }
-  
-  
+
+
 
 
   function recuperarPagamentos() {
@@ -139,19 +140,19 @@ const Pagamentos = () => {
 
   function recuperarPagamentosTable() {
     setIsLoading(true);
-  
+
     getAllPayments()
       .then(async (response) => {
         const data = response && Array.isArray(response) ? response : [];
-  
+
         // Mapeia os pagamentos e cria uma lista de IDs de usuários
         const userIds = [...new Set(data.map((pagamento) => pagamento.userId))];
-  
+
         // Recupera todos os usuários de uma vez
         const users = await Promise.all(
           userIds.map((userId) => getUserById(userId).catch(() => null)) // Tratar erros individualmente
         );
-  
+
         // Cria um mapa de usuários para acesso rápido
         const userMap = users.reduce((acc, user, index) => {
           if (user) {
@@ -161,11 +162,11 @@ const Pagamentos = () => {
           }
           return acc;
         }, {});
-  
+
         // Mapeia os pagamentos e adiciona as informações do usuário
         const pagamentosComDetalhes = data.map((pagamento) => {
           const user = userMap[pagamento.userId]; // Obtém o usuário usando o mapa
-  
+
           return {
             paymentId: pagamento.paymentId,
             userName: user.name, // Nome do usuário
@@ -176,7 +177,7 @@ const Pagamentos = () => {
             price: pagamento.price.toFixed(2), // Formata o valor
           };
         });
-  
+
         // Atualiza o estado com os pagamentos completos
         setPagamentosTableData(pagamentosComDetalhes);
         setFilteredData(pagamentosComDetalhes);
@@ -189,7 +190,7 @@ const Pagamentos = () => {
         setIsLoading(false);
       });
   }
-  
+
 
 
 
@@ -211,9 +212,9 @@ const Pagamentos = () => {
 
   const totalAmount = pagamentosData.reduce((sum, payment) => sum + parseFloat(payment.price), 0);
 
-  const averageAmount = pagamentosData.length > 0 
-  ? totalAmount / pagamentosData.filter(p => !isNaN(p.price)).length 
-  : 0;
+  const averageAmount = pagamentosData.length > 0
+    ? totalAmount / pagamentosData.filter(p => !isNaN(p.price)).length
+    : 0;
 
 
   const filterOptions = [
@@ -239,52 +240,52 @@ const Pagamentos = () => {
     } else if (filter === "Cancelados") {
       setFilteredData(pagamentosTableData.filter((pagamento) => pagamento.paymentStatus === "Cancelado")); // Somente pagamentos cancelados
     }
-};
+  };
 
-const handleFilterChangeChart = (filter) => {
-  const today = new Date(); // Defina a data de hoje aqui
+  const handleFilterChangeChart = (filter) => {
+    const today = new Date(); // Defina a data de hoje aqui
 
-  setCurrentFilterChart(filter); // Atualiza o filtro atual
+    setCurrentFilterChart(filter); // Atualiza o filtro atual
 
-  let filteredPagamentos = pagamentosData; // Use os dados de pagamento para o filtro no gráfico
+    let filteredPagamentos = pagamentosData; // Use os dados de pagamento para o filtro no gráfico
 
-  switch (filter) {
-    case "Hoje":
-      filteredPagamentos = pagamentosData.filter((pagamento) => {
-        const pagamentoDate = new Date(pagamento.paymentDate);
-        return pagamentoDate.toLocaleDateString('pt-BR') === today.toLocaleDateString('pt-BR');
-      });
-      break;
-    case "Semanal":
-      const weekStart = new Date(today.setDate(today.getDate() - today.getDay())); // Começo da semana
-      const weekEnd = new Date(today.setDate(today.getDate() + 6)); // Final da semana
-      filteredPagamentos = pagamentosData.filter((pagamento) => {
-        const pagamentoDate = new Date(pagamento.paymentDate);
-        return pagamentoDate >= weekStart && pagamentoDate <= weekEnd;
-      });
-      break;
-    case "Mensal":
-      filteredPagamentos = pagamentosData.filter((pagamento) => {
-        const pagamentoDate = new Date(pagamento.paymentDate);
-        return pagamentoDate.getMonth() === today.getMonth() && pagamentoDate.getFullYear() === today.getFullYear();
-      });
-      break;
-    case "Anual":
-      filteredPagamentos = pagamentosData.filter((pagamento) => {
-        const pagamentoDate = new Date(pagamento.paymentDate);
-        return pagamentoDate.getFullYear() === today.getFullYear();
-      });
-      break;
-    case "Todos":
-      filteredPagamentos = pagamentosData; // Exibe todos os pagamentos
-      break;
-    default:
-      break;
-  }
+    switch (filter) {
+      case "Hoje":
+        filteredPagamentos = pagamentosData.filter((pagamento) => {
+          const pagamentoDate = new Date(pagamento.paymentDate);
+          return pagamentoDate.toLocaleDateString('pt-BR') === today.toLocaleDateString('pt-BR');
+        });
+        break;
+      case "Semanal":
+        const weekStart = new Date(today.setDate(today.getDate() - today.getDay())); // Começo da semana
+        const weekEnd = new Date(today.setDate(today.getDate() + 6)); // Final da semana
+        filteredPagamentos = pagamentosData.filter((pagamento) => {
+          const pagamentoDate = new Date(pagamento.paymentDate);
+          return pagamentoDate >= weekStart && pagamentoDate <= weekEnd;
+        });
+        break;
+      case "Mensal":
+        filteredPagamentos = pagamentosData.filter((pagamento) => {
+          const pagamentoDate = new Date(pagamento.paymentDate);
+          return pagamentoDate.getMonth() === today.getMonth() && pagamentoDate.getFullYear() === today.getFullYear();
+        });
+        break;
+      case "Anual":
+        filteredPagamentos = pagamentosData.filter((pagamento) => {
+          const pagamentoDate = new Date(pagamento.paymentDate);
+          return pagamentoDate.getFullYear() === today.getFullYear();
+        });
+        break;
+      case "Todos":
+        filteredPagamentos = pagamentosData; // Exibe todos os pagamentos
+        break;
+      default:
+        break;
+    }
 
-  // Atualiza os dados filtrados do gráfico
-  setFilteredChartData(filteredPagamentos);
-};
+    // Atualiza os dados filtrados do gráfico
+    setFilteredChartData(filteredPagamentos);
+  };
 
 
 
@@ -336,7 +337,7 @@ const handleFilterChangeChart = (filter) => {
     });
 
     setFilteredData(dadosFiltrados);
-}, [searchTerm, currentFilter, pagamentosTableData]); // Executa sempre que searchTerm ou filtros mudarem
+  }, [searchTerm, currentFilter, pagamentosTableData]); // Executa sempre que searchTerm ou filtros mudarem
 
   const columnPayments = {
     paymentId: "ID Transação",
@@ -359,44 +360,40 @@ const handleFilterChangeChart = (filter) => {
     <>
       <div className={styles["header-container2"]}>
         <DropDownFilterChart options={filterOptionsChart} onFilterChange={handleFilterChangeChart} />
-        <MainButtonsHeader
-          onGenerateReport={handleGenerateReport}
-        />
+        <MainButtonsHeader onGenerateReport={handleGenerateReport} />
         <UserHeader />
       </div>
 
-      <img src="https://bancodeimagenspetcare.blob.core.windows.net/imagens/usuario%2Fimagem_usuario_1.jpg" alt="" srcset="" />
-
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className={`${styles["container"]} min-h-screen bg-gray-50 p-8`}>
         <div className="max-w-7xl mx-auto">
           <div className={styles["container-kpis"]}>
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white rounded-xl shadow-sm ">
               <div className="flex items-center gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Receita - Distribuição</p>
-                  <p className="text-2xl font-bold text-gray-900">
+                <div style={{padding: "15px"}}>
+                  <p className={styles["texto-receita-distribuicao"]}>Receita - Distribuição</p>
+                  <p className={styles["valor-receita-distribuicao"]}>
                     R$ {totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white rounded-xl shadow-sm ">
               <div className="flex items-center gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Média por Pagamentos</p>
-                  <p className="text-2xl font-bold text-gray-900">
+                <div style={{padding: "15px"}}>
+                  <p className={styles["texto-media-pagamentos"]}>Média por Pagamentos</p>
+                  <p className={styles["valor-media-pagamentos"]}>
                     R$ {averageAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white rounded-xl shadow-sm">
               <div className="flex items-center gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Total de Transações</p>
-                  <p className="text-2xl font-bold text-gray-900">{pagamentosData.length}</p>
+                <div style={{padding: "15px"}}>
+                  <p className={styles["texto-total-transacoes"]}>Total de Transações</p>
+                  <p className={styles["valor-total-transacoes"]}>{pagamentosData.length}</p>
                 </div>
               </div>
             </div>
@@ -404,7 +401,7 @@ const handleFilterChangeChart = (filter) => {
 
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             {isLoading ? (
-              <div className="flex items-center justify-center h-[400px]">
+              <div className="flex items-center justify-center h-[250px]">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
               </div>
             ) : (
@@ -461,39 +458,39 @@ const handleFilterChangeChart = (filter) => {
                     }
                   }
                 }}
-                height={350}
+                height={250}
               />
             )}
           </div>
         </div>
         <div className={styles["header-container"]}>
-        <div className={styles["container-searchBar"]}>
-          <Form onSubmit={(e) => e.preventDefault()}>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
-                type="input"
-                placeholder="Procurar por Cliente Ou Telefone..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-            </Form.Group>
-          </Form>
-        </div>
-        <p style={{ fontSize: '15px' }}>Filtrar por Status:</p>
-        <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
+          <div className={styles["container-searchBar"]}>
+            <Form onSubmit={(e) => e.preventDefault()}>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Control
+                  type="input"
+                  placeholder="Procurar por Cliente..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              </Form.Group>
+            </Form>
+          </div>
+          <p style={{ fontSize: '15px' }}>Filtrar por Status:</p>
+          <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
         </div>
         {loading ? (
-            <div className={styles["loading-container"]}>
-              <ThreeDot variant="bounce" color="#005472" size="small" />
-            </div>
-          ) : (
-            <TableData
-              filtro={currentFilter}
-              dados={filteredData}
-              columnNames={columnPayments}
-              sortableColumns={sortableColumnsPayments}
-            />
-          )}
+          <div className={styles["loading-container"]}>
+            <ThreeDot variant="bounce" color="#005472" size="small" />
+          </div>
+        ) : (
+          <TableData
+            filtro={currentFilter}
+            dados={filteredData}
+            columnNames={columnPayments}
+            sortableColumns={sortableColumnsPayments}
+          />
+        )}
       </div>
     </>
   );

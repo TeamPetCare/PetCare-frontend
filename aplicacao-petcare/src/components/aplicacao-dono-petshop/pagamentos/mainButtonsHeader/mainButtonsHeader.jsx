@@ -10,6 +10,7 @@ import { PiBoundingBoxFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 
 function MainButtonsHeader({ onGenerateReport }) {
+  
   return (
     <div className={styles["containers-btn"]}>
       <button className={`${styles["custom-btn"]} ${styles["report"]}`} onClick={onGenerateReport}>
@@ -19,6 +20,5 @@ function MainButtonsHeader({ onGenerateReport }) {
     </div>
   );
 }
-
 
 export default MainButtonsHeader;
