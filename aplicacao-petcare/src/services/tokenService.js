@@ -6,7 +6,7 @@ const tokenService = {
   verifyToken: async () => {
   console.log("Passei por aqui");
 
-    const token = sessionStorage.getItem("userToken");
+    const token = localStorage.getItem("userToken");
     if (!token) return false;
 
     try {
@@ -17,7 +17,7 @@ const tokenService = {
       });
 
       const isValidToken = response.data ? true : false;
-      console.log("Token vÃ¡lido:", isValidToken); 
+      console.log("Token válido:", isValidToken); 
 
       return isValidToken; 
 

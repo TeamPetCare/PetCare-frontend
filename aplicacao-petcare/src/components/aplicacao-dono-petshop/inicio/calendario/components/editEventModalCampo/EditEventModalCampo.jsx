@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useMediaQuery } from "react-responsive";
 import styles from "./EditEventModalCampo.module.css";
 import DropDown from "../../../../../shared/dropDown/DropDown";
 import TimePicker from "../../../../../shared/timePicker/TimePicker";
@@ -8,6 +8,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { GoPeople } from "react-icons/go";
 import { SiContactlesspayment } from "react-icons/si";
 import { MdOutlineSchedule } from "react-icons/md";
+import { getAllEmployees } from "../../../../../../services/employeeService";
 
 const EditedEventModalCampo = ({
   editedEvent,
@@ -21,16 +22,52 @@ const EditedEventModalCampo = ({
   const formasPagamento = [];
 
   // const pets = [...new Set(events.map((event) => event.cliente.pet.nome))];
-  const funcionarios = ["Jaqueline", "Isaac"];
+  const [funcionariosNomes, setFuncionariosNomes] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState( editedEvent.scheduleStatus);
 
-  const [selectedServices, setSelectedServices] = useState(editedEvent.services);
+  useEffect(() => {
+    const loadFuncionarios = async () => {
+      try {
+        const todosFuncionarios = await getAllEmployees();
+        const funcionariosFormatados = todosFuncionarios.map((funcionario) => ({
+          id: funcionario.id,
+          name: funcionario.name,
+        }));
+        setFuncionariosNomes(funcionariosFormatados);
+      } catch (error) {
+        console.error("Erro ao carregar funcionários:", error);
+      }
+    };
+
+    loadFuncionarios();
+  }, []);
+
+
+
+  const [selectedServices, setSelectedServices] = useState(
+    editedEvent.services
+  );
 
   const [selectedItem, setSelectedItem] = useState("");
+  const isMobile = useMediaQuery({ query: "(max-width: 1023px)" });
 
   // Função para atualizar o valor selecionado
   const handleDropdownChange = (event) => {
-    setSelectedItem(event.target.value);
-    handleChange(event);
+    handleChange({
+      target: {
+        name: "Selecione um funcionário", // Nome que identifica a mudança
+        value: { id: event.target.option.id, name: event.target.option.name }, // Passe o ID selecionado
+      },
+    })
+  };
+
+  const handleSelectChange = (event) => {
+    handleChange({
+      target: {
+        name: "paymentStatus",
+        value: event.target.value,
+      }
+    })
   };
 
   const removeService = (service) => {
@@ -48,25 +85,28 @@ const EditedEventModalCampo = ({
       PIX: "Pix",
       CARTAO_CREDITO: "Cartão Crédito",
       CARTAO_DEBITO: "Cartão Débito",
-      DINHEIRO: "Dinheiro"
+      DINHEIRO: "Dinheiro",
     };
-    
-    return formattedMethods[method] || method
-      .toLowerCase() 
-      .split('_') 
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' '); 
+
+    return (
+      formattedMethods[method] ||
+      method
+        .toLowerCase()
+        .split("_")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+    );
   };
 
   return (
     <div className={styles["container"]}>
       <div className={styles["row1"]}>
-      <DropDown
+        <DropDown
           agendamento={editedEvent}
           options={clientes}
           titulo={"Selecione um cliente*"}
           icon={PiUserCircleThin}
-          selectedItem={editedEvent.payment.user.name}  // Passa o nome do cliente aqui
+          selectedItem={editedEvent.pet.user.name || ""} // Passa o nome do cliente aqui
           className={styles["container-dropdown"]}
           exibirInformacao={true}
           isDisabled={true}
@@ -88,9 +128,10 @@ const EditedEventModalCampo = ({
           onChange={handleChange}
           titulo={"Configure um status*"}
           icon={MdOutlineSchedule}
-          selectedItem={capitalizeFirstLetter(editedEvent.scheduleStatus)}
+          selectedItem={capitalizeFirstLetter(selectedStatus)}
           exibirInformacao={false}
           isDisabled={!isEditing}
+          name="scheduleStatus"
         />
       </div>
       <div className={styles["row2"]}>
@@ -119,24 +160,26 @@ const EditedEventModalCampo = ({
         <TimePicker
           dtInicial={editedEvent.start}
           dtFinal={editedEvent.end}
-          isDisabled={true} 
+          isDisabled={true}
         />
         <DropDown
           agendamento={editedEvent}
-          options={funcionarios}
+          options={funcionariosNomes}
+          onChange={handleDropdownChange}
           titulo={"Selecione um funcionário*"}
           icon={GoPeople}
-          selectedItem={"JAQUELINE MOCKADO"}
+          selectedItem={editedEvent.employee?.name}
           className={styles["container-dropdown"]}
           exibirInformacao={false}
-          isDisabled={!isEditing} 
+          isDisabled={!isEditing}
+          name="employee"
         />
       </div>
       <div className={styles["row4"]}>
         <label>Observações*</label>
         <textarea
           name="observacoes"
-          value={editedEvent.scheduleNote}
+          value={editedEvent?.scheduleNote || ""}
           onChange={handleChange}
           disabled={!isEditing}
           className={styles["input-observacoes"]}
@@ -150,7 +193,9 @@ const EditedEventModalCampo = ({
             options={formasPagamento}
             titulo={"Selecione uma forma de pagamento*"}
             icon={SiContactlesspayment}
-            selectedItem={formatPaymentMethod(editedEvent.payment.paymentMethod)}
+            selectedItem={formatPaymentMethod(
+              editedEvent.payment.paymentMethod
+            )}
             className={styles["container-dropdown"]}
             exibirInformacao={false}
             isDisabled={true}
@@ -164,12 +209,12 @@ const EditedEventModalCampo = ({
                 <input
                   type="radio"
                   name="paymentStatus"
-                  value="pendente"
-                  checked={!editedEvent.paymentStatus}
-                  onChange={handleChange}
-                  disabled={ 
-                    !isEditing || editedEvent.payment.paymentMethod !== "PIX"
-                  } 
+                  value="false"
+                  checked={editedEvent.payment.paymentStatus === false}
+                  onChange={handleSelectChange} 
+                  disabled={
+                    !isEditing || editedEvent.payment.paymentMethod == "PIX"
+                  }
                 />
                 Pendente
               </label>
@@ -177,10 +222,12 @@ const EditedEventModalCampo = ({
                 <input
                   type="radio"
                   name="paymentStatus"
-                  value="pago"
-                  checked={editedEvent.paymentStatus}
-                  onChange={handleChange}
-                  disabled={!isEditing || editedEvent.payment.paymentMethod !== "PIX"} 
+                  value="true"
+                  checked={editedEvent.payment.paymentStatus === true}
+                  onChange={handleSelectChange} 
+                  disabled={
+                    !isEditing || editedEvent.payment.paymentMethod == "PIX"
+                  }
                 />
                 Pago
               </label>

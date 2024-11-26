@@ -4,16 +4,16 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { useSelectedData } from "../../../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext";
+import { RiWhatsappFill } from "react-icons/ri";
 
-const TableData = ({ dados = [], columnNames, sortableColumns }) => {
+const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = () => {} }) => {
   const [isDown, setIsDown] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const { setSelectedData } = useSelectedData();  
+  const { setSelectedData } = useSelectedData();
 
   const handleArrowClick = (col) => {
-    const direction =
-      sortConfig.key === col && sortConfig.direction === "asc" ? "desc" : "asc";
+    const direction = sortConfig.key === col && sortConfig.direction === "asc" ? "desc" : "asc";
     setSortConfig({ key: col, direction });
     setIsDown(direction === "asc");
   };
@@ -41,22 +41,14 @@ const TableData = ({ dados = [], columnNames, sortableColumns }) => {
     setSelectedData(selectedData);
   }, [selectedRows, dados, setSelectedData]);
 
-  const handleRowClick = (index) => {
-    toggleSelectRow(index);
-  };
-
-  const handleBtnClick = () => {
-    console.log(
-      "Dados selecionados:",
-      selectedRows.map((i) => dados[i])
-    );
+  const handleEditClick = () => {
+    if (selectedRows.length === 1) {
+      onPut(); // Abre o modal de edição sem modificar a seleção
+    }
   };
 
   // Filtrar e renomear colunas dinamicamente
-  const columns =
-    dados.length > 0
-      ? Object.keys(dados[0]).filter((col) => col !== "id")  
-      : [];
+  const columns = dados.length > 0 ? Object.keys(dados[0]).filter((col) => col !== "id") : [];
 
   const sortedData = [...dados].sort((a, b) => {
     if (sortConfig.key) {
@@ -73,19 +65,33 @@ const TableData = ({ dados = [], columnNames, sortableColumns }) => {
         <Table hover style={{ margin: "0" }}>
           <thead>
             <tr>
-              <th>
-                <label className={styles["custom-checkbox"]}>
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.length === dados.length}
-                    onChange={toggleSelectAll}
-                  />
-                  <span className={styles["checkmark"]}></span>
-                </label>
-              </th>
-              <th>
-                <MdEdit size={15}/>
-              </th>
+              {/* Condição para exibir ou ocultar os elementos de seleção e edição */}
+              {filtro !== "Clientes & Pets" && (
+                <>
+                  <th>
+                    <label className={styles["custom-checkbox"]}>
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.length === dados.length}
+                        onChange={toggleSelectAll}
+                      />
+                      <span className={styles["checkmark"]}></span>
+                    </label>
+                  </th>
+                  <th>
+                    <MdEdit
+                      size={15}
+                      style={{
+                        color: selectedRows.length === 1 ? "inherit" : "lightgray",
+                        cursor: selectedRows.length === 1 ? "pointer" : "not-allowed",
+                      }}
+                      onClick={() => {
+                        if (selectedRows.length === 1) handleEditClick();
+                      }}
+                    />
+                  </th>
+                </>
+              )}
               {columns.map((col, index) => (
                 <th key={index}>
                   {columnNames[col] || col} {/* Renomeia a coluna */}
@@ -109,23 +115,49 @@ const TableData = ({ dados = [], columnNames, sortableColumns }) => {
           </thead>
           <tbody>
             {sortedData.map((item, index) => (
-              <tr key={index} onClick={() => handleRowClick(index)}>
-                <td>
-                  <label className={styles["custom-checkbox"]}>
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.includes(index)}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        toggleSelectRow(index);
-                      }}
-                    />
-                    <span className={styles["checkmark"]}></span>
-                  </label>
-                </td>
-                <td>
-                  <MdEdit size={15}/>
-                </td>
+              <tr key={index} onClick={() => toggleSelectRow(index)}>
+                {/* Condição para exibir ou ocultar os elementos de seleção e edição */}
+                {filtro !== "Clientes & Pets" && (
+                  <>
+                    <td>
+                      <label className={styles["custom-checkbox-t"]}>
+                        <input
+                          type="checkbox"
+                          checked={selectedRows.includes(index)}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            toggleSelectRow(index);
+                          }}
+                        />
+                        <span className={styles["checkmark"]}></span>
+                      </label>
+                    </td>
+                    <td>
+                      <MdEdit
+                        size={15}
+                        style={{
+                          color:
+                            selectedRows.length === 1 && selectedRows.includes(index)
+                              ? "inherit"
+                              : "lightgray",
+                          cursor:
+                            selectedRows.length === 1 && selectedRows.includes(index)
+                              ? "pointer"
+                              : "not-allowed",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (
+                            selectedRows.length === 1 &&
+                            selectedRows.includes(index)
+                          ) {
+                            handleEditClick();
+                          }
+                        }}
+                      />
+                    </td>
+                  </>
+                )}
                 {columns.map((col, colIndex) => (
                   <td key={colIndex}>
                     {typeof item[col] === "object" ? (
@@ -136,12 +168,24 @@ const TableData = ({ dados = [], columnNames, sortableColumns }) => {
                           </div>
                         ))}
                       </div>
-                    ) : col === "whatsapp" ? ( 
-                      <a href={`https://wa.me/${item[col].replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className={styles["content-div"]}>
+                    ) : col === "whatsapp" ? (
+                      <a
+                        href={`https://wa.me/${item[col].replace(/[^0-9]/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles["content-div"]}
+                      >
+                        <RiWhatsappFill />
                         {item[col]}
                       </a>
                     ) : (
-                      <div className={`${styles["content-div"]} ${col === "observacoes" ? styles["white-space-normal"] : styles["white-space-nowrap"]}`}>
+                      <div
+                        className={`${styles["content-div"]} ${
+                          col === "observacoes"
+                            ? styles["white-space-normal"]
+                            : styles["white-space-nowrap"]
+                        }`}
+                      >
                         {item[col]}
                       </div>
                     )}
@@ -152,9 +196,6 @@ const TableData = ({ dados = [], columnNames, sortableColumns }) => {
           </tbody>
         </Table>
       </div>
-      {/* <button onClick={handleBtnClick}>
-        Exibir dados selecionados no console
-      </button> */}
     </div>
   );
 };
