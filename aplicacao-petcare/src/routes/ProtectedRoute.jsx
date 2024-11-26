@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import tokenService from '../services/tokenService';
+import { toast } from 'react-toastify';
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -31,12 +32,22 @@ const ProtectedRoute = ({ children }) => {
     checkToken();
   }, []);
 
+  const toastNaoAutenticado = () =>{
+    setTimeout(() => {
+      toast.info("Erro autenticar usuário. Realize o login novamente.");
+    }, 300);
+  }
+
   if (isAuthenticated === null) {
     return <div>Carregando...</div>; // Exibe um carregamento enquanto verifica o token
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/dono-petshop/login" replace />; // Redireciona se o token não for válido
+    toastNaoAutenticado();
+    console.log("PASSEI POR AQUI EIN")
+    return (
+      <Navigate to="/dono-petshop/login" replace />
+    ) // Redireciona se o token não for válido
   }
 
   return children; // Renderiza os filhos se o usuário estiver autenticado
