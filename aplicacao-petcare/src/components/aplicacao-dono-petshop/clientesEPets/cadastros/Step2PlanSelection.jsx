@@ -89,7 +89,7 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient, onPlanSelect, 
 
         {/* Coluna: Pets Associados */}
         <div className={step2Styles.gridItem}>
-          <label className={step2Styles.label}>Quais pets irão utilizar este plano?</label>
+          <label className={step2Styles.label}>Pets associados ao cliente</label>
           <div className={step2Styles.checkboxGroup}>
             {pets.length > 0 ? (
               pets.map((pet) => (
