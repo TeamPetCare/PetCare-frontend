@@ -1,0 +1,250 @@
+/* Modal Container */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1100px; /* Suficiente para acomodar duas colunas */
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Rolagem caso o conteúdo exceda o tamanho do modal */
+}
+
+/* Grid Container */
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas de tamanhos iguais */
+  gap: 24px; /* Espaçamento entre as colunas */
+  margin-bottom: 24px; /* Espaçamento inferior para outros elementos */
+}
+
+/* Itens da Grid */
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espaçamento entre os elementos da coluna */
+}
+
+/* Label */
+.label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Checkbox Group */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espaçamento entre os checkboxes */
+}
+
+/* Checkbox Label */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaçamento entre o checkbox e o texto */
+  font-size: 1rem;
+  color: #444;
+}
+
+/* Pet Info */
+.petInfo {
+  display: flex;
+  align-items: center; /* Alinhamento vertical centralizado */
+  gap: 8px; /* Espaço entre a imagem e o nome do pet */
+}
+
+.petImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Torna as imagens redondas */
+}
+
+/* Mensagem quando não há dados */
+.noData {
+  font-size: 1rem;
+  color: #999;
+  text-align: center;
+}
+
+/* Botões */
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.cancelButton,
+.nextButton {
+  font-weight: 600;
+  width: 48%; /* Botões ocupam quase metade do container */
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.cancelButton {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #e0e0e0;
+}
+
+.nextButton {
+  background-color: var(--cor-primaria-azul-escuro);
+  color: #fff;
+}
+
+.nextButton:hover {
+  background-color: #003366;
+}
+
+/* Títulos */
+.title {
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.subtitle {
+  text-align: left;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+/* Container principal das colunas */
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Duas colunas de mesmo tamanho */
+  gap: 24px; /* Espaçamento entre as colunas */
+  margin-bottom: 24px; /* Espaço inferior */
+}
+
+/* Itens dentro da grid */
+.gridItem {
+  display: flex;
+  flex-direction: column; /* Empilhar itens verticalmente */
+  gap: 16px; /* Espaçamento entre os elementos */
+}
+
+/* Alinhar os textos e os inputs */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espaçamento entre as linhas */
+  align-items: flex-start; /* Alinha tudo à esquerda */
+}
+
+/* Linha do input e texto */
+.checkboxLabel {
+  display: flex;
+  align-items: center; /* Alinha verticalmente o input e o texto */
+  gap: 8px; /* Espaço entre o input e o texto */
+}
+
+/* Inputs (radio e checkbox) */
+.checkboxLabel input[type="radio"],
+.checkboxLabel input[type="checkbox"] {
+  width: 16px; /* Tamanho do input */
+  height: 16px;
+  margin: 0; /* Remove margens desnecessárias */
+}
+
+/* Alinhar as informações de pets */
+.petInfo {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente a imagem e o texto */
+  gap: 8px; /* Espaçamento entre a imagem e o texto */
+}
+
+.petImage {
+  width: 32px; /* Ajusta o tamanho da imagem */
+  height: 32px;
+  border-radius: 50%; /* Deixa a imagem redonda */
+  object-fit: cover; /* Garante que a imagem seja proporcional */
+}
+
+/* Labels gerais */
+.label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Mensagem quando não há pets */
+.noData {
+  font-size: 1rem;
+  color: #999;
+  text-align: center;
+}
+
+/* Ajustar o layout em telas menores */
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: 1fr; /* Empilhar colunas em telas menores */
+    gap: 16px;
+  }
+}
+
+/* Linha específica para preço e desconto */
+.priceRow {
+  display: flex;
+  justify-content: space-between; /* Espaça os elementos nas extremidades */
+  align-items: center; /* Alinha verticalmente */
+  width: 100%; /* Garante que ocupe toda a linha */
+  margin-top: 16px; /* Espaço superior */
+}
+
+/* Estilo do preço */
+.price {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Grupo de checkbox */
+.discountCheckboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaçamento entre o checkbox e o texto */
+}
+
+
+.checkboxLabel input[type="checkbox"],
+.discountCheckboxGroup input[type="checkbox"] {
+  width: 20px;
+  height: 20px; 
+  border: 2px #ccc; /* Borda cinza */
+  border-radius: 30%;
+  cursor: pointer; 
+}
+
+
+
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: 1fr; /* Colunas empilhadas em telas menores */
+    gap: 16px;
+  }
+
+  .modal {
+    max-width: 90%;
+  }
+}

@@ -299,7 +299,7 @@ const ClientesEPets = () => {
             }),
             dtUANISO: pet.lastSchedule ? new Date(pet.lastSchedule).toISOString().slice(0, -5) : null,
             totalAgendamentos: pet.totalSchedules,
-            plano: pet.plan.planType.name
+            plano: pet.plan?.planType?.name || "Nenhum Plano."
           }))
         );
         setPetsData(petsFormatados);
@@ -334,7 +334,7 @@ const ClientesEPets = () => {
             }),
             porte: pet.size.sizeType,
             observacoes: pet.petObservations,
-            plano: pet.plan.planType.name
+            plano: pet.plan?.planType?.name || "Nenhum Plano."
           }));
         });
         setclientesEPetsData(clientesEPetsFormatados);

@@ -1,116 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { getAllCustomerAndPets } from '../../../../services/userService';
+import React, { useState } from 'react';
 import styles from './ModalWrapper.module.css';
-import planStyles from './PlanModal.module.css';
+import Step1ClientSelection from './Step1ClientSelection';
+import Step2PlanSelection from './Step2PlanSelection';
+import Step3ScheduleServices from './Step3ScheduleServices';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
-library.add(faUser, faTrash);
-
-
-const PlanModal = ({ isOpen, onClose, onNext }) => {
-  const [clients, setClients] = useState([]);
+const PlanModal = ({ isOpen, onClose }) => {
+  const [currentStep, setCurrentStep] = useState(1);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [schedule, setSchedule] = useState([]);
 
-  useEffect(() => {
-    if (isOpen) {
-      const fetchClients = async () => {
-        try {
-          const clientList = await getAllCustomerAndPets();
-          setClients(clientList);
-        } catch (error) {
-          console.error('Erro ao buscar clientes:', error);
-          toast.error('Erro ao carregar os clientes. Tente novamente.');
-        }
-      };
+  const handleNextStep = () => setCurrentStep((prev) => prev + 1);
+  const handlePreviousStep = () => setCurrentStep((prev) => prev - 1);
 
-      fetchClients();
-    }
-  }, [isOpen]);
-
-  const handleClientSelect = (e) => {
-    const clientId = e.target.value;
-    const client = clients.find((c) => c.id === parseInt(clientId));
-    setSelectedClient(client);
-  };
-
-  const clearSelection = () => {
+  const handleClose = () => {
+    setCurrentStep(1);
     setSelectedClient(null);
-  };
-
-  const handleNext = () => {
-    if (!selectedClient) {
-      toast.error('Por favor, selecione um cliente.');
-      return;
-    }
-    onNext(selectedClient);
+    setSelectedPlan(null);
+    setSchedule([]);
+    onClose();
   };
 
   if (!isOpen) return null;
 
   return (
     <>
-      <div className={styles.backdrop} onClick={onClose}></div>
-      <div className={`${styles.modal} ${planStyles.customModal}`}>
-        <h2 className={planStyles.title}>Atribuir Cliente</h2>
-        <p className={planStyles.subtitle}>*Campos obrigatórios</p>
-
-        <div className={planStyles.formGroup}>
-          {/* <label className={planStyles.label}>Cliente</label> */}
-
-          <div className={planStyles.selectWrapper}>
-  <select
-    className={planStyles.select}
-    onChange={handleClientSelect}
-    value={selectedClient?.id || ''}
-  >
-    <option value="">Selecione um cliente*</option>
-    {clients.map((client) => (
-      <option key={client.id} value={client.id}>
-        {client.name}
-      </option>
-    ))}
-  </select>
-  <FontAwesomeIcon icon="user" className={planStyles.iconInsideSelect} />
-</div>
-
-
-          {selectedClient && (
-            <div className={planStyles.selectedClient}>
-              <img
-                src={selectedClient.photo || '/default-user.png'}
-                alt="Cliente"
-                className={planStyles.clientPhoto}
-              />
-              <div>
-                <p className={planStyles.clientName}>{selectedClient.name}</p>
-                <p className={planStyles.clientPhone}>
-                  {selectedClient.cellphone || 'Sem número'} {/* Mostra o número do cliente */}
-                </p>
-              </div>
-              {selectedClient && (
-                <button className={`${planStyles.deleteButton} ${planStyles.rightAligned}`} onClick={clearSelection}>
-  <FontAwesomeIcon icon="trash" />
-</button>
-
-)}
-            </div>
-          )}
-        </div>
-
-        <div className={planStyles.buttonGroup}>
-          <button className={planStyles.cancelButton} onClick={onClose}>
-            Cancelar
-          </button>
-          <button
-            className={planStyles.nextButton}
-            onClick={handleNext}
-          >
-            Próximo - Atribuir Plano
-          </button>
-        </div>
+      <div className={styles.backdrop} onClick={handleClose}></div>
+      <div className={styles.modal}>
+        {currentStep === 1 && (
+          <Step1ClientSelection
+            onNext={handleNextStep}
+            onClose={handleClose}
+            onClientSelect={setSelectedClient}
+            selectedClient={selectedClient}
+          />
+        )}
+        {currentStep === 2 && (
+          <Step2PlanSelection
+            onNext={handleNextStep}
+            onPrevious={handlePreviousStep}
+            selectedClient={selectedClient}
+            onPlanSelect={setSelectedPlan}
+            selectedPlan={selectedPlan}
+          />
+        )}
+        {currentStep === 3 && (
+          <Step3ScheduleServices
+            onPrevious={handlePreviousStep}
+            onClose={handleClose}
+            selectedClient={selectedClient}
+            selectedPlan={selectedPlan}
+            schedule={schedule}
+            onScheduleUpdate={setSchedule}
+          />
+        )}
       </div>
     </>
   );

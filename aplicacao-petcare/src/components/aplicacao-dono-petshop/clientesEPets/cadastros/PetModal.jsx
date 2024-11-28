@@ -66,7 +66,7 @@ const PetModal = ({ isOpen, onClose }) => {
         petObservations: petData.observations || null,
         estimatedWeight: 0,
         petImg: 'not found',
-        planId: 3,
+        planId: null,
         specieId: selectedEspecie ? parseInt(selectedEspecie, 10) : null,
         raceId: selectedRace ? parseInt(selectedRace, 10) : null,
         sizeId: selectedSize ? parseInt(selectedSize, 10) : null,
