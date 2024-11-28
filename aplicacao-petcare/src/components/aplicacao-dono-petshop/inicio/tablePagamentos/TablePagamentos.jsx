@@ -74,32 +74,45 @@ const TablePagamentos = () => {
                     <div className={styles["cliente-nome"]} title={item.name}>
                       {item.name}
                     </div>
-                    <div className={styles["plano-tipo"]}>
-                      {item.plan.planType.name}
-                    </div>
+                    {/* Exibe o plano se houver um plano válido */}
+                    {item.plan ? (
+                      <div className={styles["plano-tipo"]}>
+                        {item.plan.planType?.name || "Nenhum plano"}
+                      </div>
+                    ) : null}
                   </div>
                 </td>
                 <td>
-                  <span
-                    className={
-                      item.plan.active == false
-                        ? styles["status-pendente"]
-                        : styles["status-pago"]
-                    }
-                  >
-                    {item.plan.active ? "Ativo" : "Inativo"}
-                  </span>
+                  {/* Exibe o status apenas se houver plano */}
+                  {item.plan ? (
+                    <span
+                      className={
+                        item.plan.active == false
+                          ? styles["status-pendente"]
+                          : styles["status-pago"]
+                      }
+                    >
+                      {item.plan?.active ? "Ativo" : "Inativo"}
+                    </span>
+                  ) : (
+                    "Sem plano"
+                  )}
                 </td>
                 <td>
-                  <span
-                    className={
-                      item.plan.active == false
-                        ? styles["valor-faltante-pendente"]
-                        : styles["valor-faltante-pago"]
-                    }
-                  >
-                    R${item.plan.price}
-                  </span>
+                  {/* Exibe o valor do plano se houver plano */}
+                  {item.plan ? (
+                    <span
+                      className={
+                        item.plan?.active == false
+                          ? styles["valor-faltante-pendente"]
+                          : styles["valor-faltante-pago"]
+                      }
+                    >
+                      R${item.plan.price}
+                    </span>
+                  ) : (
+                    "N/A"
+                  )}
                 </td>
               </tr>
             ))}

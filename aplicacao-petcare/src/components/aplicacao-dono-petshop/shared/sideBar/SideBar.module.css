@@ -6,7 +6,7 @@
   background-color: var(--cor-primaria-azul-escuro);
   color: #fff;
   height: 100vh;
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
   transform: translateX(0);
@@ -30,7 +30,7 @@
   color: #fff;
   margin-bottom: 3px;
   cursor: pointer;
-  transition: all 0.3s ease-in-out; 
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar-top {
@@ -43,7 +43,7 @@
     z-index: 1000;
     cursor: pointer;
     padding-bottom: 6px;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out; 
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
   }
 
   img {
@@ -115,11 +115,9 @@
   transform: translateX(0);
 }
 
-
 .hamburger-menu {
-  /* display: none; */
   position: fixed;
-  top: 15px;
+  top: 28px;
   left: 15px;
   z-index: 1000;
   cursor: pointer;

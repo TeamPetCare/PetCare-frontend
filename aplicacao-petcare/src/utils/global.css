@@ -70,9 +70,7 @@ p {
 .rbc-toolbar button {
   padding: 0.3rem 0.7rem !important;
   font-size: 1.1em !important;
-
 }
-
 
 .rbc-time-content {
   overflow-x: hidden;
@@ -82,8 +80,7 @@ p {
   padding: 0.9em 0.2em;
 } */
 
-.show > .btn-primary.dropdown-toggle 
-{
+.show > .btn-primary.dropdown-toggle {
   border: 1px solid #9a9fa7;
 
   background-color: transparent;
@@ -104,7 +101,8 @@ p {
   font-size: 0.8em;
 }
 
-.btn-group-vertical>.btn, .btn-group>.btn {
+.btn-group-vertical > .btn,
+.btn-group > .btn {
   justify-content: space-between;
 }
 
@@ -120,7 +118,6 @@ p {
 .modal-content {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
-
 
 .rbc-overlay > * + * {
   margin: 0.7em 0;
@@ -169,14 +166,14 @@ p {
 
 .p-steps .p-steps-item:before {
   top: 62%;
-
 }
 
 .react-datepicker-wrapper {
   width: 100%;
 }
 
-.btn-primary.disabled, .btn-primary:disabled {
+.btn-primary.disabled,
+.btn-primary:disabled {
   color: inherit;
   background-color: inherit;
   border-color: #d0d5dd;
@@ -184,10 +181,11 @@ p {
 
 .Toastify__toast-body > div:last-child {
   font-weight: 700;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
-.rbc-event, .rbc-day-slot .rbc-background-event {
+.rbc-event,
+.rbc-day-slot .rbc-background-event {
   height: 9vh;
 }
 .rbc-row-segment {
@@ -199,14 +197,15 @@ p {
   }
 }
 
-.rbc-event, .rbc-day-slot .rbc-background-event {
+.rbc-event,
+.rbc-day-slot .rbc-background-event {
   background-color: transparent !important;
   /* padding: 0px 5px !important; */
 }
 
 .rbc-overlay {
   .rbc-event {
-    margin-bottom: .6em;
+    margin-bottom: 0.6em;
   }
 }
 
@@ -214,15 +213,21 @@ p {
   padding-top: 0.6em;
 }
 
-.btn-check:focus+.btn-primary, .btn-primary:focus, .btn-primary:active:focus {
+.btn-check:focus + .btn-primary,
+.btn-primary:focus,
+.btn-primary:active:focus {
   color: inherit;
   background-color: inherit;
   border-color: inherit;
 }
 .rbc-button-link {
   span {
-    font-size: .9em;
+    font-size: 0.9em;
   }
+}
+
+.mb-3 {
+  margin-bottom: 0.4rem !important;
 }
 @font-face {
   font-family: "Montserrat";
