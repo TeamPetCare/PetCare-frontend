@@ -1,11 +1,26 @@
 .container-kpis {
     display: flex;
     flex-direction: row;
-    gap: 15px;
-    border: 1px solid #d1d5db7a;
-    padding: 15px;
+    gap: 30px;
     background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: var(--cor-primaria-azul-escuro);
+}
+
+.container-kpis > div {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+  
+.container-kpis > div:not(:last-child)::after {
+    content: "";
+    width: 1px;
+    height: 60%;
+    background-color: black;
+    position: absolute;
+    right: -15px;
+    top: 40%;
+    transform: translateY(-50%);
 }
   
 .texto-receita-distribuicao,
@@ -13,8 +28,6 @@
 .texto-total-transacoes {
     font-size: 1rem;
     font-weight: 500;
-    color: var(--cor-primaria-azul-escuro);
-    margin-bottom: 4px;
 }
   
 .valor-receita-distribuicao,
@@ -22,7 +35,6 @@
 .valor-total-transacoes {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #111827;
 }
 
 .container-searchBar {
