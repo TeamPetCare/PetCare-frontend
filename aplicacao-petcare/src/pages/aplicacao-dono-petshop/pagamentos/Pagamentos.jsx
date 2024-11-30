@@ -367,9 +367,9 @@ const Pagamentos = () => {
       <div className={`${styles["container"]} min-h-screen bg-gray-50 p-8`}>
         <div className="max-w-7xl mx-auto">
           <div className={styles["container-kpis"]}>
-            <div className="bg-white rounded-xl shadow-sm ">
+            <div className="bg-white rounded-xl ">
               <div className="flex items-center gap-4">
-                <div style={{padding: "15px"}}>
+                <div style={{paddingBottom: "15px"}}>
                   <p className={styles["texto-receita-distribuicao"]}>Receita - Distribuição</p>
                   <p className={styles["valor-receita-distribuicao"]}>
                     R$ {totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -378,9 +378,9 @@ const Pagamentos = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm ">
+            <div className="bg-white rounded-xl ">
               <div className="flex items-center gap-4">
-                <div style={{padding: "15px"}}>
+                <div style={{paddingBottom: "15px"}}>
                   <p className={styles["texto-media-pagamentos"]}>Média por Pagamentos</p>
                   <p className={styles["valor-media-pagamentos"]}>
                     R$ {averageAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -389,9 +389,9 @@ const Pagamentos = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm">
+            <div className="bg-white rounded-xl ">
               <div className="flex items-center gap-4">
-                <div style={{padding: "15px"}}>
+                <div style={{paddingBottom: "15px"}}>
                   <p className={styles["texto-total-transacoes"]}>Total de Transações</p>
                   <p className={styles["valor-total-transacoes"]}>{pagamentosData.length}</p>
                 </div>
@@ -469,7 +469,7 @@ const Pagamentos = () => {
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Control
                   type="input"
-                  placeholder="Procurar por Cliente..."
+                  placeholder="Procurar por Cliente"
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
