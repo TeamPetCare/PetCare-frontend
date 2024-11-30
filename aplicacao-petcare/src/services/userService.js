@@ -24,7 +24,6 @@ export const loginUser = async (loginData) => {
     const response = await api.post('/auth/login', loginData);
     if (response.data.token) {
       sessionStorage.setItem('userToken', response.data.token);
-      sessionStorage.setItem('userName', response.data.name);
     }
     return response.data;
   } catch (error) {
@@ -54,15 +53,25 @@ const userService = {
 
   getFileCsvCustomerAndPets: async () => {
     try {
-      const response = await api.get(API_URL + "/reportCustumersAndPets", {
+      const response = await api.get("/users/reportCustumersAndPets", {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         },
         responseType: 'blob' // Define o tipo de resposta como blob
       });
-  
+
       return response.data; // Retorna o blob do arquivo
     } catch (error) {
+      throw error;
+    }
+  },
+
+  updateCliente: async (selectedData) => {
+    try {
+      const response = await api.put(`/users/customers/${selectedData.id}`, selectedData); // Passa selectedData como corpo da requisição
+      return response.data;
+    } catch (error) {
+      console.error(error);
       throw error;
     }
   }
@@ -70,4 +79,5 @@ const userService = {
 
 };
 
-export default userService;
+
+export default userService;
