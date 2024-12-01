@@ -29,7 +29,7 @@ table{
 }
 .scrollable-table {
   border-radius: 10px;
-  max-height: 65vh;
+  max-height: 26vh;
   overflow-y: auto;
 }
 
@@ -147,12 +147,4 @@ tr {
   position: relative;
   left: 5px;
   top: 2px;
-}
-
-.plano-container {
-  background-color: #b3e0ff; /* Cor azul claro bebê */
-  border-radius: 50px; /* Fundo arredondado */
-  padding: 5px 10px; /* Um pouco de padding para espaçamento */
-  text-align: center; /* Centraliza o texto dentro da célula */
-  font-weight: bold; /* Deixa o texto em negrito (opcional) */
 }

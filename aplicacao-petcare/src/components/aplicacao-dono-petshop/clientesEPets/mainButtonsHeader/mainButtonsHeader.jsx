@@ -9,7 +9,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { PiBoundingBoxFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 
-function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
+function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, onDeleteClickPet, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
   return (
     <div className={styles["containers-btn"]}>
 
@@ -26,7 +26,7 @@ function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter,
       {/*PETS*/}
       {/* Condição para mostrar o botão de DELETAR de acordo com o filtro DO PET */}
       {filter === "Pets" && (
-        <button className={`${styles["custom-btn"]} ${styles["delete"]}`}>
+        <button className={`${styles["custom-btn"]} ${styles["delete"]}`} onClick={onDeleteClickPet}>
           <RiDeleteBinLine />
           Deletar Pet(s)
         </button>

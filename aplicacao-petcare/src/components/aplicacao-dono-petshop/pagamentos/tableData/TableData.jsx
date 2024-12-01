@@ -3,14 +3,12 @@ import styles from "./TableData.module.css";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { useState, useEffect } from "react";
-import { useSelectedData } from "../../../../pages/aplicacao-dono-petshop/clientesEPets/SelectedDataContext";
 import { RiWhatsappFill } from "react-icons/ri";
 
 const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = () => { } }) => {
   const [isDown, setIsDown] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const { setSelectedData } = useSelectedData();
 
   const handleArrowClick = (col) => {
     const direction = sortConfig.key === col && sortConfig.direction === "asc" ? "desc" : "asc";
@@ -36,25 +34,14 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
     });
   };
 
-  useEffect(() => {
-    const selectedData = selectedRows.map((i) => dados[i]);
-    setSelectedData(selectedData);
-  }, [selectedRows, dados, setSelectedData]);
-
   const handleEditClick = () => {
     if (selectedRows.length === 1) {
       onPut(); // Abre o modal de edição sem modificar a seleção
     }
   };
 
-  const getDisplayValue = (value) => {
-    return value == null || value === "" ? "Sem dados" : value;
-  };
   // Filtrar e renomear colunas dinamicamente
-  const columns = dados.length > 0
-    ? Object.keys(dados[0]).filter((col) => col !== "id" && col !== "dtNISO" && col !== "dtUANISO")
-    : [];
-
+  const columns = dados.length > 0 ? Object.keys(dados[0]).filter((col) => col !== "id") : [];
 
   const sortedData = [...dados].sort((a, b) => {
     if (sortConfig.key) {
@@ -122,6 +109,7 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
           <tbody>
             {sortedData.map((item, index) => (
               <tr key={index} onClick={() => toggleSelectRow(index)}>
+                {/* Condição para exibir ou ocultar os elementos de seleção e edição */}
                 {filtro !== "Clientes & Pets" && (
                   <>
                     <td>
@@ -165,19 +153,15 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
                 )}
                 {columns.map((col, colIndex) => (
                   <td key={colIndex}>
-                    {col === "plano" ? ( // Condição para aplicar estilo específico à coluna 'plano'
-                      <div className={styles["plano-container"]}>
-                        {getDisplayValue(item[col])} {/* Usando a função aqui */}
-                      </div>
-                    ) : typeof item[col] === "object" && item[col] !== null ? (
+                    {item[col] && typeof item[col] === "object" ? (
                       <div className={styles["content-div"]}>
                         {Object.values(item[col]).map((subItem, subIndex) => (
                           <div key={subIndex} className={styles["content-div"]}>
-                            {getDisplayValue(subItem)} {/* Usando a função aqui */}
+                            {subItem}
                           </div>
                         ))}
                       </div>
-                    ) : col === "whatsapp" ? (
+                    ) : col === "WhatsApp" ? (
                       <a
                         href={`https://wa.me/${item[col]?.replace(/[^0-9]/g, '')}`}
                         target="_blank"
@@ -185,18 +169,17 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
                         className={styles["content-div"]}
                       >
                         <RiWhatsappFill />
-                        {getDisplayValue(item[col])} {/* Usando a função aqui */}
+                        {item[col] != null ? item[col] : "Sem dados"}
                       </a>
                     ) : (
                       <div
-                        className={`${styles["content-div"]} ${col === "observacoes"
-                          ? styles["white-space-normal"]
-                          : styles["white-space-nowrap"]
+                        className={`${styles["content-div"]} ${col === "observacoes" ? styles["white-space-normal"] : styles["white-space-nowrap"]
                           }`}
                       >
-                        {getDisplayValue(item[col])} {/* Usando a função aqui */}
+                        {item[col] != null ? item[col] : "Sem dados"}
                       </div>
                     )}
+
                   </td>
                 ))}
               </tr>
