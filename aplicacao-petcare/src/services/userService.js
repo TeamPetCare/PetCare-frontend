@@ -81,7 +81,7 @@ const userService = {
     try {
       const response = await api.get("/users/reportCustumersAndPets", {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         },
         responseType: 'blob' // Define o tipo de resposta como blob
       });
@@ -101,6 +101,8 @@ const userService = {
       throw error;
     }
   }
+  
+
 };
 
 
