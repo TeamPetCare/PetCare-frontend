@@ -6,7 +6,7 @@ const tokenService = {
   verifyToken: async () => {
   console.log("Passei por aqui");
 
-    const token = sessionStorage.getItem("userToken");
+    const token = localStorage.getItem("userToken");
     if (!token) return false;
 
     try {

@@ -4,68 +4,100 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import styles from "./Calendario.module.css";
 import Event from "./components/Event.jsx";
 import ModalConfirmacao from "../../../shared/modalConfirmacao/ModalConfirmacao.jsx";
-import EditEventModal from "./components/editEventModal/EditEventModal.jsx";
 import { localizer } from "./config/localizer";
 import { formats } from "./config/formats";
 import { messages } from "./config/messages";
 
-function Calendario({ dadosAgendamentos }) {
+// Função para pegar informações do funcionário
+const getFuncionarioInfo = async (employeeId) => {
+  const response = await fetch(`/api/funcionarios/${employeeId}`);
+  return await response.json();
+};
+
+function Calendario({ dadosAgendamentos, onMonthChange }) {
   const [view, setView] = useState("month");
-  const [eventsOnDate, setEventsOnDate] = useState([]);
-  const [modalEditEventShow, setModalEditEventShow] = useState(false);
-  const [editedEvent, setEditedEvent] = useState(null);
-
   const [allEvents, setAllEvents] = useState([]);
-  const [modalConfirmarCancelShow, setModalConfirmarCancelShow] =
-    useState(false);
-  const [eventToCancel, setEventToCancel] = useState(null); // Armazena o evento que será cancelado
-  const eventRefs = useRef({}); // Referências para os eventos
-
-  const menssagemConfirmarCancel = `<h4>Deseja realmente finalizar o agendamento? Ao prosseguir, o cliente será notificado da conclusão e o serviço será registrado como concluído.</h4>`;
+  const [editedEvent, setEditedEvent] = useState(null);
+  const [modalEditEventShow, setModalEditEventShow] = useState(false);
+  const [modalConfirmarCancelShow, setModalConfirmarCancelShow] = useState(false);
 
   useEffect(() => {
     setAllEvents(dadosAgendamentos);
-    console.log("Dados de Agendamentos:", dadosAgendamentos);
   }, [dadosAgendamentos]);
 
-  
-  const handleUpdateEvent = (updatedEvent) => {
+  useEffect(() => {
+    handleMonthNavigate(new Date());
+  }, []);
+
+  // Função para lidar com a mudança de visualização
+  const handleViewChange = (newView) => {
+    setView(newView);
+    handleMonthNavigate(new Date());
+  };
+
+  // Formatar o horário de término do evento
+  const formatEndTime = (startTime, duration) => {
+    const [hours, minutes] = duration.split(":").map(Number);
+    const endTime = new Date(startTime);
+    endTime.setHours(endTime.getHours() + hours);
+    endTime.setMinutes(endTime.getMinutes() + minutes);
+    return endTime.toISOString();
+  };
+
+  // Navegar para o mês selecionado
+  const handleMonthNavigate = (date) => {
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const formattedMonth = `${year}-${month.toString().padStart(2, "0")}`;
+    onMonthChange(formattedMonth);
+  };
+
+  // Atualizar um evento
+  const handleUpdateEvent = async (updatedEvent) => {
+    const funcionario = await getFuncionarioInfo(updatedEvent.employeeId);
     setAllEvents((prevEvents) =>
       prevEvents.map((event) =>
-        event.id === updatedEvent.id ? updatedEvent : event
+        event.id === updatedEvent.id
+          ? {
+              ...event,
+              employee: funcionario,
+              start: new Date(updatedEvent.scheduleDate),
+              end: new Date(formatEndTime(updatedEvent.scheduleDate, updatedEvent.scheduleTime)),
+            }
+          : event
       )
     );
   };
 
+  // Mostrar mais eventos
   const handleShowMore = (events) => {
-    setEventsOnDate(events);
+    // Logica de mostrar mais eventos
   };
 
-  const handleCancelEvent = (eventId) => {
-    // setEventToCancel(eventId); // Armazena o evento que será cancelado
+  // Exibir modal de confirmação
+  const handleCancelEvent = () => {
     setModalConfirmarCancelShow(true);
   };
 
+  // Abrir modal de edição de evento
   const handleOpenEditModal = (event) => {
     setEditedEvent(event);
     setModalEditEventShow(true);
   };
 
+  // Fechar modal de edição
   const handleCloseEditModal = () => {
     setModalEditEventShow(false);
     setEditedEvent(null);
   };
 
+  // Fechar modal de confirmação
   const handleCloseConfirmacaoModal = () => {
     setModalConfirmarCancelShow(false);
   };
 
-  const eventRef = useRef(); 
-
+  // Confirmar cancelamento de evento
   const handleAcionarCancelEdit = () => {
-    if (eventRef.current) {
-      eventRef.current.handleCancelEvent(); 
-    }
     handleCloseConfirmacaoModal();
   };
 
@@ -86,8 +118,9 @@ function Calendario({ dadosAgendamentos }) {
           fontWeight: 700,
           overflowY: "auto",
         }}
+        onNavigate={handleMonthNavigate}
         formats={formats}
-        onView={setView}
+        onView={handleViewChange}
         components={{
           event: (eventProps) => (
             <Event
@@ -96,7 +129,6 @@ function Calendario({ dadosAgendamentos }) {
               onCancelEvent={handleCancelEvent}
               onUpdate={handleUpdateEvent}
               onOpenEditModal={() => handleOpenEditModal(eventProps.event)}
-              ref={eventRef}
             />
           ),
         }}
@@ -105,7 +137,7 @@ function Calendario({ dadosAgendamentos }) {
       <ModalConfirmacao
         onBack={handleCloseConfirmacaoModal}
         confirmAction={handleAcionarCancelEdit}
-        menssagem={menssagemConfirmarCancel}
+        menssagem="Deseja realmente finalizar o agendamento?"
         show={modalConfirmarCancelShow}
         onHide={handleCloseConfirmacaoModal}
       />

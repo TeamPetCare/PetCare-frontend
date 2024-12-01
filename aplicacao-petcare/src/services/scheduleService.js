@@ -1,14 +1,34 @@
 import api from './api';
 
-export const getAllSchedules = async () => {
+export const getAllSchedules = async (mes ) => {
   try {
-    const response = await api.get('schedules/monthly-schedules');
+    console.log("RECEBDNO MES: " +  mes)
+    const [year, month] = mes.split("-").map(Number);
+
+    const primeiroDiaMes = new Date(year, month - 1, 1, 3, 0, 0);
+    const mesFormatado = primeiroDiaMes.toISOString().slice(0, 19);
+
+    console.log("MES FORMATADO:", mesFormatado);
+
+    const response = await api.get(`/schedules/monthly-schedules?month=${mesFormatado}`);
     return response.data;
   } catch (error) {
-    console.error('Erro ao listar agendamentos:', error);
+    console.error("Erro ao listar agendamentos:", error);
     throw error;
   }
-}
+};
+
+
+ //Função para Atualizar Agendamento
+ export const updateSchedule = async (id, scheduleData) => {
+    try {
+      const response = await api.put(`/schedules/${id}`, scheduleData);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao atualizar o agendamento:', error);
+      throw error;
+    }
+  }
 
 // const API_URL = 'http://localhost:8080/api/schedules'; 
 // const scheduleService = {
@@ -39,15 +59,7 @@ export const getAllSchedules = async () => {
 //     }
 //   },
 
-//   //Função para Atualizar Agendamento
-//   updateSchedule: async (id, scheduleData) => {
-//     try {
-//       const response = await axios.put(`${API_URL}/${id}`, scheduleData);
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-//   },
+//  
 
 
 //   //Função para Excluir Agendamento

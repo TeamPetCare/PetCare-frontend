@@ -99,6 +99,16 @@ export const deletePetList = async (selectedData) => {
   }
 };
 
+export const getAllPetsAndPlans = async () => {
+  try {
+    const response = await api.get("pets/pets-list");
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao listar pets e planos:', error);
+    throw error;
+  }
+}
+
 // Exportação default contendo todas as funções
 const petService = {
   createPet,
@@ -108,6 +118,8 @@ const petService = {
   getAllPets,
   deletePet,
   deletePetList,
+  getAllPetsAndPlans,
 };
 
 export default petService;
+
