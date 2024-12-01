@@ -57,18 +57,6 @@ export const getUserById = async (id) => {
   }
 };
 
-export const loginUser = async (loginData) => {
-  try {
-    const response = await api.post('/auth/login', loginData);
-    if (response.data.token) {
-      localStorage.setItem('userToken', response.data.token);
-    }
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 const userService = {
   createUser: async (userData) => {
     try {
