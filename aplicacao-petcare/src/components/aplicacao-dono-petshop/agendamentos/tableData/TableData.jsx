@@ -5,6 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { RiWhatsappFill } from "react-icons/ri";
+import DropDownPayment from "../dropDownPayment/DropDownPayment";
 
 const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
   const [isDown, setIsDown] = useState(true);
@@ -32,9 +33,12 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
       const newSelectedRows = prevSelectedRows.includes(index)
         ? prevSelectedRows.filter((i) => i !== index)
         : [...prevSelectedRows, index];
+      
+      console.log("Selected row:", dados[index]); // Exibe no console a linha que foi selecionada
       return newSelectedRows;
     });
   };
+  
 
   useEffect(() => {}, [selectedRows]);
 
@@ -49,6 +53,16 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
   const sortedData = [...dados].sort((a, b) => {
     if (sortConfig.key) {
       const order = sortConfig.direction === "asc" ? 1 : -1;
+
+      if (sortConfig.key === "dataHora") {
+        const dateA = new Date(
+          `${a.dataHora?.data || ""} ${a.dataHora?.horario || ""}`
+        );
+        const dateB = new Date(
+          `${b.dataHora?.data || ""} ${b.dataHora?.horario || ""}`
+        )
+        return dateA - dateB > 0 ? order : -order;
+      }
       if (a[sortConfig.key] < b[sortConfig.key]) return -order;
       if (a[sortConfig.key] > b[sortConfig.key]) return order;
     }
@@ -60,10 +74,14 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
       return text.map((item) => formatText(item));
     }
 
+    if (typeof text !== "string") {
+      return text || "-"; // Retorna "-" caso o valor seja null, undefined ou vazio
+    }
+
     const correctedText = text
       .replace(/CONCLUIDO/g, "Concluído")
       .replace(/CARTAO_DEBITO/g, "Cartão Débito")
-      .replace(/CARTAO_CREDITO/g, "Cartão Crédito");
+      .replace(/CARTAO_CREDITO/g, "Cartão Crédito")
 
     const withoutHyphens = correctedText.replace(/-/g, " ");
 
@@ -213,10 +231,17 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
                         ) : (
                           <span>Imagem não disponível</span>
                         )}
-                        {/* Exibe o nome do pet */}
                         {item[col]?.nome && (
                           <div>{formatText(item[col].nome)}</div>
                         )}
+                      </div>
+                    ) : col === "pagamento" ? (
+                      <div className={styles["content-div-pagamento"]}>
+                        <DropDownPayment
+                          status={formatText(item[col]?.status)}
+                          options={["Pago", "Pendente"]}
+                          metodo={item[col]?.metodo}
+                        />
                       </div>
                     ) : typeof item[col] === "object" && item[col] !== null ? (
                       <div className={styles["content-div"]}>

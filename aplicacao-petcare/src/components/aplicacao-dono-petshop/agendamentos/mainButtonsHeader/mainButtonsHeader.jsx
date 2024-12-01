@@ -9,7 +9,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { PiBoundingBoxFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 
-function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
+function MainButtonsHeader({ onCreateAgendamento, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
   return (
     <div className={styles["containers-btn"]}>
 
@@ -21,7 +21,7 @@ function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter,
         </button>
       )}
 
-      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreateClickCliente}>
+      <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={onCreateAgendamento}>
         <IoMdAddCircle />
         Agendamento
       </button>

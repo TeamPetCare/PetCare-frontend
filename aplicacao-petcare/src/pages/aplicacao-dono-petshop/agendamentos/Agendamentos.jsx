@@ -1,5 +1,6 @@
 import styles from "./Agendamentos.module.css";
 import { ThreeDot } from "react-loading-indicators";
+import ModalAddAgendamento from "../../../components/aplicacao-dono-petshop/agendamentos/modalAddAgendamento/ModalAddAgendamento";
 import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/agendamentos/mainButtonsHeader/mainButtonsHeader";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
@@ -16,6 +17,13 @@ const Agendamentos = () => {
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const formattedMonth = firstDayOfMonth.toISOString().slice(0, 7); // Formato YYYY-MM
   const [currentMonth, setCurrentMonth] = useState(formattedMonth);
+  const [filter, setFilter] = useState("Tudo");
+  const [showModalAgendamento, setShowModalAgendamento] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
 
   const columnNamesAgendamentos = {
     dataHora: "Data/Hora",
@@ -27,20 +35,10 @@ const Agendamentos = () => {
     observacoes: "Observações",
   };
 
-  const sortableColumnsAgendamentos = ["dataHora", "status"];
+  const sortableColumnsAgendamentos = ["dataHora"];
 
   const safeReplace = (value) => {
     return value ? value.replace(/\s+/g, " ") : "";
-  };
-
-  const formatDateTime = (date, time) => {
-    const optionsDate = { day: "2-digit", month: "2-digit", year: "numeric" };
-    const formattedDate = new Date(date).toLocaleDateString(
-      "pt-BR",
-      optionsDate
-    );
-    const formattedTime = time ? `${time.slice(0, 5)}h` : "-";
-    return { formattedDate, formattedTime };
   };
 
   const formatData = (dados) => {
@@ -94,7 +92,10 @@ const Agendamentos = () => {
           ftPet: agendamento.pet?.petImg,
         },
         whatsapp: whatsapp,
-        pagamento: agendamento.payment.paymentMethod,
+        pagamento: {
+          metodo: agendamento.payment.paymentMethod,
+          status: agendamento.payment.paymentStatus ? "Pago" : "Pendente",
+        },
         observacoes: agendamento.scheduleNote,
       };
     });
@@ -107,7 +108,9 @@ const Agendamentos = () => {
         const response = await getAllSchedules(currentMonth);
 
         if (Array.isArray(response)) {
-          const formattedData = formatData(response);
+          const filteredData = applyFilter(response, filter);
+
+          const formattedData = formatData(filteredData);
           setDadosAgendamentos(formattedData);
         } else {
           console.warn("Formato inesperado de dados:", response);
@@ -122,21 +125,58 @@ const Agendamentos = () => {
     };
 
     fetchData();
-  }, [currentMonth]);
+  }, [currentMonth, filter]);
+
+  const applyFilter = (dados, filter) => {
+    const today = new Date();
+    switch (filter) {
+      case "Hoje":
+        return dados.filter((agendamento) => {
+          const agendamentoDate = new Date(agendamento.scheduleDate);
+          return agendamentoDate.toDateString() === today.toDateString();
+        });
+      case "Últimos 7 dias":
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+        return dados.filter((agendamento) => {
+          const agendamentoDate = new Date(agendamento.scheduleDate);
+          return agendamentoDate >= sevenDaysAgo;
+        });
+      case "Últimos 30 dias":
+        const thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        return dados.filter((agendamento) => {
+          const agendamentoDate = new Date(agendamento.scheduleDate);
+          return agendamentoDate >= thirtyDaysAgo;
+        });
+      case "Tudo":
+        return dados;
+      case "Data personalizada":
+        // Aqui você pode implementar a lógica para filtrar por data personalizada, por exemplo, exibindo um calendário para o usuário escolher as datas.
+        return dados; // Modifique conforme necessário
+      default:
+        return dados;
+    }
+  };
+
+  const onCreateAgendamento = () => {
+    setShowModalAgendamento(true);
+  };
 
   return (
     <div>
       <div className={styles["header-container"]}>
         <DropDownFilter
           options={[
+            { label: "Tudo" },
             { label: "Hoje" },
             { label: "Últimos 7 dias" },
             { label: "Últimos 30 dias" },
-            { label: "Tudo" },
             { label: "Data personalizada" },
           ]}
+          onFilterChange={handleFilterChange}
         />
-        <MainButtonsHeader />
+        <MainButtonsHeader onCreateAgendamento={onCreateAgendamento} />
         <UserHeader />
       </div>
       <div className={styles["container-searchBar"]}>
@@ -172,6 +212,14 @@ const Agendamentos = () => {
       ) : (
         <div>Nenhum dado encontrado para exibir.</div>
       )}
+
+      {showModalAgendamento ? (
+        <ModalAddAgendamento
+          show={showModalAgendamento}
+          handleClose={() => setShowModalAgendamento(false)}
+          dados={dadosAgendamentos}
+        />
+      ) : null}
     </div>
   );
 };

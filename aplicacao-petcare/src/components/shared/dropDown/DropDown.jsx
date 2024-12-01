@@ -24,6 +24,16 @@ function DropDown({
     onChange({ target: { name: titulo, option } });
   };
 
+  const formatPaymentMethod = (method) => {
+    const formattedMethods = {
+      PIX: "Pix",
+      CARTAO_CREDITO: "Cartão Crédito",
+      CARTAO_DEBITO: "Cartão Débito",
+      DINHEIRO: "Dinheiro",
+    };
+    return formattedMethods[method] || method.toLowerCase().replace("_", " ");
+  };
+
   return (
     <div className={styles["container"]}>
       <Dropdown
@@ -57,6 +67,8 @@ function DropDown({
             if (typeof option === "object") {
               displayValue = option[optionKey] || JSON.stringify(option);
               displayName = option[optionName];
+            } else if (titulo.includes("Selecione uma forma de pagamento*")) {
+              displayName = formatPaymentMethod(option);
             } else {
               displayValue = option;
               displayName = option;
