@@ -1,0 +1,114 @@
+.modal {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 24px;
+    color: #777;
+  }
+  
+  .petServicesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  
+  .petSection {
+    width: calc(50% - 12px);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+  }
+  
+  .petHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .petPhoto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+  }
+  
+  .servicesList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .serviceItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
+  
+  .serviceInfo {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .serviceName {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .serviceStatus {
+    font-size: 0.9rem;
+  }
+  
+  .scheduled {
+    color: #1e90ff;
+  }
+  
+  .pending {
+    color: #ff8c00;
+  }
+  
+  .editButton {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+  }
+  
+  .cancelButton {
+    background: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #333;
+  }
+  
+  .finishButton {
+    background: #007bff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+  }
+  
