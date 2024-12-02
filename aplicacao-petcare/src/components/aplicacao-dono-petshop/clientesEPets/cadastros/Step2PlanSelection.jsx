@@ -29,7 +29,7 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
 
         console.log("Buscando serviços...");
         const fetchedServices = await getAllServicos();
-        console.log("Serviços carregados:", fetchedServices); // Log dos serviços carregados
+        console.log("Serviços carregados:", fetchedServices);
         setServices(fetchedServices);
 
         console.log("Buscando pets...");
@@ -65,44 +65,76 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
       (type) => type.id === parseInt(planTypeId)
     );
     if (selectedPlanType) {
-      setSelectedServices(selectedPlanType.serviceIds || []);
+      console.log("Serviços associados ao Plan Type:", selectedPlanType.serviceIds);
+  
+      // Adicionar serviços do Plan Type aos selecionados
+      const mergedServices = new Set([
+        ...selectedServices,
+        ...(selectedPlanType.serviceIds || []),
+      ]);
+      setSelectedServices(Array.from(mergedServices));
+  
+      // Aplicar desconto baseado no Plan Type
+      if (selectedPlanType.id === 1) {
+        setApplyDiscount(true);
+        setFinalPrice((prevPrice) => (prevPrice * 0.95).toFixed(2)); // 5% de desconto
+      } else if (selectedPlanType.id === 2) {
+        setApplyDiscount(true);
+        setFinalPrice((prevPrice) => (prevPrice * 0.90).toFixed(2)); // 10% de desconto
+      } else {
+        setApplyDiscount(false);
+      }
     }
   };
+  
 
   const handleSubmit = async () => {
     if (!planName || !price || !planTypeId || petIds.length === 0) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
     }
-
+  
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`; // Corrigido para incluir 'T'
+    };
+  
     const payload = {
-      subscriptionDate: new Date().toISOString(),
+      subscriptionDate: formatDate(new Date()), // Formato ISO-8601
       name: planName,
-      price: parseFloat(finalPrice),
+      price: parseFloat(price),
       active: true,
+      renewal: 30,
+      hasDiscount: applyDiscount,
       description,
       planTypeId: parseInt(planTypeId),
-      servicesIds: selectedServices,
+      servicesIds: selectedServices.length > 0 ? selectedServices : [0],
+      repeatQuantity: Array(selectedServices.length).fill(1),
+      paymentIds: [0],
       petIds,
     };
-
+  
     try {
       console.log("Enviando payload:", payload);
       await plansService.createPlan(payload);
       toast.success("Plano criado com sucesso!");
       onNext();
     } catch (error) {
-      console.error("Erro ao criar plano:", error);
-      toast.error("Erro ao criar plano.");
+      console.error("Erro ao criar plano:", error.response?.data || error.message);
+      toast.error("Erro ao criar plano. Verifique os dados e tente novamente.");
     }
   };
-
+  
   return (
     <div className={modalStyles.modal}>
       <h2 className={modalStyles.title}>Criar Plano Personalizado</h2>
       <p className={modalStyles.subtitle}>*Campos obrigatórios</p>
 
-      {/* Nome do Plano */}
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Nome do Plano*</label>
         <input
@@ -114,7 +146,6 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         />
       </div>
 
-      {/* Tipo de Plano */}
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Tipo de Plano*</label>
         <select
@@ -131,7 +162,6 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         </select>
       </div>
 
-      {/* Descrição */}
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Descrição*</label>
         <textarea
@@ -142,63 +172,64 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         ></textarea>
       </div>
 
-      {/* Serviços */}
-      <div className={step2Styles.formGroup}>
-        <label className={step2Styles.label}>Serviços*</label>
-        {services.length > 0 ? (
-          services.map((service) => (
-            <div key={service.id} className={step2Styles.checkboxGroup}>
-              <input
-                type="checkbox"
-                value={service.id}
-                checked={selectedServices.includes(service.id)}
-                onChange={(e) => {
-                  const id = parseInt(e.target.value);
-                  setSelectedServices((prev) =>
-                    prev.includes(id)
-                      ? prev.filter((sid) => sid !== id)
-                      : [...prev, id]
-                  );
-                }}
-              />
-              <label>{service.nome}</label> {/* Alterado de 'service.name' para 'service.nome' */}
-            </div>
-          ))
-        ) : (
-          <p className={step2Styles.noData}>Nenhum serviço disponível.</p>
-        )}
+      {/* Grid com Serviços e Pets */}
+      <div className={step2Styles.gridContainer}>
+        {/* Coluna de Serviços */}
+        <div className={step2Styles.gridItem}>
+          <label className={step2Styles.label}>Serviços*</label>
+          {services.length > 0 ? (
+            services.map((service) => (
+              <div key={service.id} className={step2Styles.checkboxGroup}>
+                <input
+                  type="checkbox"
+                  value={service.id}
+                  checked={selectedServices.includes(service.id)}
+                  onChange={(e) => {
+                    const id = parseInt(e.target.value);
+                    setSelectedServices((prev) =>
+                      prev.includes(id)
+                        ? prev.filter((sid) => sid !== id)
+                        : [...prev, id]
+                    );
+                  }}
+                />
+                <label>{service.nome}</label>
+              </div>
+            ))
+          ) : (
+            <p className={step2Styles.noData}>Nenhum serviço disponível.</p>
+          )}
+        </div>
+
+        {/* Coluna de Pets */}
+        <div className={step2Styles.gridItem}>
+          <label className={step2Styles.label}>Pets Associados*</label>
+          {pets.length > 0 ? (
+            pets.map((pet) => (
+              <div key={pet.id} className={step2Styles.checkboxGroup}>
+                <input
+                  type="checkbox"
+                  value={pet.id}
+                  onChange={(e) => {
+                    const id = parseInt(e.target.value);
+                    setPetIds((prev) =>
+                      prev.includes(id)
+                        ? prev.filter((pid) => pid !== id)
+                        : [...prev, id]
+                    );
+                  }}
+                />
+                <label>{pet.name}</label>
+              </div>
+            ))
+          ) : (
+            <p className={step2Styles.noData}>
+              Nenhum pet associado ao cliente selecionado.
+            </p>
+          )}
+        </div>
       </div>
 
-
-      {/* Pets */}
-      <div className={step2Styles.formGroup}>
-        <label className={step2Styles.label}>Pets Associados*</label>
-        {pets.length > 0 ? (
-          pets.map((pet) => (
-            <div key={pet.id} className={step2Styles.checkboxGroup}>
-              <input
-                type="checkbox"
-                value={pet.id}
-                onChange={(e) => {
-                  const id = parseInt(e.target.value);
-                  setPetIds((prev) =>
-                    prev.includes(id)
-                      ? prev.filter((pid) => pid !== id)
-                      : [...prev, id]
-                  );
-                }}
-              />
-              <label>{pet.name}</label>
-            </div>
-          ))
-        ) : (
-          <p className={step2Styles.noData}>
-            Nenhum pet associado ao cliente selecionado.
-          </p>
-        )}
-      </div>
-
-      {/* Preço */}
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Preço (R$)*</label>
         <input
@@ -210,7 +241,6 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         />
       </div>
 
-      {/* Aplicar desconto */}
       <div className={step2Styles.discountRow}>
         <input
           type="checkbox"
@@ -221,12 +251,10 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         <label htmlFor="apply-discount">Aplicar Desconto (20%)</label>
       </div>
 
-      {/* Valor Final */}
       <div className={step2Styles.priceRow}>
         <p className={step2Styles.price}>Valor Final: R$ {finalPrice}</p>
       </div>
 
-      {/* Botões */}
       <div className={modalStyles.buttonGroup}>
         <button className={modalStyles.cancelButton} onClick={onPrevious}>
           Voltar

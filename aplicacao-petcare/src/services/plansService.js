@@ -15,7 +15,7 @@ const plansService = {
   // Buscar um plano por ID
   getPlanById: async (id) => {
     try {
-      const response = await api.get(`/api/plans/${id}`);
+      const response = await api.get(`/plans/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erro ao buscar plano com ID ${id}:`, error);
@@ -26,7 +26,7 @@ const plansService = {
   // Criar um novo plano
   createPlan: async (planData) => {
     try {
-      const response = await api.post('/api/plans', planData);
+      const response = await api.post('/plans', planData);
       return response.data;
     } catch (error) {
       console.error('Erro ao criar plano:', error);
@@ -37,7 +37,7 @@ const plansService = {
   // Atualizar um plano existente
   updatePlan: async (id, planData) => {
     try {
-      const response = await api.put(`/api/plans/${id}`, planData);
+      const response = await api.put(`/plans/${id}`, planData);
       return response.data;
     } catch (error) {
       console.error(`Erro ao atualizar plano com ID ${id}:`, error);
@@ -58,7 +58,7 @@ const plansService = {
   // Aplicar desconto em um plano por ID
   applyDiscount: async (id) => {
     try {
-      const response = await api.get(`/api/plans/apply-discount/${id}`);
+      const response = await api.get(`/plans/apply-discount/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erro ao aplicar desconto no plano com ID ${id}:`, error);
