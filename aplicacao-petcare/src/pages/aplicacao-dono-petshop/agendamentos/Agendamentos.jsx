@@ -285,12 +285,13 @@ const Agendamentos = () => {
       )
     );
 
+    console.log("UPDATE DATA " + JSON.stringify(updatedData))
     const dataToUpdatePayment = {
       id: updatedData.pagamento.id,
       price: updatedData.pagamento.price,
       paymentDate: updatedData.pagamento.paymentDate,
       paymentId: updatedData.pagamento.paymentId,
-      paymentStatus: updatedData.pagamento.status === "Pago" ? PaymentStatus.APPROVED : PaymentStatus.PENDING,
+      paymentStatus: updatedData.pagamento.status === "Pago" ? "APPROVED" : "PENDING",
       paymentMethod: updatedData.pagamento.metodo,
       userId: 13,
     };
@@ -311,7 +312,7 @@ const Agendamentos = () => {
         item.id === updatedData.id ? { ...item, ...updatedData } : item
       )
     );
-
+console.log()
     const dataToUpdateSchedule = {
       id: updatedData.idAgendamento,
       scheduleStatus: updatedData.status

@@ -274,7 +274,7 @@ const TableData = ({
                       <div className={styles["content-div-pagamento"]}>
                         <DropDownPayment
                           status={formatText(item[col]?.status)}
-                          options={["Pago", "Pendente"]}
+                          options={["Pago", "Pendente", "Cancelado"]}
                           metodo={item[col]?.metodo}
                           onSelectStatus={(newStatus) => handlePaymentChange(index, newStatus)} // Passa o callback
                         />

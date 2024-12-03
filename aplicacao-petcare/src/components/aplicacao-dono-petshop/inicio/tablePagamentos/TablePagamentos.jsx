@@ -43,7 +43,7 @@ const TablePagamentos = () => {
           <thead>
             <tr>
               <th>
-                Cliente
+                Pet
                 {isDown ? (
                   <IoIosArrowDown
                     style={{ cursor: "pointer" }}

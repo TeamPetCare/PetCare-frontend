@@ -4,10 +4,11 @@ import plansService from "../../../../services/plansService";
 import planTypeService from "../../../../services/planTypeService";
 import petService from "../../../../services/petService";
 import { getAllServicos } from "../../../../services/servicosService";
+import pixPaymentService from "../../../../services/pixPaymentService";
 import modalStyles from "./PlanModal.module.css";
 import step2Styles from "./Step2Plan.module.css";
 
-const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
+const Step2PlanSelection = ({ onNext, onPrevious, selectedClient, onPlanSelect }) => {
   const [planName, setPlanName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -23,23 +24,17 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        console.log("Buscando tipos de planos...");
         const fetchedPlanTypes = await planTypeService.getAllPlanTypes();
         setPlanTypes(fetchedPlanTypes);
 
-        console.log("Buscando serviços...");
         const fetchedServices = await getAllServicos();
-        console.log("Serviços carregados:", fetchedServices); // Log dos serviços carregados
         setServices(fetchedServices);
 
-        console.log("Buscando pets...");
         const fetchedPets = await petService.getAllPets();
         const clientPets = fetchedPets.filter(
           (pet) => pet.userId === selectedClient.id
         );
         setPets(clientPets);
-
-        console.log("Dados carregados com sucesso!");
       } catch (error) {
         console.error("Erro ao buscar dados iniciais:", error);
         toast.error("Erro ao carregar dados iniciais.");
@@ -47,17 +42,15 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
     };
 
     if (selectedClient) {
-      console.log("Cliente selecionado:", selectedClient);
       fetchInitialData();
     }
   }, [selectedClient]);
 
   useEffect(() => {
-    const calculatedPrice = applyDiscount
-      ? (parseFloat(price || 0) * 0.8).toFixed(2)
-      : parseFloat(price || 0).toFixed(2);
-    setFinalPrice(calculatedPrice);
-  }, [price, applyDiscount]);
+    const basePrice = parseFloat(price || 0);
+    const discount = applyDiscount && petIds.length >= 2 ? basePrice * 0.1 : 0;
+    setFinalPrice((basePrice - discount).toFixed(2));
+  }, [price, applyDiscount, petIds]);
 
   const handlePlanTypeChange = (planTypeId) => {
     setPlanTypeId(planTypeId);
@@ -69,13 +62,23 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
     }
   };
 
+  const handleDiscountChange = () => {
+    if (petIds.length >= 2) {
+      setApplyDiscount((prev) => !prev);
+    } else {
+      toast.error("Selecione 2 ou mais pets para ativar o desconto.");
+    }
+  };
+
   const handleSubmit = async () => {
+    // Verifique os campos obrigatórios
     if (!planName || !price || !planTypeId || petIds.length === 0) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
     }
-
-    const payload = {
+  
+    // Prepare o payload do plano
+    const planPayload = {
       subscriptionDate: new Date().toISOString(),
       name: planName,
       price: parseFloat(finalPrice),
@@ -85,36 +88,59 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
       servicesIds: selectedServices,
       petIds,
     };
-
+  
+    // Log para verificar os dados do plano antes de enviar
+    console.log("Payload do plano:", planPayload);
+  
     try {
-      console.log("Enviando payload:", payload);
-      await plansService.createPlan(payload);
-      toast.success("Plano criado com sucesso!");
-      onNext();
+      console.log("Enviando payload do plano...");
+      const createdPlan = await plansService.createPlan(planPayload);
+  
+      // Prepare o payload do pagamento
+      const paymentPayload = {
+        amount: parseFloat(finalPrice),
+        email: selectedClient.email,
+        name: selectedClient.name,
+        cpf: "769.930.290-73", // Substitua por um valor válido, se necessário
+      };
+      
+      console.log("Payload do pagamento PIX corrigido:", paymentPayload);
+      
+  
+      // Log para verificar os dados do pagamento antes de enviar
+      console.log("Payload do pagamento PIX:", paymentPayload);
+  
+      // Enviar o pagamento PIX
+      const paymentResponse = await pixPaymentService.createPixPayment(selectedClient.id, paymentPayload);
+  
+      // Exibe o sucesso e redireciona se possível
+      toast.success("Plano criado com sucesso e pagamento gerado!");
+  
+      if (paymentResponse && paymentResponse.paymentLink) {
+        window.location.href = paymentResponse.paymentLink;
+      }
+       else {
+        toast.error("Erro ao gerar URL de pagamento.");
+      }
+  
+      onPlanSelect(createdPlan);
     } catch (error) {
-      console.error("Erro ao criar plano:", error);
-      toast.error("Erro ao criar plano.");
+      // Log detalhado para verificar o que aconteceu
+      console.error("Erro ao criar plano ou pagamento:", error.response || error.message);
+      if (error.response) {
+        console.error("Detalhes do erro:", error.response.data); // Log da resposta do servidor
+        //toast.error(`Erro no servidor: ${error.response.data.message || "Erro desconhecido"}`);
+      } else {
+        toast.error("Erro ao criar plano ou pagamento. Tente novamente.");
+      }
     }
   };
-
+  
   return (
     <div className={modalStyles.modal}>
       <h2 className={modalStyles.title}>Criar Plano Personalizado</h2>
       <p className={modalStyles.subtitle}>*Campos obrigatórios</p>
 
-      {/* Nome do Plano */}
-      <div className={step2Styles.formGroup}>
-        <label className={step2Styles.label}>Nome do Plano*</label>
-        <input
-          type="text"
-          className={step2Styles.input}
-          value={planName}
-          onChange={(e) => setPlanName(e.target.value)}
-          placeholder="Digite o nome do plano"
-        />
-      </div>
-
-      {/* Tipo de Plano */}
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Tipo de Plano*</label>
         <select
@@ -131,7 +157,6 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         </select>
       </div>
 
-      {/* Descrição */}
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Descrição*</label>
         <textarea
@@ -142,97 +167,110 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient }) => {
         ></textarea>
       </div>
 
-      {/* Serviços */}
-      <div className={step2Styles.formGroup}>
-        <label className={step2Styles.label}>Serviços*</label>
-        {services.length > 0 ? (
-          services.map((service) => (
-            <div key={service.id} className={step2Styles.checkboxGroup}>
-              <input
-                type="checkbox"
-                value={service.id}
-                checked={selectedServices.includes(service.id)}
-                onChange={(e) => {
-                  const id = parseInt(e.target.value);
-                  setSelectedServices((prev) =>
-                    prev.includes(id)
-                      ? prev.filter((sid) => sid !== id)
-                      : [...prev, id]
-                  );
-                }}
-              />
-              <label>{service.nome}</label> {/* Alterado de 'service.name' para 'service.nome' */}
-            </div>
-          ))
-        ) : (
-          <p className={step2Styles.noData}>Nenhum serviço disponível.</p>
-        )}
+      <div className={step2Styles.gridContainer}>
+        <div className={step2Styles.gridItem}>
+          <label className={step2Styles.label}>Selecione os serviços do plano*</label>
+          {services.length > 0 ? (
+            services.map((service) => (
+              <div key={service.id} className={step2Styles.checkboxGroup}>
+                <label>
+                  <input
+                    type="checkbox"
+                    value={service.id}
+                    checked={selectedServices.includes(service.id)}
+                    onChange={(e) => {
+                      const id = parseInt(e.target.value);
+                      setSelectedServices((prev) =>
+                        prev.includes(id)
+                          ? prev.filter((sid) => sid !== id)
+                          : [...prev, id]
+                      );
+                    }}
+                  />
+                  {service.nome}
+                </label>
+              </div>
+            ))
+          ) : (
+            <p className={step2Styles.noData}>Nenhum serviço disponível.</p>
+          )}
+        </div>
+
+        <div className={step2Styles.gridItem}>
+          <label className={step2Styles.label}>Quais pets irão utilizar este plano?*</label>
+          {pets.length > 0 ? (
+            pets.map((pet) => (
+              <div key={pet.id} className={step2Styles.checkboxGroup}>
+                <label>
+                  <input
+                    type="checkbox"
+                    value={pet.id}
+                    onChange={(e) => {
+                      const id = parseInt(e.target.value);
+                      setPetIds((prev) =>
+                        prev.includes(id)
+                          ? prev.filter((pid) => pid !== id)
+                          : [...prev, id]
+                      );
+                    }}
+                  />
+                  {pet.name}
+                </label>
+              </div>
+            ))
+          ) : (
+            <p className={step2Styles.noData}>
+              Nenhum pet associado ao cliente selecionado.
+            </p>
+          )}
+        </div>
       </div>
 
+      <div className={step2Styles.inlineRow}>
+        <div className={step2Styles.inlineField}>
+          <label>Nome do Plano*</label>
+          <input
+            type="text"
+            className={step2Styles.input}
+            value={planName}
+            onChange={(e) => setPlanName(e.target.value)}
+            placeholder="Digite o nome do plano"
+          />
+        </div>
 
-      {/* Pets */}
-      <div className={step2Styles.formGroup}>
-        <label className={step2Styles.label}>Pets Associados*</label>
-        {pets.length > 0 ? (
-          pets.map((pet) => (
-            <div key={pet.id} className={step2Styles.checkboxGroup}>
-              <input
-                type="checkbox"
-                value={pet.id}
-                onChange={(e) => {
-                  const id = parseInt(e.target.value);
-                  setPetIds((prev) =>
-                    prev.includes(id)
-                      ? prev.filter((pid) => pid !== id)
-                      : [...prev, id]
-                  );
-                }}
-              />
-              <label>{pet.name}</label>
-            </div>
-          ))
-        ) : (
-          <p className={step2Styles.noData}>
-            Nenhum pet associado ao cliente selecionado.
-          </p>
-        )}
+        <div className={step2Styles.inlineField}>
+          <label>Preço (R$)*</label>
+          <input
+            type="number"
+            className={step2Styles.inputSmall}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Digite o preço"
+          />
+        </div>
+
+        <div className={step2Styles.inlineField}>
+          <input
+            type="checkbox"
+            id="apply-discount"
+            checked={applyDiscount}
+            onChange={handleDiscountChange}
+            disabled={petIds.length < 2}
+          />
+          <label htmlFor="apply-discount">Desconto (10%)</label>
+        </div>
+
+        <div className={step2Styles.inlineField}>
+          <p className={step2Styles.finalPrice}>Total: R$ {finalPrice}</p>
+        </div>
       </div>
 
-      {/* Preço */}
-      <div className={step2Styles.formGroup}>
-        <label className={step2Styles.label}>Preço (R$)*</label>
-        <input
-          type="number"
-          className={step2Styles.input}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Digite o preço"
-        />
-      </div>
-
-      {/* Aplicar desconto */}
-      <div className={step2Styles.discountRow}>
-        <input
-          type="checkbox"
-          id="apply-discount"
-          checked={applyDiscount}
-          onChange={() => setApplyDiscount((prev) => !prev)}
-        />
-        <label htmlFor="apply-discount">Aplicar Desconto (20%)</label>
-      </div>
-
-      {/* Valor Final */}
-      <div className={step2Styles.priceRow}>
-        <p className={step2Styles.price}>Valor Final: R$ {finalPrice}</p>
-      </div>
-
-      {/* Botões */}
       <div className={modalStyles.buttonGroup}>
         <button className={modalStyles.cancelButton} onClick={onPrevious}>
           Voltar
         </button>
         <button className={modalStyles.nextButton} onClick={handleSubmit}>
-          Criar Plano
+          Criar Plano - Agendar serviços
         </button>
       </div>
     </div>
