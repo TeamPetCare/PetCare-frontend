@@ -257,6 +257,7 @@ const ClientesEPets = () => {
             : "Sem dados", // Substituir por "Sem dados" se for null
           // dtUAISO: cliente.lastSchedule ? new Date(cliente.lastSchedule).toISOString() : null,
           totalAgendamentos: cliente.totalSchedules,
+
         }));
         setclientesData(clientesFormatados);
         setLoading(false); // Desativa o loading após a resposta
@@ -269,6 +270,7 @@ const ClientesEPets = () => {
 
   // "lastSchedule": "2024-11-15T15:00:00",
   // 	"totalSchedules": 8
+
   function recuperarValorPets() {
     setLoading(true); // Ativa o loading antes de iniciar a requisição
     getAllCustomerAndPets()
@@ -282,15 +284,23 @@ const ClientesEPets = () => {
             sexo: pet.gender,
             raca: pet.race.raceType,
             dtNascimento: new Date(pet.birthdate).toLocaleDateString('pt-BR', {
+
               year: 'numeric',
               month: '2-digit',
               day: '2-digit'
             }),
             dtNISO: pet.birthdate ? new Date(pet.birthdate).toISOString().slice(0, -5) : null,
+
             porte: pet.size.sizeType,
             pesoEstimado: pet.estimatedWeight,
             cor: pet.color,
             dono: cliente.name,
+            dt_ultimo_agendamento: new Date(pet.lastSchedule).toLocaleDateString('pt-BR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            }),
+            total_agendamentos: pet.totalSchedules,
             observacoes: pet.petObservations,
             dtUltimoAgendamento: new Date(pet.lastSchedule).toLocaleDateString('pt-BR', {
               year: 'numeric',
@@ -300,6 +310,7 @@ const ClientesEPets = () => {
             dtUANISO: pet.lastSchedule ? new Date(pet.lastSchedule).toISOString().slice(0, -5) : null,
             totalAgendamentos: pet.totalSchedules,
             plano: pet.plan?.planType?.name || "Nenhum Plano."
+
           }))
         );
         setPetsData(petsFormatados);
@@ -335,6 +346,7 @@ const ClientesEPets = () => {
             porte: pet.size.sizeType,
             observacoes: pet.petObservations,
             plano: pet.plan?.planType?.name || "Nenhum Plano."
+
           }));
         });
         setclientesEPetsData(clientesEPetsFormatados);
@@ -403,6 +415,7 @@ const ClientesEPets = () => {
   const columnNamesClientes = {
     cliente: "Cliente",
     WhatsApp: "WhatsApp",
+
     rua: "Rua",
     numero: "Nº Rua",
     bairro: "Bairro",
@@ -417,6 +430,7 @@ const ClientesEPets = () => {
     "numeroDePets",
     "dtUltimoAgendamento",
     "totalAgendamentos"
+
   ];
 
   const columnNamesPets = {
@@ -432,11 +446,13 @@ const ClientesEPets = () => {
     observacoes: "Observações",
     dtUltimoAgendamento: "Último Agend.",
     totalAgendamentos: "Total Agend.",
+
     plano: "Plano"
   };
 
   const sortableColumnsPets = [
     "dt_nascimento",
+
     "dt_ultimo_agendamento",
     "total_agendamentos"
   ];

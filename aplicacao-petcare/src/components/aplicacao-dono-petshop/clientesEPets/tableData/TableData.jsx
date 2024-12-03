@@ -202,6 +202,8 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
               </tr>
             ))}
           </tbody>
+
+
         </Table>
       </div>
     </div>
