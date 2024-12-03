@@ -63,60 +63,52 @@ const TablePagamentos = () => {
             </tr>
           </thead>
           <tbody>
-            {dadosOrdenados.map((item, index) => (
-              <tr key={index}>
-                <td className={styles["cliente-info"]}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <div className={styles["cliente-nome"]} title={item.name}>
-                      {item.name}
-                    </div>
-                    {/* Exibe o plano se houver um plano válido */}
-                    {item.plan ? (
-                      <div className={styles["plano-tipo"]}>
-                        {item.plan.planType?.name || "Nenhum plano"}
+            {dadosOrdenados
+              .filter((item) => item.plan) // Só inclui pets com plano
+              .map((item, index) => (
+                <tr key={index}>
+                  <td className={styles["cliente-info"]}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div className={styles["cliente-nome"]} title={item.name}>
+                        {item.name}
                       </div>
-                    ) : null}
-                  </div>
-                </td>
-                <td>
-                  {/* Exibe o status apenas se houver plano */}
-                  {item.plan ? (
+                      {/* Exibe o plano se houver um plano válido */}
+                      <div className={styles["plano-tipo"]}>
+                        {item.plan?.planType?.name || "Nenhum plano"}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {/* Exibe o status apenas se houver plano */}
                     <span
                       className={
-                        item.plan.active == false
+                        item.plan.active === false
                           ? styles["status-pendente"]
                           : styles["status-pago"]
                       }
                     >
-                      {item.plan?.active ? "Ativo" : "Inativo"}
+                      {item.plan.active ? "Ativo" : "Inativo"}
                     </span>
-                  ) : (
-                    "Sem plano"
-                  )}
-                </td>
-                <td>
-                  {/* Exibe o valor do plano se houver plano */}
-                  {item.plan ? (
+                  </td>
+                  <td>
+                    {/* Exibe o valor do plano se houver plano */}
                     <span
                       className={
-                        item.plan?.active == false
+                        item.plan?.active === false
                           ? styles["valor-faltante-pendente"]
                           : styles["valor-faltante-pago"]
                       }
                     >
                       R${item.plan.price}
                     </span>
-                  ) : (
-                    "N/A"
-                  )}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       </div>

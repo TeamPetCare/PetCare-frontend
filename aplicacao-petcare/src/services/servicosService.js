@@ -48,10 +48,9 @@ export const deleteServico = async (id) => {
 //   }
 // };
 
-// Listar todos os serviços
 export const getAllServicos = async () => {
   try {
-    const response = await api.get("/services");
+    const response = await api.get('/services'); // Certifique-se de que o endpoint está correto
     return response.data;
   } catch (error) {
     console.error('Erro ao listar serviços:', error);
