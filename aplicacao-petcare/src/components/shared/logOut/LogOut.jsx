@@ -15,9 +15,11 @@ const LogOut = ({ show, onHide }) => {
   const handleToggleSair = () => {
     setLoading(true);
     setIsLoggingOut(true);
+    localStorage.clear();
+
     timeoutRef.current = setTimeout(() => {
       onHide();
-      navigate("/");
+      navigate("/dono-petshop/login");
       setLoading(false);
       setIsLoggingOut(false);
     }, 2000);

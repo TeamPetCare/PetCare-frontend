@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa"; // Ícone de conclusão
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -15,7 +15,7 @@ const EditEventModal = ({
   handleEdit,
   handleCancelEvent,
   handleCancelAction,
-}) => {
+}, ref) => {
   const [currentStep, setCurrentStep] = useState(1); // Passo atual para a barra de progresso
 
   const formatTime = (date) => {
@@ -25,6 +25,10 @@ const EditEventModal = ({
     const minutes = String(d.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   };
+  useEffect(() => {
+  }, [editedEvent]);
+  
+  
 
   // Função para renderizar os títulos das etapas
   const renderStepTitles = () => {
@@ -45,8 +49,8 @@ const EditEventModal = ({
     );
   };
 
-  const progressWidth = `${(currentStep / 1) * 100}%`; // Ajuste conforme o número de passos
-  const isComplete = currentStep === 1; // Indica se o processo está completo
+  const progressWidth = `${(currentStep / 1) * 100}%`; 
+  const isComplete = currentStep === 1; 
 
   return (
     <Modal
@@ -86,6 +90,7 @@ const EditEventModal = ({
         </div>
 
         <EditedEventModalCampo
+        key={editedEvent.id}
           editedEvent={editedEvent}
           handleChange={handleChange}
           isEditing={isEditing}
@@ -101,7 +106,7 @@ const EditEventModal = ({
               className={styles["btn-cancelar"]}
               onClick={handleCancelAction}
             >
-              Cancelar
+              Cancelar edição
             </Button>
             <Button
               className={styles["btn-salvar"]}

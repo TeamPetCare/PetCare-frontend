@@ -1,59 +1,69 @@
 import Table from "react-bootstrap/Table";
 import styles from "./TablePagamentos.module.css";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAllPetsAndPlans } from "../../../../services/petService";
 
-const TablePagamentos = ({ dadosPlanos }) => {
+const TablePagamentos = () => {
   const [isDown, setIsDown] = useState(true);
+  const [dadosPetsEPlanos, setDadosPetsEPlanos] = useState([]);
+  const [dadosOrdenados, setDadosOrdenados] = useState([]);
 
   const handleArrowClick = () => {
     setIsDown(!isDown);
+    const sortedData = [...dadosOrdenados].sort((a, b) => {
+      if (isDown) {
+        return a.name.localeCompare(b.name); // Ordena de A-Z
+      } else {
+        return b.name.localeCompare(a.name); // Ordena de Z-A
+      }
+    });
+    setDadosOrdenados(sortedData);
   };
+
+  useEffect(() => {
+    const loadPetsAndPlansData = async () => {
+      try {
+        const petsEPlanos = await getAllPetsAndPlans();
+        
+        setDadosPetsEPlanos(petsEPlanos);
+        setDadosOrdenados(petsEPlanos); 
+      } catch (error) {
+        console.error("Erro ao carregar Pets e Planos:", error);
+      }
+    };
+
+    loadPetsAndPlansData();
+  }, []);
 
   return (
     <div className={styles["container"]}>
-      <div className={styles["container-titulo"]}>
-        <h3>Pagamentos dos Planos</h3>
-        <hr />
-      </div>
-
-      {/* Contêiner para permitir o scroll na tabela */}
       <div className={styles["scrollable-table"]}>
-        <Table
-          hover
-          style={{
-            margin: "0",
-          }}
-        >
+        <Table hover style={{ margin: "0" }}>
           <thead>
             <tr>
               <th>
                 Cliente
                 {isDown ? (
                   <IoIosArrowDown
-                    style={{
-                      cursor: "pointer",
-                    }}
+                    style={{ cursor: "pointer" }}
                     size={13}
                     onClick={handleArrowClick}
                   />
                 ) : (
                   <IoIosArrowUp
-                    style={{
-                      cursor: "pointer",
-                    }}
+                    style={{ cursor: "pointer" }}
                     size={13}
                     onClick={handleArrowClick}
                   />
                 )}
               </th>
               <th>Status</th>
-              <th style={{ width: "23%" }}>Período</th>
-              <th>Pendente</th>
+              <th style={{ width: "23%" }}>Valor do Plano</th>
             </tr>
           </thead>
           <tbody>
-            {dadosPlanos.map((item, index) => (
+            {dadosOrdenados.map((item, index) => (
               <tr key={index}>
                 <td className={styles["cliente-info"]}>
                   <div
@@ -62,47 +72,48 @@ const TablePagamentos = ({ dadosPlanos }) => {
                       flexDirection: "column",
                     }}
                   >
-                    <div className={styles["cliente-nome"]} title={item.cliente.nome}>
-                      {item.cliente.nome}
+                    <div className={styles["cliente-nome"]} title={item.name}>
+                      {item.name}
                     </div>
-                    <div className={styles["plano-tipo"]}>
-                      {item.cliente.plano}
-                    </div>
+                    {/* Exibe o plano se houver um plano válido */}
+                    {item.plan ? (
+                      <div className={styles["plano-tipo"]}>
+                        {item.plan.planType?.name || "Nenhum plano"}
+                      </div>
+                    ) : null}
                   </div>
                 </td>
                 <td>
-                  <span
-                    className={
-                      item.status === "Pendente"
-                        ? styles["status-pendente"]
-                        : styles["status-pago"]
-                    }
-                  >
-                    {item.status}
-                  </span>
+                  {/* Exibe o status apenas se houver plano */}
+                  {item.plan ? (
+                    <span
+                      className={
+                        item.plan.active == false
+                          ? styles["status-pendente"]
+                          : styles["status-pago"]
+                      }
+                    >
+                      {item.plan?.active ? "Ativo" : "Inativo"}
+                    </span>
+                  ) : (
+                    "Sem plano"
+                  )}
                 </td>
                 <td>
-                  <span
-                    className={
-                      item.status === "Pendente"
-                        ? styles["periodo-info-pendente"]
-                        : styles["periodo-info-pago"]
-                    }
-                    title={item.Período}
-                  >
-                    {item.PeríodoTitle}
-                  </span>
-                </td>
-                <td>
-                  <span
-                    className={
-                      item.status === "Pendente"
-                        ? styles["valor-faltante-pendente"]
-                        : styles["valor-faltante-pago"]
-                    }
-                  >
-                    {item.valorFaltante}
-                  </span>
+                  {/* Exibe o valor do plano se houver plano */}
+                  {item.plan ? (
+                    <span
+                      className={
+                        item.plan?.active == false
+                          ? styles["valor-faltante-pendente"]
+                          : styles["valor-faltante-pago"]
+                      }
+                    >
+                      R${item.plan.price}
+                    </span>
+                  ) : (
+                    "N/A"
+                  )}
                 </td>
               </tr>
             ))}

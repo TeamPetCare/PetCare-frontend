@@ -35,12 +35,7 @@ export const deleteServico = async (id) => {
 // Listar todos os serviços
 export const getAllServicos = async () => {
   try {
-    const token = sessionStorage.getItem('userToken');
-    const response = await api.get("http://localhost:8080/api/services", {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const response = await api.get("/services");
     return response.data;
   } catch (error) {
     console.error('Erro ao listar serviços:', error);

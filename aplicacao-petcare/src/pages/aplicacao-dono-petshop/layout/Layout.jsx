@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import styles from "./Layout.module.css";
 import SideBar from "../../../components/aplicacao-dono-petshop/shared/sideBar/SideBar";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 
 const Layout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    setIsSidebarOpen(window.innerWidth > 1024);
+  }, [])
   const toggleSideBar = () => {
     setIsSidebarOpen(prevState => !prevState);
   };

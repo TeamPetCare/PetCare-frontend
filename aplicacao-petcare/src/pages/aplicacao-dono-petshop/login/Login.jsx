@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../login/Login.module.css';
 import petImagem from '../../../utils/assets/login/imagem-pet-login.png';
-import {loginUser} from "../../../services/userService";
+import {loginUser, getUserIdFromToken, getUserInfoById} from "../../../services/userService";
 import { toast, ToastContainer } from 'react-toastify'; // Importando ToastContainer e toast
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import { FaUserAlt } from "react-icons/fa";
@@ -24,10 +24,14 @@ const Login = () => {
       const loginData = { email, password };
       await loginUser(loginData);
 
-      // Exibe o toast de sucesso e redireciona após o fechamento
+      const userDataLogin = await getUserIdFromToken();
+      const userDataById = await getUserInfoById(userDataLogin);
+
+      localStorage.setItem('userData', JSON.stringify(userDataById));
       toast.success("Login bem-sucedido! Você será redirecionado...", {
         autoClose: 2500,
-        onClose: () => navigate("/dono-petshop/inicio"), // Redireciona aqui
+        onClose: () => navigate("/dono-petshop/inicio"), 
+        onClick: () => navigate("/dono-petshop/inicio"), 
       });
     } catch (error) {
       console.error('Erro no login:', error);

@@ -21,30 +21,6 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Função para verificar o token
-  // const checkTokenValidity = () => {
-  //   const token = sessionStorage.getItem("userToken");
-  //   if (token) {
-  //     try {
-  //       const decodedToken = jwtDecode(token);
-  //       const isExpired = decodedToken.exp * 1000 < Date.now();
-  //       if (isExpired) {
-  //         sessionStorage.removeItem("userToken");
-  //         history.push("/dono-petshop/login"); // Redireciona para login
-  //       }
-  //     } catch (error) {
-  //       console.error("Erro ao decodificar o token:", error);
-  //       history.push("/dono-petshop/login");
-  //     }
-  //   } else {
-  //     history.push("/dono-petshop/login");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkTokenValidity();
-  // }, []);
-
   return (
     <Router>
       <ToastContainer

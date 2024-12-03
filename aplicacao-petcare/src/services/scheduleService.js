@@ -1,14 +1,85 @@
 import api from './api';
 
-export const getAllSchedules = async () => {
+export const getAllSchedulesMonthly = async (mes ) => {
   try {
-    const response = await api.get('schedules/monthly-schedules');
+    const [year, month] = mes.split("-").map(Number);
+
+    const primeiroDiaMes = new Date(year, month - 1, 1, 3, 0, 0);
+    const mesFormatado = primeiroDiaMes.toISOString().slice(0, 19);
+
+    const response = await api.get(`/schedules/monthly-schedules?month=${mesFormatado}`);
     return response.data;
   } catch (error) {
-    console.error('Erro ao listar agendamentos:', error);
+    console.error("Erro ao listar agendamentos:", error);
     throw error;
   }
-}
+};
+
+export const getAllSchedules = async ( ) => {
+  try {
+
+    const response = await api.get(`/schedules`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao listar agendamentos:", error);
+    throw error;
+  }
+};
+
+export const getFileCsvSchedules = async () => {
+  try {
+    const response = await api.get("/schedules/report-schedule", {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+      },
+      responseType: 'blob' // Define o tipo de resposta como blob
+    });
+
+    return response.data; // Retorna o blob do arquivo
+  } catch (error) {
+    throw error;
+  }
+};
+
+ export const updateSchedule = async (id, scheduleData) => {
+    try {
+      const response = await api.put(`/schedules/${id}`, scheduleData);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao atualizar o agendamento:', error);
+      throw error;
+    }
+  }
+
+  export const createSchedule = async (scheduleData) => {
+    try {
+      const response = await api.post('/schedules', scheduleData);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar agendamento:', error);
+      throw error;
+    }
+  }
+
+  export const deleteSchedule = async (id) => {
+    try {
+      const response = await api.delete(`/schedules/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao deletar agendamento:', error);
+      throw error;
+    }
+  }
+
+  export const getScheduleById = async (id) => {
+    try {
+      const response = await api.get(`/schedules/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao conseguir agendamento por id:', error);
+      throw error;
+    }
+  }
 
 // const API_URL = 'http://localhost:8080/api/schedules'; 
 // const scheduleService = {
@@ -30,7 +101,7 @@ export const getAllSchedules = async () => {
 //     }
 //   },
 
-//   getAllSchedules: async () => {
+//   getAllSchedulesMonthly: async () => {
 //     try {
 //       const response = await axios.get(API_URL);
 //       return response.data;
@@ -39,15 +110,7 @@ export const getAllSchedules = async () => {
 //     }
 //   },
 
-//   //Função para Atualizar Agendamento
-//   updateSchedule: async (id, scheduleData) => {
-//     try {
-//       const response = await axios.put(`${API_URL}/${id}`, scheduleData);
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-//   },
+//  
 
 
 //   //Função para Excluir Agendamento

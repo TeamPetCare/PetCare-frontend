@@ -1,137 +1,71 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import styles from "./Inicio.module.css";
 import Calendario from "../../../components/aplicacao-dono-petshop/inicio/calendario/Calendario";
 import TablePagamentos from "../../../components/aplicacao-dono-petshop/inicio/tablePagamentos/TablePagamentos";
-import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
 import KpiAgendamentos from "../../../components/aplicacao-dono-petshop/inicio/kpiAgendamentos/KpiAgendamentos";
-import { getAllSchedules } from "../../../services/scheduleService";
+import { getAllSchedulesMonthly } from "../../../services/scheduleService";
+
+// Função utilitária para formatar a data final do evento
+const formatEndTime = (dateHour, duration) => {
+  const [hours, minutes, seconds] = duration.split(":").map(Number);
+  const date = new Date(dateHour);
+  date.setHours(date.getHours() + hours);
+  date.setMinutes(date.getMinutes() + minutes);
+  date.setSeconds(date.getSeconds() + seconds);
+  return date.toISOString();
+};
+
+// Função utilitária para formatar o mês para o nome completo
+const formatMonthToExtenso = (month) => {
+  const months = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+  const [year, monthNumber] = month.split("-").map(Number);
+  return `${months[monthNumber - 1]} ${year}`;
+};
 
 const Inicio = () => {
-  const dadosPlanos = [
-    {
-      cliente: {
-        nome: "Diogo Souza Moura",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Mensal",
-      },
-      status: "Pendente",
-      PeríodoTitle: "Set/24",
-      Período: "Setembro 2024",
-      valorFaltante: "R$ 100.00",
-    },
-    {
-      cliente: {
-        nome: "Maria Silva",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Quinzenal",
-      },
-      status: "Pendente",
-      PeríodoTitle: "2ªQ Ago/24",
-      Período: "2ª Quinzena Agosto",
-      valorFaltante: "R$ 50.00",
-    },
-    {
-      cliente: {
-        nome: "Julia Cunha",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Quinzenal",
-      },
-      status: "Pago",
-      PeríodoTitle: "1ªQ Set/24",
-      Período: "1ª Quinzena Setembro",
-      valorFaltante: "R$0",
-    },
-    {
-      cliente: {
-        nome: "Julia Cunha",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Quinzenal",
-      },
-      status: "Pago",
-      PeríodoTitle: "1ªQ Set/24",
-      Período: "1ª Quinzena Setembro",
-      valorFaltante: "R$0",
-    },
-    {
-      cliente: {
-        nome: "Julia Cunha",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Quinzenal",
-      },
-      status: "Pago",
-      PeríodoTitle: "1ªQ Set/24",
-      Período: "1ª Quinzena Setembro",
-      valorFaltante: "R$0",
-    },
-    {
-      cliente: {
-        nome: "Julia Cunha",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Quinzenal",
-      },
-      status: "Pago",
-      PeríodoTitle: "1ªQ Set/24",
-      Período: "1ª Quinzena Setembro",
-      valorFaltante: "R$0",
-    },
-    {
-      cliente: {
-        nome: "Maria Silva",
-        foto: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxw0eitGgbS6Y3kJODK5lGbWxUV8sONkQUZg&s",
-        plano: "Quinzenal",
-      },
-      status: "Pendente",
-      PeríodoTitle: "2ªQ Ago/24",
-      Período: "2ª Quinzena Agosto",
-      valorFaltante: "R$ 50.00",
-    },
-  ];
-
-
   const [allEvents, setAllEvents] = useState([]);
-  const formatEndTime = (dateHour, duracao) => {
-    const [hours, minutes, seconds] = duracao.split(":").map(Number);
-    const dateHourDate = new Date(dateHour)
-    dateHourDate.setHours(dateHourDate.getHours() + hours);
-    dateHourDate.setMinutes(dateHourDate.getMinutes() + minutes);
-    dateHourDate.setSeconds(dateHourDate.getSeconds() + seconds);
-    7;
+  const [currentMonth, setCurrentMonth] = useState(null);
 
-    return dateHourDate.toISOString();
+  // Função para atualizar o mês atual
+  const handleMonthChange = (month) => {
+    setCurrentMonth(month);
   };
 
+  // Definir o mês atual ao carregar a página
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const servicos = await getAllSchedules();
-        console.log(servicos);
-
-        const eventosFormatados = servicos.map((servico) => ({
-          ...servico,
-          start: new Date(servico.scheduleDate),
-          end: new Date(formatEndTime(servico.scheduleDate, servico.scheduleTime)),
-        }));
-        console.log("Agendamentos Formatados " + eventosFormatados);
-
-        setAllEvents(eventosFormatados);
-
-      } catch (error) {
-        console.error("Erro ao carregar serviços:", error);
-      }
-    };
-
-    loadData();
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const formattedMonth = firstDayOfMonth.toISOString().slice(0, 7); // Formato YYYY-MM
+    setCurrentMonth(formattedMonth);
   }, []);
 
-  const filterOptions = [
-    { label: "Tudo" },
-    { label: "Ontem" },
-    { label: "Hoje" },
-    { label: "Últimos 7 dias" },
-    { label: "Este mês" },
-    { label: "Último mês" },
-  ];
+  // Carregar os dados dos agendamentos sempre que o mês mudar
+  useEffect(() => {
+    if (currentMonth) {
+      loadData();
+    }
+  }, [currentMonth]);
+
+  // Função para carregar os dados de agendamentos
+  const loadData = async () => {
+    try {
+      const servicos = await getAllSchedulesMonthly(currentMonth);
+
+      const formattedEvents = servicos.map((servico) => ({
+        ...servico,
+        start: new Date(servico.scheduleDate),
+        end: new Date(formatEndTime(servico.scheduleDate, servico.scheduleTime)),
+      }));
+
+      setAllEvents(formattedEvents);
+    } catch (error) {
+      console.error("Erro ao carregar serviços:", error);
+    }
+  };
 
   return (
     <div className={styles["container"]}>
@@ -139,16 +73,18 @@ const Inicio = () => {
       <div className={styles["main-container"]}>
         <Calendario
           dadosAgendamentos={allEvents}
+          onMonthChange={handleMonthChange}
           className={styles["calendario-container"]}
         />
         <div className={styles["kpis-container"]}>
           <div className={styles["first-container"]}>
-            <DropDownFilter options={filterOptions} />
-            <TablePagamentos dadosPlanos={dadosPlanos} />
+            <h3>Pagamentos dos Planos</h3>
+            <TablePagamentos />
           </div>
 
           <div className={styles["second-container"]}>
-            <KpiAgendamentos dadosAgendamentos={allEvents}/>
+            <h3>Resumo do Mês - {currentMonth && formatMonthToExtenso(currentMonth)}</h3>
+            <KpiAgendamentos dadosAgendamentos={allEvents} month={currentMonth} />
           </div>
         </div>
       </div>
