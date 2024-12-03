@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import petService from "../../../../services/petService"; // Para buscar detalhes dos pets
 import { getAllServicos } from "../../../../services/servicosService"; // Para buscar os serviços pelo ID
-import modalStyles from "./Step3Modal.module.css";
+import modalStyles from "./Step3Modal.module.css"; // Apenas este CSS
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons"; // Ícone de lápis
 
 const Step3ScheduleServices = ({ onPrevious, onClose, selectedPlan }) => {
   const [pets, setPets] = useState([]);
@@ -81,7 +83,7 @@ const Step3ScheduleServices = ({ onPrevious, onClose, selectedPlan }) => {
                 <div key={service.id} className={modalStyles.serviceItem}>
                   <div className={modalStyles.serviceInfo}>
                     <span className={modalStyles.serviceName}>
-                      {service?.nome || "Serviço não encontrado"} {/* Exibe o nome */}
+                      {service?.nome || "Serviço não encontrado"}
                     </span>
                     <span
                       className={`${modalStyles.serviceStatus} ${
@@ -99,7 +101,7 @@ const Step3ScheduleServices = ({ onPrevious, onClose, selectedPlan }) => {
                     className={modalStyles.editButton}
                     onClick={() => handleEditService(service)}
                   >
-                    Editar
+                    <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
                 </div>
               ))}
