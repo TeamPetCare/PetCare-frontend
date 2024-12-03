@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsites.net/api',
+  // baseURL: 'http://localhost:80/api',
+
 });
 
 // Intercepta requisições para adicionar o token de autorização

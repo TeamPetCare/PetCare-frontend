@@ -4,6 +4,7 @@ import plansService from "../../../../services/plansService";
 import planTypeService from "../../../../services/planTypeService";
 import petService from "../../../../services/petService";
 import { getAllServicos } from "../../../../services/servicosService";
+import pixPaymentService from "../../../../services/pixPaymentService";
 import modalStyles from "./PlanModal.module.css";
 import step2Styles from "./Step2Plan.module.css";
 
@@ -70,12 +71,14 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient, onPlanSelect }
   };
 
   const handleSubmit = async () => {
+    // Verifique os campos obrigatórios
     if (!planName || !price || !planTypeId || petIds.length === 0) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
     }
-
-    const payload = {
+  
+    // Prepare o payload do plano
+    const planPayload = {
       subscriptionDate: new Date().toISOString(),
       name: planName,
       price: parseFloat(finalPrice),
@@ -85,25 +88,58 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient, onPlanSelect }
       servicesIds: selectedServices,
       petIds,
     };
-
+  
+    // Log para verificar os dados do plano antes de enviar
+    console.log("Payload do plano:", planPayload);
+  
     try {
-      console.log("Enviando payload:", payload);
-      const createdPlan = await plansService.createPlan(payload);
-      toast.success("Plano criado com sucesso!");
+      console.log("Enviando payload do plano...");
+      const createdPlan = await plansService.createPlan(planPayload);
+  
+      // Prepare o payload do pagamento
+      const paymentPayload = {
+        amount: parseFloat(finalPrice),
+        email: selectedClient.email,
+        name: selectedClient.name,
+        cpf: "769.930.290-73", // Substitua por um valor válido, se necessário
+      };
+      
+      console.log("Payload do pagamento PIX corrigido:", paymentPayload);
+      
+  
+      // Log para verificar os dados do pagamento antes de enviar
+      console.log("Payload do pagamento PIX:", paymentPayload);
+  
+      // Enviar o pagamento PIX
+      const paymentResponse = await pixPaymentService.createPixPayment(selectedClient.id, paymentPayload);
+  
+      // Exibe o sucesso e redireciona se possível
+      toast.success("Plano criado com sucesso e pagamento gerado!");
+  
+      if (paymentResponse && paymentResponse.paymentLink) {
+        window.location.href = paymentResponse.paymentLink;
+      }
+       else {
+        toast.error("Erro ao gerar URL de pagamento.");
+      }
+  
       onPlanSelect(createdPlan);
-      onNext();
     } catch (error) {
-      console.error("Erro ao criar plano:", error);
-      toast.error("Erro ao criar plano.");
+      // Log detalhado para verificar o que aconteceu
+      console.error("Erro ao criar plano ou pagamento:", error.response || error.message);
+      if (error.response) {
+        console.error("Detalhes do erro:", error.response.data); // Log da resposta do servidor
+        toast.error(`Erro no servidor: ${error.response.data.message || "Erro desconhecido"}`);
+      } else {
+        toast.error("Erro ao criar plano ou pagamento. Tente novamente.");
+      }
     }
   };
-
+  
   return (
     <div className={modalStyles.modal}>
       <h2 className={modalStyles.title}>Criar Plano Personalizado</h2>
       <p className={modalStyles.subtitle}>*Campos obrigatórios</p>
-
-
 
       <div className={step2Styles.formGroup}>
         <label className={step2Styles.label}>Tipo de Plano*</label>
@@ -190,7 +226,6 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient, onPlanSelect }
         </div>
       </div>
 
-
       <div className={step2Styles.inlineRow}>
         <div className={step2Styles.inlineField}>
           <label>Nome do Plano*</label>
@@ -243,3 +278,4 @@ const Step2PlanSelection = ({ onNext, onPrevious, selectedClient, onPlanSelect }
 };
 
 export default Step2PlanSelection;
+``
