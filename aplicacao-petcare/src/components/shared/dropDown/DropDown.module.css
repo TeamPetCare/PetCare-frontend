@@ -7,14 +7,17 @@
   p {
     font-family: "Montserrat";
     color: var(--cor-cinza-escuro);
+    color: var(--cor-cinza-escuro);
   }
   p:first-child {
     font-weight: 600;
+    font-size: 0.7em;
     font-size: 0.7em;
   }
 
   p:last-child {
     font-weight: 500;
+    font-size: 0.65em;
     font-size: 0.65em;
   }
 
@@ -110,6 +113,7 @@
 
 .user-selected {
   width: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 0.7em;
@@ -120,9 +124,18 @@
     text-overflow: ellipsis;
     max-width: 70%;
   }
+  
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+  }
 }
 
 .container-img-user {
+  width: 2em;
+  height: 2em;
   width: 2em;
   height: 2em;
   border-radius: 50%;
@@ -144,6 +157,7 @@
   display: flex;
   align-items: center;
   gap: 0.5em;
+  gap: 0.5em;
 }
 
 .container-info-user {
@@ -151,6 +165,7 @@
   flex-direction: column;
   p, a {
     line-height: 1.1em;
+    font-size: .7em;
     font-size: .7em;
   }
 }

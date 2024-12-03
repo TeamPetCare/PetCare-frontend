@@ -1,0 +1,16 @@
+.progressBarContainer {
+    width: 100%;
+    height: 15px;
+    background-color: #f8f8f8; /* Cor de fundo da barra */
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px; /* Espaço abaixo da barra */
+    border: 1px solid var(--cor-primaria-azul-escuro);
+}
+  
+  .progressBar {
+    height: 100%;
+    background-color: var(--cor-primaria-azul-escuro);
+    transition: width 0.3s ease; /* Animação suave */
+  }
+  

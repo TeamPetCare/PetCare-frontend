@@ -50,10 +50,11 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro, onPut = (
   const getDisplayValue = (value) => {
     return value == null || value === "" ? "Sem dados" : value;
   };
-
-
   // Filtrar e renomear colunas dinamicamente
-  const columns = dados.length > 0 ? Object.keys(dados[0]).filter((col) => col !== "id") : [];
+  const columns = dados.length > 0
+    ? Object.keys(dados[0]).filter((col) => col !== "id" && col !== "dtNISO" && col !== "dtUANISO")
+    : [];
+
 
   const sortedData = [...dados].sort((a, b) => {
     if (sortConfig.key) {

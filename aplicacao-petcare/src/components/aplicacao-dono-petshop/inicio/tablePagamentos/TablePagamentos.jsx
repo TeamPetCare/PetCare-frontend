@@ -25,6 +25,7 @@ const TablePagamentos = () => {
     const loadPetsAndPlansData = async () => {
       try {
         const petsEPlanos = await getAllPetsAndPlans();
+        
         setDadosPetsEPlanos(petsEPlanos);
         setDadosOrdenados(petsEPlanos); 
       } catch (error) {
@@ -62,47 +63,52 @@ const TablePagamentos = () => {
             </tr>
           </thead>
           <tbody>
-            {dadosOrdenados.map((item, index) => (
-              <tr key={index}>
-                <td className={styles["cliente-info"]}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <div className={styles["cliente-nome"]} title={item.name}>
-                      {item.name}
+            {dadosOrdenados
+              .filter((item) => item.plan) // Só inclui pets com plano
+              .map((item, index) => (
+                <tr key={index}>
+                  <td className={styles["cliente-info"]}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div className={styles["cliente-nome"]} title={item.name}>
+                        {item.name}
+                      </div>
+                      {/* Exibe o plano se houver um plano válido */}
+                      <div className={styles["plano-tipo"]}>
+                        {item.plan?.planType?.name || "Nenhum plano"}
+                      </div>
                     </div>
-                    <div className={styles["plano-tipo"]}>
-                      {item.plan.planType.name}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span
-                    className={
-                      item.plan.active == false
-                        ? styles["status-pendente"]
-                        : styles["status-pago"]
-                    }
-                  >
-                    {item.plan.active ? "Ativo" : "Inativo"}
-                  </span>
-                </td>
-                <td>
-                  <span
-                    className={
-                      item.plan.active == false
-                        ? styles["valor-faltante-pendente"]
-                        : styles["valor-faltante-pago"]
-                    }
-                  >
-                    R${item.plan.price}
-                  </span>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td>
+                    {/* Exibe o status apenas se houver plano */}
+                    <span
+                      className={
+                        item.plan.active === false
+                          ? styles["status-pendente"]
+                          : styles["status-pago"]
+                      }
+                    >
+                      {item.plan.active ? "Ativo" : "Inativo"}
+                    </span>
+                  </td>
+                  <td>
+                    {/* Exibe o valor do plano se houver plano */}
+                    <span
+                      className={
+                        item.plan?.active === false
+                          ? styles["valor-faltante-pendente"]
+                          : styles["valor-faltante-pago"]
+                      }
+                    >
+                      R${item.plan.price}
+                    </span>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       </div>

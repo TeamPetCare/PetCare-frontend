@@ -50,3 +50,54 @@ p {
     }
   }
 }
+
+/* Estilos do contêiner pai */
+.parent-container {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  height: 100vh; /* Ocupa toda a altura da tela */
+  padding: 0 1em; /* Espaçamento lateral */
+  box-sizing: border-box; /* Garante que o padding não afete o cálculo da altura */
+  margin: 200px;
+}
+
+/* Estilos do .fatos-container */
+.fatos-container {
+  display: flex; /* Flexbox para permitir o controle de layout */
+  flex-direction: column; /* Alinha os itens na vertical */
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center; /* Centraliza horizontalmente */
+  text-align: center;
+  padding: 1em 2em;
+  font-size: 1em;
+  font-weight: 600;
+  color: white;
+  background-color: #004c65; /* Azul similar ao da imagem */
+  border-radius: 50px; /* Borda arredondada */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  max-width: 90%; /* Impede que o container ocupe 100% da largura */
+  width: fit-content; /* Ajusta a largura conforme o conteúdo */
+  margin: 0 auto; /* Centraliza no eixo horizontal */
+}
+
+.fatos-container:hover {
+  background-color: #003744; /* Cor do hover, mais escura */
+  transform: translateY(-2px); /* Efeito de elevação no hover */
+}
+
+/* Estilo do fato */
+.fato {
+  padding: 1em 0; 
+  font-size: large;/* Espaço extra ao redor do texto */
+}
+
+/* Estilo do ThreeDots, se necessário */
+.loader-container {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  height: 100px; /* Garantir que o carregamento tenha um espaço adequado */
+}

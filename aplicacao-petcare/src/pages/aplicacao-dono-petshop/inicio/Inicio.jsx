@@ -4,7 +4,7 @@ import styles from "./Inicio.module.css";
 import Calendario from "../../../components/aplicacao-dono-petshop/inicio/calendario/Calendario";
 import TablePagamentos from "../../../components/aplicacao-dono-petshop/inicio/tablePagamentos/TablePagamentos";
 import KpiAgendamentos from "../../../components/aplicacao-dono-petshop/inicio/kpiAgendamentos/KpiAgendamentos";
-import { getAllSchedules } from "../../../services/scheduleService";
+import { getAllSchedulesMonthly } from "../../../services/scheduleService";
 
 // Função utilitária para formatar a data final do evento
 const formatEndTime = (dateHour, duration) => {
@@ -33,7 +33,6 @@ const Inicio = () => {
   // Função para atualizar o mês atual
   const handleMonthChange = (month) => {
     setCurrentMonth(month);
-    console.log("Mês atual:", month);
   };
 
   // Definir o mês atual ao carregar a página
@@ -47,7 +46,6 @@ const Inicio = () => {
   // Carregar os dados dos agendamentos sempre que o mês mudar
   useEffect(() => {
     if (currentMonth) {
-      console.log("OLÁAAA")
       loadData();
     }
   }, [currentMonth]);
@@ -55,8 +53,7 @@ const Inicio = () => {
   // Função para carregar os dados de agendamentos
   const loadData = async () => {
     try {
-      console.log("Buscando dados do backend para:", currentMonth);
-      const servicos = await getAllSchedules(currentMonth);
+      const servicos = await getAllSchedulesMonthly(currentMonth);
 
       const formattedEvents = servicos.map((servico) => ({
         ...servico,
