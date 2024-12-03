@@ -14,13 +14,14 @@
 }
 
 .gridItem {
-  border: 1px solid #ddd; /* Bordas para melhor visualização */
+  /* border: 1px solid #ddd; Bordas para melhor visualização */
   padding: 16px;
   border-radius: 8px;
 }
 
 .label {
-  font-size: 1.2rem;
+  margin-top: 10px;
+  font-size: 1rem;
   margin-bottom: 12px;
   display: block;
 }
@@ -58,12 +59,6 @@
   margin-bottom: 24px;
 }
 
-.gridItem {
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
 
 .checkboxGroup {
   display: flex;
@@ -105,9 +100,8 @@
 
 .gridItem {
   padding: 16px;
-  border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 
 .checkboxGroup {
@@ -128,11 +122,7 @@
 font-size: 1.5rem;  
 }
 
-.checkboxGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+
 
 /*  */
 .checkboxGroup {
@@ -143,6 +133,7 @@ font-size: 1.5rem;
 }
 
 .checkboxGroup input[type="checkbox"] {
+  
   width: 20px; /* Define largura */
   height: 20px; /* Define altura */
   transform: scale(1.2); /* Ajuste do tamanho */
@@ -150,11 +141,13 @@ font-size: 1.5rem;
 }
 
 .checkboxGroup label {
+  
   margin: 0; /* Remove margens extras */
   font-size: 1rem; /* Ajusta o tamanho do texto */
 }
 
 .checkboxGroup label {
+  
   display: flex;
   gap: 12px; /* Espaço entre a checkbox e o texto */
   align-items: center;
@@ -190,5 +183,66 @@ font-size: 1.5rem;
   width: 18px; /* Define largura */
   height: 18px; /* Define altura */
   transform: scale(1.2); /* Aumenta levemente a checkbox */
+}
+
+.inlineRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px; /* Espaço entre os campos */
+}
+
+.inlineField {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Os campos ocupam o mesmo espaço */
+  min-width: 150px; /* Tamanho mínimo */
+}
+
+.inputSmall {
+  width: 100px;
+}
+
+.finalPrice {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/*  */
+
+
+/* Estilo para cada checkbox e o label */
+.checkboxGroup label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 3px;
+  border-radius: 12px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor pointer ao passar */
+  transition: background-color 0.3s, border-color 0.3s; /* Transições suaves */
+}
+
+/* Estilo para o input checkbox */
+.checkboxGroup input[type="checkbox"] {
+
+  width: 20px; /* Tamanho da checkbox */
+  height: 20px;
+  cursor: pointer;
+}
+
+
+
+/*  */
+/* Estilo para o campo de descrição */
+.textarea {
+  width: 100%; /* Largura total do contêiner pai */
+  max-width: 100%; /* Limita a largura máxima */
+  height: 60px; /* Altura menor */
+  padding: 8px; /* Espaçamento interno */
+  font-size: 1rem; /* Ajusta o tamanho da fonte */
+  border: 1px solid #ccc; /* Borda padrão */
+  border-radius: 8px; /* Bordas arredondadas */
+  resize: none; /* Desabilita o redimensionamento */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombras internas suaves */
 }
 
