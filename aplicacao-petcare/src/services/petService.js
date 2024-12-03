@@ -118,6 +118,8 @@ const petService = {
   getAllPets,
   deletePet,
   deletePetList,
+  getAllPetsAndPlans,
 };
 
 export default petService;
+

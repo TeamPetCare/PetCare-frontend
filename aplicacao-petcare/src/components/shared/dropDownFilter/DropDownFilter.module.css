@@ -42,5 +42,5 @@
 }
 
 .dropdown-filter {
-  width: auto;
+  align-self: self-end;
 }
