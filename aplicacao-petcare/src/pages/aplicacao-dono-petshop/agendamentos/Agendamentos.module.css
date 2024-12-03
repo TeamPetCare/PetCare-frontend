@@ -21,12 +21,13 @@
   margin-top: 1em;
 
   .container-form {
-    width: 25%;
+    width: 100%;
   }
   .input-icon-wrapper {
     position: relative;
     display: flex;
     align-items: center;
+    width: 22%;
   }
 
   .form-control-input {
@@ -56,4 +57,22 @@
     font-size: 0.8em;
     font-weight: 400;
   }
+}
+
+.custom-btn {
+  display: flex;
+  column-gap: 7.5px;
+  align-items: center;
+  border: none;
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 0.8em;
+  padding: 0.3em 0.8em;
+  border-radius: 0.35em;
+  transition: all 0.5s;
+}
+
+.create {
+  background-color: var(--cor-primaria-azul-escuro);
+  color: white;
 }

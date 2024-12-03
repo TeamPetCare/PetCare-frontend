@@ -13,7 +13,11 @@ import { getAllEmployees } from "../../../../../services/employeeService";
 import { getAllCustomerAndPets } from "../../../../../services/userService";
 import { getAllServicos } from "../../../../../services/servicosService";
 
-const ModalAddCampos = ({ dados }) => {
+const ModalAddCampos = ({
+  dados,
+  checkFormCompletionCallback,
+  handleSaveCallback,
+}) => {
   // ** Constantes Estáticas **
   const formasPagamento = [
     "PIX",
@@ -38,11 +42,18 @@ const ModalAddCampos = ({ dados }) => {
 
   const [paymentStatus, setPaymentStatus] = useState(null);
 
+  const [selectedDates, setSelectedDates] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
   const [funcionariosNomes, setFuncionariosNomes] = useState([]);
+  const [selectedFuncionario, setSelectedFuncionario] = useState("");
+
+  const [observacoes, setObservacoes] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("Agendado");
   const isMobile = useMediaQuery({ query: "(max-width: 1023px)" });
 
   // ** Funções - Clientes e Pets **
@@ -91,6 +102,12 @@ const ModalAddCampos = ({ dados }) => {
     setSelectedClient(client);
     setSearchTerm(client.name);
     setFilteredClients([]);
+    checkFormCompletion();
+  };
+
+  const handlePetChange = (selectedOption) => {
+    setSelectedPet(selectedOption);
+    checkFormCompletion();
   };
 
   useEffect(() => {
@@ -116,9 +133,9 @@ const ModalAddCampos = ({ dados }) => {
       const servicosFormatos = response.map((service) => ({
         id: service.id,
         name: service.nome,
+        time: service.estimatedTime,
       }));
       setServices(servicosFormatos);
-      console.log("SERVICES: " + JSON.stringify(services));
     } catch (error) {
       console.error("Erro ao carregar serviços:", error);
     }
@@ -135,9 +152,7 @@ const ModalAddCampos = ({ dados }) => {
           ...prevServices,
           selectedService.target.option,
         ];
-        console.log("SELECTED SERICES antes: ", prevServices);
-        console.log("O TL SELECIONADO: ", selectedService.target.option);
-        console.log("SELECTED SERICES depois: ", updatedServices);
+        checkFormCompletion();
         return updatedServices;
       }
       return prevServices;
@@ -147,13 +162,25 @@ const ModalAddCampos = ({ dados }) => {
   // ** Funções - Pagamento **
   const handlePaymentMethodChange = (selectedOption) => {
     setSelectedPaymentMethod(selectedOption);
-    console.log("Forma de pagamento selecionada:", selectedOption);
+    checkFormCompletion();
   };
 
   const handlePaymentStatusChange = (event) => {
     const value = event.target.value === "true"; // Converte a string "true"/"false" para boolean
     setPaymentStatus(value);
-    console.log("Status de pagamento alterado para:", value ? "Pago" : "Pendente");
+    checkFormCompletion();
+
+  };
+
+  // ** Funções - HoraData e Observações**
+  const handleDateChange = (dates) => {
+    setSelectedDates(dates);
+    checkFormCompletion();
+
+  };
+
+  const handleObservacoesChange = (e) => {
+    setObservacoes(e.target.value);
   };
 
   // ** Funções - Funcionários **
@@ -180,21 +207,122 @@ const ModalAddCampos = ({ dados }) => {
   };
 
   const handleSelectChange = (event) => {
-    setSelectedStatus(event.target.value);
+    setSelectedStatus(event.target.option);
+    checkFormCompletion();
   };
 
   const handleDropdownChange = (selectedOption) => {
-    setSelectedItem(selectedOption.name);
+    setSelectedFuncionario(selectedOption.target.option.name);
+    checkFormCompletion();
   };
 
-  const formatPaymentMethod = (method) => {
-    const formattedMethods = {
-      PIX: "Pix",
-      CARTAO_CREDITO: "Cartão Crédito",
-      CARTAO_DEBITO: "Cartão Débito",
-      DINHEIRO: "Dinheiro",
+
+  const checkFormCompletion = () => {
+    const isComplete =
+      selectedClient &&
+      selectedPet &&
+      selectedStatus &&
+      selectedDates &&
+      selectedServices.length > 0 &&
+      selectedPaymentMethod !== "" &&
+      paymentStatus !== null &&
+      selectedFuncionario !== "";
+
+    if (typeof checkFormCompletionCallback === "function") {
+      checkFormCompletionCallback(isComplete);
+    }
+
+    return isComplete;
+  };
+
+  const calculateDuration = () => {
+    if (!selectedDates.startDate || !selectedDates.endDate) {
+      return "00:00:00";
+    }
+
+    // Converte as datas para objetos Date
+    const start = new Date(selectedDates.startDate);
+    const end = new Date(selectedDates.endDate);
+
+    // Calcula a diferença em milissegundos
+    const differenceInMilliseconds = end - start;
+
+    // Verifica se a diferença é válida
+    if (differenceInMilliseconds < 0) {
+      return "00:00:00";
+    }
+
+    // Converte para segundos totais
+    const totalSeconds = Math.floor(differenceInMilliseconds / 1000);
+
+    // Calcula horas, minutos e segundos
+    const hours = Math.floor(totalSeconds / 3600);
+    const remainingSecondsAfterHours = totalSeconds % 3600;
+    const minutes = Math.floor(remainingSecondsAfterHours / 60);
+    const seconds = remainingSecondsAfterHours % 60;
+
+    // Formata para "hh:mm:ss"
+    const formattedDuration = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+    return formattedDuration;
+  };
+
+  const formatDate = (date) => {
+    const formattedDate = new Date(date);
+    const year = formattedDate.getFullYear();
+    const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(formattedDate.getDate()).padStart(2, "0");
+    const hours = String(formattedDate.getHours()).padStart(2, "0");
+    const minutes = String(formattedDate.getMinutes()).padStart(2, "0");
+    const seconds = String(formattedDate.getSeconds()).padStart(2, "0");
+
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  };
+
+  const handleSave = () => {
+    let date = new Date();
+    const dataSchedule = {
+      scheduleStatus: selectedStatus
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, ""),
+      scheduleDate: selectedDates.startDate,
+      scheduleTime: calculateDuration(),
+      scheduleNote: observacoes === null ? "..." : observacoes,
+      creationDate: formatDate(date),
+      petId:
+        pets.find((pet) => pet.name === selectedPet.target.option.name)?.id ||
+        null,
+      serviceIds: selectedServices.map((service) => service.id),
+      employeeId:
+        funcionariosNomes.find((emp) => emp.name === selectedFuncionario)?.id ||
+        null,
     };
-    return formattedMethods[method] || method.toLowerCase().replace("_", " ");
+
+    const totalPrice = selectedServices.reduce(
+      (acc, service) => acc + (service.price || 0),
+      0
+    );
+
+    const dataPayment = {
+      price: totalPrice,
+      paymentDate: formatDate(date),
+      paymentId: null,
+      paymentMethod: selectedPaymentMethod.target.option,
+      paymentStatus: paymentStatus,
+      userId:
+        pets.find((pet) => pet.name === selectedPet.target.option.name)
+          ?.clientId || null,
+    };
+
+    if (typeof handleSaveCallback === "function") {
+      handleSaveCallback(dataSchedule, dataPayment);
+    } else {
+      toast.info("Complete todos os dados", { autoClose: 2000 });
+    }
   };
 
   // ** Inicialização **
@@ -205,8 +333,21 @@ const ModalAddCampos = ({ dados }) => {
   }, []);
 
   useEffect(() => {
-    console.log("SELECTED SERICES atualizado: ", selectedServices);
-  }, [sele]);
+    if (checkFormCompletion() === true) {
+      handleSave();
+    }
+  }, [
+    paymentStatus,
+    selectedClient,
+    selectedPet,
+    selectedStatus,
+    selectedDates,
+    selectedServices.length,
+    selectedPaymentMethod,
+    paymentStatus,
+    selectedFuncionario,
+    observacoes
+  ]);
 
   return (
     <div className={styles["container"]}>
@@ -235,7 +376,6 @@ const ModalAddCampos = ({ dados }) => {
                   key={client.id}
                   onClick={() => {
                     setSelectedClient(client);
-                    console.log("SELECED CLIENT: " + JSON.stringify(client));
                     setSearchTerm(client.name);
                     setFilteredClients([]);
                   }}
@@ -255,7 +395,7 @@ const ModalAddCampos = ({ dados }) => {
           selectedItem={selectedPet}
           exibirInformacao={false}
           isDisabled={!selectedClient}
-          onChange={(option) => setSelectedPet(option)}
+          onChange={handlePetChange}
         />
 
         <DropDown
@@ -265,7 +405,7 @@ const ModalAddCampos = ({ dados }) => {
           icon={MdOutlineSchedule}
           selectedItem={selectedStatus}
           exibirInformacao={false}
-          isDisabled={false} // Permite editar o status
+          isDisabled={false}
         />
       </div>
       <div className={styles["row2"]}>
@@ -289,24 +429,31 @@ const ModalAddCampos = ({ dados }) => {
         </div>
       </div>
       <div className={styles["row3"]}>
-        <TimePicker isDisabled={false} />
+        <TimePicker
+          dtInicial={null}
+          dtFinal={null}
+          isDisabled={false}
+          onDateChange={handleDateChange}
+        />
         <DropDown
           options={funcionariosNomes}
           onChange={handleDropdownChange}
           titulo={"Selecione um funcionário*"}
           icon={GoPeople}
-          selectedItem={selectedItem}
+          selectedItem={selectedFuncionario}
           className={styles["container-dropdown"]}
           exibirInformacao={false}
           isDisabled={false}
         />
       </div>
       <div className={styles["row4"]}>
-        <label>Observações*</label>
+        <label>Observações</label>
         <textarea
+          placeholder="Digite aqui observações do agendamento..."
           name="observacoes"
-          onChange={(e) => {}}
-          disabled={false} // Permite edição das observações
+          value={observacoes}
+          onChange={handleObservacoesChange}
+          disabled={false}
           className={styles["input-observacoes"]}
         />
       </div>
@@ -316,8 +463,8 @@ const ModalAddCampos = ({ dados }) => {
             options={formasPagamento}
             titulo={"Selecione uma forma de pagamento*"}
             icon={SiContactlesspayment}
-            selectedItem={selectedPaymentMethod} 
-            onChange={handlePaymentMethodChange} 
+            selectedItem={selectedPaymentMethod}
+            onChange={handlePaymentMethodChange}
             className={styles["container-dropdown"]}
             exibirInformacao={false}
             isDisabled={false}
@@ -344,7 +491,7 @@ const ModalAddCampos = ({ dados }) => {
                   name="paymentStatus"
                   value="true"
                   checked={paymentStatus === true}
-      onChange={handlePaymentStatusChange}
+                  onChange={handlePaymentStatusChange}
                 />
                 Pago
               </label>

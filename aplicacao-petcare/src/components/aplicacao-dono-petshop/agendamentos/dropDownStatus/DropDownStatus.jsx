@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./DropDownStatus.module.css"; 
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"; 
 
-const DropDownStatus = ({ status, options }) => {
+const DropDownStatus = ({ status, options, onSelectStatus }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(status); 
 
@@ -13,6 +13,7 @@ const DropDownStatus = ({ status, options }) => {
   const selectStatus = (status) => {
     setSelectedStatus(status); 
     setIsOpen(false); 
+    onSelectStatus && onSelectStatus(status);
   };
 
   const getStatusStyles = (status) => {

@@ -1,22 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa"; // Ícone de conclusão
+import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import styles from "./ModalAddAgendamento.module.css";
 import ModalAddCampos from "./modalAddCampos/ModalAddCampos";
+import { createSchedule } from "../../../../services/scheduleService";
+import { createPayment } from "../../../../services/paymentService";
 
-const ModalAddAgendamento = ({
-  show,
-  handleClose,
-  dados
-//   handleChange,
-//   isEditing,
-//   handleSave,
-//   handleEdit,
-//   handleCancelEvent,
-//   handleCancelAction,
-}, ref) => {
-  const [currentStep, setCurrentStep] = useState(0); // Passo atual para a barra de progresso
+const ModalAddAgendamento = (
+  {
+    show,
+    handleClose,
+    dados,
+    fetchData
+    //   handleChange,
+    //   isEditing,
+    //   handleEdit,
+    //   handleCancelEvent,
+    //   handleCancelAction,
+  },
+  ref
+) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isFormComplete, setIsFormComplete] = useState(false);
+  const [dadosPostSchedule, setDadosPostSchedule] = useState([]);
+  const [dadosPostPayment, setDadosPostPayment] = useState([]);
+
+  const handleFormCompletion = (isComplete) => {
+    setIsFormComplete(isComplete);
+  };
 
   const formatTime = (date) => {
     if (!date) return "";
@@ -25,32 +38,50 @@ const ModalAddAgendamento = ({
     const minutes = String(d.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   };
-//   useEffect(() => {
-//   }, [editedEvent]);
-  
-  
+  useEffect(() => {
+    if (isFormComplete) {
+      setCurrentStep(1);
+    } else {
+      setCurrentStep(0);
+    }
+  }, [isFormComplete]);
 
-  // Função para renderizar os títulos das etapas
-  const renderStepTitles = () => {
-    const steps = [{ title: "Cadastrar Novo Agendamento", index: 1 }]; 
-    return (
-      <ul className={styles.stepContainer}>
-        {steps.map((step) => (
-          <li
-            key={step.index}
-            className={`${styles.stepBox} ${
-              step.index === currentStep ? styles.active : ""
-            }`}
-          >
-            {step.index}. {step.title}
-          </li>
-        ))}
-      </ul>
-    );
+  const progressWidth = `${(currentStep / 1) * 100}%`;
+  const isComplete = currentStep === 1;
+
+  const handleSave = (dadosSchedule, dadosPayment) => {
+    setDadosPostSchedule(dadosSchedule);
+    setDadosPostPayment(dadosPayment);
   };
 
-  const progressWidth = `${(currentStep / 1) * 100}%`; 
-  const isComplete = currentStep === 1; 
+  const handlePostPaymentAndSchedule = async () => {
+    try {
+      const paymentResponse = await createPayment(dadosPostPayment);
+      const paymentId = paymentResponse?.id;
+
+      if (!paymentId) {
+        throw new Error("Erro ao obter ID do pagamento.");
+      }
+
+      const updatedSchedule = {
+        ...dadosPostSchedule,
+        paymentId,
+      };
+      setDadosPostSchedule(updatedSchedule);
+
+      await createSchedule(updatedSchedule);
+      toast.success("Agendamento criado com sucesso!", { autoClose: 2000 });
+      handleClose();
+      fetchData();
+    } catch (error) {
+      console.error("Erro ao processar pagamento e criar agendamento:", error);
+      toast.error(
+        `Falha ao salvar agendamento. Detalhes: ${
+          error.message || "Tente novamente."
+        }`
+      );
+    }
+  };
 
   return (
     <Modal
@@ -90,51 +121,36 @@ const ModalAddAgendamento = ({
         </div>
 
         <ModalAddCampos
-        dados={dados}
-        //   editedEvent={editedEvent}
-        //   handleChange={handleChange}
-        //   isEditing={isEditing}
-        //   formatTime={formatTime}
+          dados={dados}
+          checkFormCompletionCallback={handleFormCompletion}
+          handleSaveCallback={handleSave}
+          //   editedEvent={editedEvent}
+          //   handleChange={handleChange}
+          //   isEditing={isEditing}
+          //   formatTime={formatTime}
         />
       </Modal.Body>
 
       {/* Rodapé com os botões */}
       <Modal.Footer>
-        {/* {isEditing ? (
-          <div className={styles["div-footer"]}>
-            <Button
-              className={styles["btn-cancelar"]}
-            //   onClick={handleCancelAction}
-            >
-              Cancelar edição
-            </Button>
-            <Button
-              className={styles["btn-salvar"]}
-              onClick={() => {
-                // handleSave();
-              }}
-            >
-              Salvar
-            </Button>
-          </div>
-        ) : ( */}
-          <div className={styles["div-footer"]}>
-            <Button
-              className={styles["btn-cancelar-agenda"]}
-              onClick={handleClose}
-            >
-              Cancelar
-            </Button>
-            <Button
-              className={styles["btn-editar"]}
-              onClick={() => {
-                // handleEdit();
-              }}
-            >
-              Editar
-            </Button>
-          </div>
-        {/* )} */}
+        <div className={styles["div-footer"]}>
+          <Button
+            className={styles["btn-cancelar-agenda"]}
+            onClick={handleClose}
+          >
+            Cancelar
+          </Button>
+          <Button
+            className={styles["btn-editar"]}
+            disabled={!isFormComplete}
+            onClick={() => {
+              handlePostPaymentAndSchedule();
+              // dados?.handleSaveCallback?.();
+            }}
+          >
+            Salvar
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );

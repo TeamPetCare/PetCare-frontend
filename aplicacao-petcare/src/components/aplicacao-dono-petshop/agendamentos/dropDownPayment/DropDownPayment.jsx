@@ -6,7 +6,7 @@ import { IoIosCard } from "react-icons/io";
 import { GrMoney } from "react-icons/gr";
 import { MdDisabledByDefault } from "react-icons/md";
 
-const DropDownPayment = ({ status, options, metodo }) => {
+const DropDownPayment = ({ status, options, metodo, onSelectStatus  }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(status);
 
@@ -17,6 +17,7 @@ const DropDownPayment = ({ status, options, metodo }) => {
   const selectStatus = (status) => {
     setSelectedStatus(status);
     setIsOpen(false);
+    onSelectStatus && onSelectStatus(status); // Chama o callback se ele for passado 
   };
 
   const getStatusStyles = (metodo) => {

@@ -87,18 +87,18 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
       creationDate: tempEditedEvent.creationDate,
       scheduleNote: tempEditedEvent.scheduleNote,
       petId: tempEditedEvent.pet.id || null,
-      paymentId: tempEditedEvent.payment.id || null,
+      paymentId: tempEditedEvent.payment?.id || null,
       serviceIds: tempEditedEvent.services.map((service) => service.id),
       employeeId: tempEditedEvent.employee?.id || null,
     };
 
     const paymentData = {
-      id: tempEditedEvent.payment.id,
-      price: tempEditedEvent.payment.price || 0.0, 
-      paymentDate: tempEditedEvent.payment.paymentDate || new Date().toISOString(), 
-      paymentId: tempEditedEvent.payment.paymentId || null,
-      paymentStatus: tempEditedEvent.payment.paymentStatus || false, 
-      paymentMethod: tempEditedEvent.payment.paymentMethod || "DINHEIRO",
+      id: tempEditedEvent.payment?.id,
+      price: tempEditedEvent.payment?.price || 0.0, 
+      paymentDate: tempEditedEvent.payment?.paymentDate || new Date().toISOString(), 
+      paymentId: tempEditedEvent.payment?.paymentId || null,
+      paymentStatus: tempEditedEvent.payment?.paymentStatus || false, 
+      paymentMethod: tempEditedEvent.payment?.paymentMethod ,
       userId: tempEditedEvent.pet.user.id || null, // ID do usuário
     };
 
@@ -106,7 +106,9 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
     
       await updateSchedule(updatedData.id, updatedData);
       onUpdate(updatedData);
-      await updatePayment(paymentData.id, paymentData); 
+      if (tempEditedEvent.payment?.id) {
+        await updatePayment(paymentData.id, paymentData);
+      }
 
       toast.success("Evento atualizado com sucesso!", {
         autoClose: 2000,
@@ -281,7 +283,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
             className={styles["container-icon"]}
             style={{ padding: "4px 5px", top: "20%" }}
           >
-            {paymentIcons[event.payment.paymentMethod] || null}
+            {paymentIcons[event.payment?.paymentMethod] || null}
           </div>
         </div>
       </div>
@@ -310,7 +312,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
             className={styles["container-icon"]}
             style={{ position: "unset", padding: ".3em .5em" }}
           >
-            {paymentIcons[event.payment.paymentMethod] || null}
+            {paymentIcons[event.payment?.paymentMethod] || null}
           </div>
         </div>
       </div>

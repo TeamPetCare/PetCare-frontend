@@ -5,10 +5,18 @@ import MainButtonsHeader from "../../../components/aplicacao-dono-petshop/agenda
 import UserHeader from "../../../components/aplicacao-dono-petshop/shared/userHeader/UserHeader";
 import DropDownFilter from "../../../components/shared/dropDownFilter/DropDownFilter";
 import TableData from "../../../components/aplicacao-dono-petshop/agendamentos/tableData/TableData";
-import { getAllSchedules } from "../../../services/scheduleService";
+import {
+  getAllSchedulesMonthly,
+  getAllSchedules,
+  deleteSchedule,
+  updateSchedule,
+} from "../../../services/scheduleService";
+import { deletePayment, updatePayment } from "../../../services/paymentService";
 import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { FiSearch } from "react-icons/fi";
+import { FaBackward } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Agendamentos = () => {
   const [dadosAgendamentos, setDadosAgendamentos] = useState([]); // Inicial como array vazio
@@ -19,7 +27,7 @@ const Agendamentos = () => {
   const [currentMonth, setCurrentMonth] = useState(formattedMonth);
   const [filter, setFilter] = useState("Tudo");
   const [showModalAgendamento, setShowModalAgendamento] = useState(false);
-  const [selectedRow, setSelectedRow] = useState({});
+  const [selectedAgendamentos, setSelectedAgendamentos] = useState([]);
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
@@ -76,11 +84,16 @@ const Agendamentos = () => {
         agendamento.scheduleTime
       );
 
-      const servicos = agendamento.services
-        .map((service) => safeReplace(service.name))
-        .join(", ");
-      const whatsapp = agendamento.pet?.user?.cellphone || null;
+      const servicos = agendamento.serviceNames.join(", ");
+
+      const whatsapp = agendamento.userCelphoneNumber || null;
       return {
+        idAgendamento: agendamento.id,
+        idServices: agendamento.serviceIds,
+        idPet: agendamento.petId,
+        scheduleDate: agendamento.scheduleDate,
+        scheduleTime: agendamento.scheduleTime,
+        creationDate: agendamento.creationDate,
         dataHora: {
           data: horarioFormatado.data,
           horario: horarioFormatado.intervalo,
@@ -88,72 +101,87 @@ const Agendamentos = () => {
         status: agendamento.scheduleStatus,
         servico: servicos,
         pet: {
-          nome: agendamento.pet?.name ? safeReplace(agendamento.pet?.name) : "",
-          ftPet: agendamento.pet?.petImg,
+          nome: agendamento.petName ? agendamento.petName : "",
+          ftPet: agendamento.petImg,
+          clienteId: agendamento.pet?.user?.id,
         },
         whatsapp: whatsapp,
         pagamento: {
-          metodo: agendamento.payment.paymentMethod,
-          status: agendamento.payment.paymentStatus ? "Pago" : "Pendente",
+          id: agendamento.payment?.id,
+          metodo: agendamento.payment?.paymentMethod,
+          status: agendamento.payment?.paymentStatus ? "Pago" : "Pendente",
+          paymentDate: agendamento.payment?.paymentDate,
+          paymentId: agendamento.payment?.paymentId,
+          price: agendamento.payment?.price,
         },
         observacoes: agendamento.scheduleNote,
       };
     });
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllSchedules();
+
+      const filteredData = applyFilter(response, filter);
+
+      const formattedData = formatData(filteredData);
+      setDadosAgendamentos(formattedData);
+    } catch (error) {
+      console.error("Erro ao buscar agendamentos", error);
+      setDadosAgendamentos([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await getAllSchedules(currentMonth);
-
-        if (Array.isArray(response)) {
-          const filteredData = applyFilter(response, filter);
-
-          const formattedData = formatData(filteredData);
-          setDadosAgendamentos(formattedData);
-        } else {
-          console.warn("Formato inesperado de dados:", response);
-          setDadosAgendamentos([]);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar agendamentos", error);
-        setDadosAgendamentos([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, [currentMonth, filter]);
 
   const applyFilter = (dados, filter) => {
     const today = new Date();
+    const resetTime = (date) => {
+      const resetDate = new Date(date);
+      resetDate.setHours(0, 0, 0, 0);
+      return resetDate;
+    };
+
     switch (filter) {
       case "Hoje":
         return dados.filter((agendamento) => {
           const agendamentoDate = new Date(agendamento.scheduleDate);
-          return agendamentoDate.toDateString() === today.toDateString();
+          return (
+            resetTime(agendamentoDate).getTime() === resetTime(today).getTime()
+          );
         });
       case "Últimos 7 dias":
         const sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
         return dados.filter((agendamento) => {
           const agendamentoDate = new Date(agendamento.scheduleDate);
-          return agendamentoDate >= sevenDaysAgo;
+          return (
+            resetTime(agendamentoDate).getTime() >=
+              resetTime(sevenDaysAgo).getTime() &&
+            resetTime(agendamentoDate).getTime() <= resetTime(today).getTime()
+          );
         });
       case "Últimos 30 dias":
         const thirtyDaysAgo = new Date(today);
-        thirtyDaysAgo.setDate(today.getDate() - 30);
+        thirtyDaysAgo.setDate(today.getDate() - 30); // Esta linha deve funcionar corretamente
         return dados.filter((agendamento) => {
           const agendamentoDate = new Date(agendamento.scheduleDate);
-          return agendamentoDate >= thirtyDaysAgo;
+          return (
+            resetTime(agendamentoDate).getTime() >=
+              resetTime(thirtyDaysAgo).getTime() &&
+            resetTime(agendamentoDate).getTime() <= resetTime(today).getTime()
+          );
         });
       case "Tudo":
         return dados;
       case "Data personalizada":
-        // Aqui você pode implementar a lógica para filtrar por data personalizada, por exemplo, exibindo um calendário para o usuário escolher as datas.
-        return dados; // Modifique conforme necessário
+        return dados;
       default:
         return dados;
     }
@@ -162,6 +190,90 @@ const Agendamentos = () => {
   const onCreateAgendamento = () => {
     setShowModalAgendamento(true);
   };
+
+  const onDeleteAgendamento = async () => {
+    for (const agendamento of selectedAgendamentos) {
+      try {
+        const idPayment = agendamento.pagamento.id;
+        await deletePayment(idPayment);
+
+        const id = agendamento.idAgendamento;
+        await deleteSchedule(id);
+      } catch (error) {
+        console.error(
+          `Erro ao processar agendamento com ID ${id}:`,
+          error.message
+        );
+      }
+    }
+
+    toast.success("Agendamento deletado com sucesso", 900);
+    fetchData();
+  };
+
+  const handlePaymentUpdate = async (updatedData) => {
+    setDadosAgendamentos((prevData) =>
+      prevData.map((item) =>
+        item.id === updatedData.id ? { ...item, ...updatedData } : item
+      )
+    );
+
+    const dataToUpdatePayment = {
+      id: updatedData.pagamento.id,
+      price: updatedData.pagamento.price,
+      paymentDate: updatedData.pagamento.paymentDate,
+      paymentId: updatedData.pagamento.paymentId,
+      paymentStatus: updatedData.pagamento.status === "Pago" ? true : false,
+      paymentMethod: updatedData.pagamento.metodo,
+      userId: 13,
+    };
+
+    try {
+      await updatePayment(dataToUpdatePayment.id, dataToUpdatePayment);
+    } catch (error) {
+      console.error(`Erro ao editar pagamento`, error.message);
+    }
+
+    toast.success("Pagamento editado com sucesso", 900);
+    fetchData();
+  };
+
+  const handleStatusUpdate = async (updatedData) => {
+    setDadosAgendamentos((prevData) =>
+      prevData.map((item) =>
+        item.id === updatedData.id ? { ...item, ...updatedData } : item
+      )
+    );
+
+    const dataToUpdateSchedule = {
+      id: updatedData.idAgendamento,
+      scheduleStatus: updatedData.status
+        .toUpperCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, ""),
+      scheduleDate: updatedData.scheduleDate,
+      scheduleTime: updatedData.scheduleTime,
+      creationDate: updatedData.creationDate,
+      scheduleNote: updatedData.observacoes,
+      petId: updatedData.idPet,
+      paymentId: updatedData.pagamento.id,
+      serviceIds: updatedData.idServices,
+      employeeId: 13,
+    };
+
+    try {
+      await updateSchedule(dataToUpdateSchedule.id, dataToUpdateSchedule);
+    } catch (error) {
+      console.error(`Erro ao editar agendamento`, error.message);
+    }
+
+    toast.success("Agendamento editado com sucesso", 900);
+    fetchData();
+  };
+
+  const desfazerAgendamento = () => {
+    console.log("DESFAZER AGENDAMENTO")
+  }
 
   return (
     <div>
@@ -172,11 +284,13 @@ const Agendamentos = () => {
             { label: "Hoje" },
             { label: "Últimos 7 dias" },
             { label: "Últimos 30 dias" },
-            { label: "Data personalizada" },
           ]}
           onFilterChange={handleFilterChange}
         />
-        <MainButtonsHeader onCreateAgendamento={onCreateAgendamento} />
+        <MainButtonsHeader
+          onCreateAgendamento={onCreateAgendamento}
+          onDeleteAgendamento={onDeleteAgendamento}
+        />
         <UserHeader />
       </div>
       <div className={styles["container-searchBar"]}>
@@ -196,6 +310,9 @@ const Agendamentos = () => {
                 placeholder="Procurar por Cliente ou Pet"
               />
             </div>
+            <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={desfazerAgendamento}>
+              <FaBackward /> Desfazer último agendamento
+            </button>
           </Form.Group>
         </Form>
       </div>
@@ -208,6 +325,9 @@ const Agendamentos = () => {
           dados={dadosAgendamentos}
           columnNames={columnNamesAgendamentos}
           sortableColumns={sortableColumnsAgendamentos}
+          onSelectedRowsChange={(rows) => setSelectedAgendamentos(rows)}
+          onPaymentUpdate={handlePaymentUpdate}
+          onStatusUpdate={handleStatusUpdate} // Adicione isso
         />
       ) : (
         <div>Nenhum dado encontrado para exibir.</div>
@@ -218,6 +338,7 @@ const Agendamentos = () => {
           show={showModalAgendamento}
           handleClose={() => setShowModalAgendamento(false)}
           dados={dadosAgendamentos}
+          fetchData={fetchData}
         />
       ) : null}
     </div>

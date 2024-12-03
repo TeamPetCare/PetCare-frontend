@@ -12,7 +12,6 @@ const ModalWrapper = () => {
   const [formData, setFormData] = useState({});
 
   const handleNext = async (data) => {
-    console.log("Dados do Passo Atual:", data);
     setFormData((prevData) => ({ ...prevData, ...data }));
 
     if (currentStep === 1) {
@@ -32,7 +31,6 @@ const ModalWrapper = () => {
         };
 
         const petResponse = await userService.createPet(petData);
-        console.log("Pet criado com sucesso:", petResponse);
       } catch (err) {
         console.error("Erro ao criar pet:", err);
       }
@@ -74,7 +72,6 @@ const ModalWrapper = () => {
       };
 
       const response = await userService.createUser(userData);
-      console.log("Usuário criado com sucesso:", response);
       toast.success("Usuário cadastrado com sucesso!"); // Exibe a notificação de sucesso
       //closeModal();
     } catch (err) {

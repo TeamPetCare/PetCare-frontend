@@ -27,7 +27,6 @@ const Step1Form = ({ onNext }) => {
       city,
       cpfClient
     }; // Coleta os dados do formulário
-    console.log("Dados do Formulário de Cliente:", data); // Log dos dados
     onNext(data); // Passa os dados para o ModalWrapper
   };
 

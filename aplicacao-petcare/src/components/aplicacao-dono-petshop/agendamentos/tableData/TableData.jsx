@@ -1,16 +1,54 @@
 import Table from "react-bootstrap/Table";
 import styles from "./TableData.module.css";
 import DropDownStatus from "../dropDownStatus/DropDownStatus";
+import ModalEditAgendamento from "../modalEditAgendamento/ModalEditAgendamento";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { useState, useEffect } from "react";
 import { RiWhatsappFill } from "react-icons/ri";
+import { PiUserCirclePlusThin } from "react-icons/pi";
 import DropDownPayment from "../dropDownPayment/DropDownPayment";
 
-const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
+const TableData = ({
+  dados = [],
+  columnNames,
+  sortableColumns,
+  filtro,
+  onSelectedRowsChange,
+  onPaymentUpdate,
+  onStatusUpdate
+}) => {
   const [isDown, setIsDown] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [dadosSelectedRows, setDadosSelectedRows] = useState([]);
+  const [data, setData] = useState(dados); // Estado local para armazenar os dados
+
+  const handlePaymentChange = (rowIndex, newStatus) => {
+    const updatedData = data.map((item, index) =>
+      index === rowIndex ? { ...item, pagamento: { ...item.pagamento, status: newStatus } } : item
+    );
+    setData(updatedData);
+    
+    // Notifica o componente pai
+    if (onPaymentUpdate) {
+      const updatedItem = { ...updatedData[rowIndex], id: dados[rowIndex].id };
+      onPaymentUpdate(updatedItem);
+    }
+  };
+  
+  const handleStatusChange = (rowIndex, newStatus) => {
+    const updatedData = data.map((item, index) =>
+      index === rowIndex ? { ...item, status: newStatus } : item
+    );
+    setData(updatedData);
+  
+    if (onStatusUpdate) {
+      const updatedItem = { ...updatedData[rowIndex], id: dados[rowIndex].id };
+      onStatusUpdate(updatedItem);
+    }
+  };
 
   const handleArrowClick = (col) => {
     const direction =
@@ -20,12 +58,10 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
   };
 
   const toggleSelectAll = () => {
-    if (selectedRows.length === dados.length) {
-      setSelectedRows([]);
-    } else {
-      const allRows = dados.map((_, index) => index);
-      setSelectedRows(allRows);
-    }
+    const allSelected = selectedRows.length === dados.length;
+    const newSelectedRows = allSelected ? [] : dados.map((_, index) => index);
+    setSelectedRows(newSelectedRows);
+    onSelectedRowsChange(newSelectedRows.map((rowIndex) => dados[rowIndex]));
   };
 
   const toggleSelectRow = (index) => {
@@ -33,22 +69,19 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
       const newSelectedRows = prevSelectedRows.includes(index)
         ? prevSelectedRows.filter((i) => i !== index)
         : [...prevSelectedRows, index];
-      
-      console.log("Selected row:", dados[index]); // Exibe no console a linha que foi selecionada
+
+      onSelectedRowsChange(newSelectedRows.map((rowIndex) => dados[rowIndex]));
+      setDadosSelectedRows(newSelectedRows.map((rowIndex) => dados[rowIndex]));
+
       return newSelectedRows;
     });
   };
-  
-
-  useEffect(() => {}, [selectedRows]);
 
   const handleEditClick = () => {
-    if (selectedRows.length === 1) {
-      onPut();
-    }
+    setShowEditModal(true);
   };
 
-  const columns = dados.length > 0 ? Object.keys(dados[0]) : [];
+  const columns = dados.length > 0 ? Object.keys(dados[0]).slice(6) : [];
 
   const sortedData = [...dados].sort((a, b) => {
     if (sortConfig.key) {
@@ -60,7 +93,7 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
         );
         const dateB = new Date(
           `${b.dataHora?.data || ""} ${b.dataHora?.horario || ""}`
-        )
+        );
         return dateA - dateB > 0 ? order : -order;
       }
       if (a[sortConfig.key] < b[sortConfig.key]) return -order;
@@ -75,13 +108,13 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
     }
 
     if (typeof text !== "string") {
-      return text || "-"; // Retorna "-" caso o valor seja null, undefined ou vazio
+      return text || "-"; 
     }
 
     const correctedText = text
       .replace(/CONCLUIDO/g, "Concluído")
       .replace(/CARTAO_DEBITO/g, "Cartão Débito")
-      .replace(/CARTAO_CREDITO/g, "Cartão Crédito")
+      .replace(/CARTAO_CREDITO/g, "Cartão Crédito");
 
     const withoutHyphens = correctedText.replace(/-/g, " ");
 
@@ -222,14 +255,16 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
                         <DropDownStatus
                           status={formatText(item[col])}
                           options={["Agendado", "Concluído", "Cancelado"]}
+                          onSelectStatus={(newStatus) => handleStatusChange(index, newStatus)}
                         />
                       </div>
                     ) : col === "pet" ? (
                       <div className={styles["content-div-pet"]}>
-                        {item[col]?.ftPet ? (
+                        {item[col]?.ftPet &&
+                        item[col].ftPet.toLowerCase() !== "not found" ? (
                           <img src={item[col].ftPet} alt="Imagem do pet" />
                         ) : (
-                          <span>Imagem não disponível</span>
+                          <PiUserCirclePlusThin size={30} color="gray" />
                         )}
                         {item[col]?.nome && (
                           <div>{formatText(item[col].nome)}</div>
@@ -241,6 +276,7 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
                           status={formatText(item[col]?.status)}
                           options={["Pago", "Pendente"]}
                           metodo={item[col]?.metodo}
+                          onSelectStatus={(newStatus) => handlePaymentChange(index, newStatus)} // Passa o callback
                         />
                       </div>
                     ) : typeof item[col] === "object" && item[col] !== null ? (
@@ -267,6 +303,13 @@ const TableData = ({ dados = [], columnNames, sortableColumns, filtro }) => {
           </tbody>
         </Table>
       </div>
+      {/* <ModalEditAgendamento
+        show={showEditModal}
+        handleClose={() => {
+          setShowEditModal(false);
+        }}
+        dados={dadosSelectedRows[0]}
+      /> */}
     </div>
   );
 };

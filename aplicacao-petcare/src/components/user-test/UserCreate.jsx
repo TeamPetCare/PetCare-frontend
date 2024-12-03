@@ -27,7 +27,6 @@ const UserCreate = () => {
     e.preventDefault();
     try {
       const response = await userService.createUser(userData);
-      console.log('User created:', response);
     } catch (error) {
       console.error('Error creating user:', error);
     }
