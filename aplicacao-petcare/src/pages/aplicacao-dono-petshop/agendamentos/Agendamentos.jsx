@@ -17,6 +17,8 @@ import Form from "react-bootstrap/Form";
 import { FiSearch } from "react-icons/fi";
 import { FaBackward } from "react-icons/fa";
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
+import { getFileCsvSchedules } from "../../../services/scheduleService"
 
 const Agendamentos = () => {
   const [dadosAgendamentos, setDadosAgendamentos] = useState([]); // Inicial como array vazio
@@ -28,9 +30,48 @@ const Agendamentos = () => {
   const [filter, setFilter] = useState("Tudo");
   const [showModalAgendamento, setShowModalAgendamento] = useState(false);
   const [selectedAgendamentos, setSelectedAgendamentos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState([]); // Dados filtrados
+
+
+  const handleGenerateReport = async () => {
+    try {
+      // Chama a função do userService para gerar o relatório
+      const blob = await getFileCsvSchedules();
+
+      // Cria uma URL temporária para o arquivo
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+
+      // Define o nome do arquivo para download
+      link.setAttribute('download', 'relatorio_agendamentos.csv');
+
+      // Adiciona o link ao documento e clica para iniciar o download
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove o link do documento
+      link.parentNode.removeChild(link);
+      console.log("Relatório gerado com sucesso!");
+      toast.success("Relatório gerado com sucesso!", {
+        autoClose: 2500,
+        onClick: () => {
+          window.location.href = 'http://localhost:3000/dono-petshop/agendamentos';
+        }
+      });
+    } catch (error) {
+      console.error("Erro ao gerar o relatório:", error);
+      toast.error("Erro ao gerar o relatório.");
+    }
+  };
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const columnNamesAgendamentos = {
@@ -163,7 +204,7 @@ const Agendamentos = () => {
           const agendamentoDate = new Date(agendamento.scheduleDate);
           return (
             resetTime(agendamentoDate).getTime() >=
-              resetTime(sevenDaysAgo).getTime() &&
+            resetTime(sevenDaysAgo).getTime() &&
             resetTime(agendamentoDate).getTime() <= resetTime(today).getTime()
           );
         });
@@ -174,7 +215,7 @@ const Agendamentos = () => {
           const agendamentoDate = new Date(agendamento.scheduleDate);
           return (
             resetTime(agendamentoDate).getTime() >=
-              resetTime(thirtyDaysAgo).getTime() &&
+            resetTime(thirtyDaysAgo).getTime() &&
             resetTime(agendamentoDate).getTime() <= resetTime(today).getTime()
           );
         });
@@ -275,6 +316,17 @@ const Agendamentos = () => {
     console.log("DESFAZER AGENDAMENTO")
   }
 
+  useEffect(() => {
+    let dadosFiltrados = [];
+    dadosFiltrados = (dadosAgendamentos ?? []).filter(item =>
+      (item.cliente?.toLowerCase()?.includes(searchTerm.toLowerCase()) ?? false) || 
+      (item.pet.nome?.toLowerCase()?.includes(searchTerm.toLowerCase()) ?? false)
+    );
+  
+    setFilteredData(dadosFiltrados);
+  }, [searchTerm, dadosAgendamentos]);
+  
+
   return (
     <div>
       <div className={styles["header-container"]}>
@@ -290,6 +342,7 @@ const Agendamentos = () => {
         <MainButtonsHeader
           onCreateAgendamento={onCreateAgendamento}
           onDeleteAgendamento={onDeleteAgendamento}
+          onGenerateReport={handleGenerateReport}
         />
         <UserHeader />
       </div>
@@ -308,6 +361,8 @@ const Agendamentos = () => {
                 className={styles["form-control-input"]}
                 type="text"
                 placeholder="Procurar por Cliente ou Pet"
+                value={searchTerm}
+                onChange={handleSearchChange}
               />
             </div>
             <button className={`${styles["custom-btn"]} ${styles["create"]}`} onClick={desfazerAgendamento}>
@@ -322,7 +377,7 @@ const Agendamentos = () => {
         </div>
       ) : dadosAgendamentos.length > 0 ? (
         <TableData
-          dados={dadosAgendamentos}
+          dados={filteredData}
           columnNames={columnNamesAgendamentos}
           sortableColumns={sortableColumnsAgendamentos}
           onSelectedRowsChange={(rows) => setSelectedAgendamentos(rows)}

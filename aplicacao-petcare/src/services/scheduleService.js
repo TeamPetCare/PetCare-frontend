@@ -26,6 +26,21 @@ export const getAllSchedules = async ( ) => {
   }
 };
 
+export const getFileCsvSchedules = async () => {
+  try {
+    const response = await api.get("/schedules/report-schedule", {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+      },
+      responseType: 'blob' // Define o tipo de resposta como blob
+    });
+
+    return response.data; // Retorna o blob do arquivo
+  } catch (error) {
+    throw error;
+  }
+};
+
  export const updateSchedule = async (id, scheduleData) => {
     try {
       const response = await api.put(`/schedules/${id}`, scheduleData);
