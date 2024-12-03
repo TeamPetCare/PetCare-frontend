@@ -44,7 +44,6 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isAuthenticated) {
     toastNaoAutenticado();
-    console.log("PASSEI POR AQUI EIN")
     return (
       <Navigate to="/dono-petshop/login" replace />
     ) // Redireciona se o token não for válido

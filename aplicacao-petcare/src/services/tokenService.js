@@ -4,9 +4,7 @@ const API_URL = 'https://petcarebackend-fgfdcvh7frcyd7eu.centralus-01.azurewebsi
 
 const tokenService = {
   verifyToken: async () => {
-  console.log("Passei por aqui");
-
-    const token = localStorage.getItem("userToken");
+    const token = localStorage.getItem('userToken');
     if (!token) return false;
 
     try {
@@ -17,8 +15,6 @@ const tokenService = {
       });
 
       const isValidToken = response.data ? true : false;
-      console.log("Token válido:", isValidToken); 
-
       return isValidToken; 
 
     } catch (error) {

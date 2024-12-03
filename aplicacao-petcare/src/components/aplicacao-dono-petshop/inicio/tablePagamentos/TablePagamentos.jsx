@@ -25,6 +25,7 @@ const TablePagamentos = () => {
     const loadPetsAndPlansData = async () => {
       try {
         const petsEPlanos = await getAllPetsAndPlans();
+        
         setDadosPetsEPlanos(petsEPlanos);
         setDadosOrdenados(petsEPlanos); 
       } catch (error) {
@@ -42,7 +43,7 @@ const TablePagamentos = () => {
           <thead>
             <tr>
               <th>
-                Pet
+                Cliente
                 {isDown ? (
                   <IoIosArrowDown
                     style={{ cursor: "pointer" }}

@@ -442,9 +442,9 @@ const ClientesEPets = () => {
   ];
 
   const filterOptions = [
-    { label: "Clientes & Pets" },
     { label: "Clientes" },
     { label: "Pets" },
+    { label: "Clientes & Pets" },
   ];
 
   const handleFilterChange = (filter) => {

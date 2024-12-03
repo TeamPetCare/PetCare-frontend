@@ -38,6 +38,7 @@ export const getUserInfoById = async (id) => {
   }
 }
 
+
 export const getAllCustomerAndPets = async () => {
   try {
     const response = await api.get('/users/customers');
