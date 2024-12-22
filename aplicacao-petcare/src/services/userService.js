@@ -38,6 +38,7 @@ export const getUserInfoById = async (id) => {
   }
 }
 
+
 export const getAllCustomerAndPets = async () => {
   try {
     const response = await api.get('/users/customers');
@@ -52,10 +53,10 @@ export const getUserById = async (id) => {
     const response = await api.get(`/users/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Erro ao exibir o usuário pelo id:", error);
+    console.error('Erro ao buscar usuário por ID:', error);
     throw error;
   }
-}
+};
 
 const userService = {
   createUser: async (userData) => {
@@ -79,18 +80,31 @@ const userService = {
 
   getFileCsvCustomerAndPets: async () => {
     try {
-      const response = await api.get(API_URL + "/reportCustumersAndPets", {
+      const response = await api.get("/users/reportCustumersAndPets", {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
         },
         responseType: 'blob' // Define o tipo de resposta como blob
       });
-  
+
       return response.data; // Retorna o blob do arquivo
     } catch (error) {
       throw error;
     }
   },
+
+  updateCliente: async (selectedData) => {
+    try {
+      const response = await api.put(`/users/customers/${selectedData.id}`, selectedData); // Passa selectedData como corpo da requisição
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  
+
 };
 
-export default userService;
+
+export default userService;

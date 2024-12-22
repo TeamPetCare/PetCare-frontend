@@ -1,0 +1,67 @@
+.containers-btn{
+    display: flex;
+    column-gap: 15px;
+}
+
+.super-colors {
+    background-color: white;
+    color: var(--cor-primaria-azul-escuro);
+  }
+  
+  .super-colors .dropdown-item {
+    color: var(--cor-primaria-azul-escuro);
+  }
+  
+  .super-colors .dropdown-item.active {
+    background-color: #f0f0f0;
+    color: var(--cor-primaria-azul-escuro);
+  }
+  
+  .super-colors .dropdown-item:hover {
+    background-color: #e0e0e0;
+    color: var(--cor-primaria-azul-escuro);
+  }
+  
+  .custom-btn {
+    display: flex;
+    column-gap: 7.5px;
+    align-items: center;
+    border: none;
+    font-family: "Montserrat";
+    font-weight: 700;
+    font-size: 0.8em;
+    padding: 0.3em 0.8em;
+    border-radius: 0.35em;
+    transition: all 0.5s;
+  }
+
+  .report{
+    background-color: var(--cor-secundaria-amarelo-claro);
+    color: var(--cor-primaria-azul-escuro);
+  }
+
+  .delete{
+    background-color: white;
+    color: var(--cor-primaria-azul-escuro);
+  }
+
+  .create{
+    background-color: var(--cor-primaria-azul-escuro);
+    color: white;
+  }
+  
+  .custom-btn:hover,
+  .custom-btn:active,
+  .custom-btn:checked,
+  .custom-btn:focus {
+    opacity: .8;
+    transition: all 0.5s;
+  }
+  
+  .filter-display {
+    margin-top: 20px;
+  }
+  
+  .dropdown-filter {
+    width: auto;
+  }
