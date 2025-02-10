@@ -1,0 +1,85 @@
+.container-main {}
+
+.custom-btn {
+  display: flex;
+  background-color: var(--cor-primaria-azul-escuro);
+  color: white;
+  column-gap: 7.5px;
+  align-items: center;
+  border: none;
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 0.8em;
+  padding: 0.3em 0.8em;
+  border-radius: 0.35em;
+  margin-bottom: 1em;
+  transition: all 0.5s;
+}
+
+.user-photo {
+  width: 150px;
+  height: 128px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative; /* Mantém a imagem no plano correto */
+}
+
+/* Container dos botões */
+.buttons-container {
+  display: flex;
+  gap: 8px; /* Espaço entre os botões */
+  margin-top: -30px; /* Mantém os botões sobrepostos */
+  z-index: 2; /* Sobreposição */
+  transform: translate(30px, -90px); /* Move os botões */
+}
+
+/* Estilização geral dos botões */
+.btn-upload,
+.btn-delete {
+  background-color: #FFD269;
+  color: var(--cor-primaria-azul-escuro);
+  border: none;
+  border-radius: 8px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 16px;
+  z-index: 3; /* Sobreposição garantida */
+}
+
+/* Cores de Hover */
+.btn-upload:hover {
+  opacity: .6;
+  transition: all 0.5 s;
+}
+
+.btn-delete:hover {
+  opacity: .6;
+  transition: all 0.5 s;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .user-photo {
+    width: 120px;
+    height: 100px;
+  }
+  .btn-upload, .btn-delete {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+  }
+}
