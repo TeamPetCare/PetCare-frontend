@@ -1,4 +1,16 @@
-.container-main {}
+.container-main {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.section01 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
 
 .custom-btn {
   display: flex;
@@ -30,19 +42,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: relative; /* Mantém a imagem no plano correto */
+  position: relative;
 }
 
-/* Container dos botões */
 .buttons-container {
   display: flex;
-  gap: 8px; /* Espaço entre os botões */
-  margin-top: -30px; /* Mantém os botões sobrepostos */
-  z-index: 2; /* Sobreposição */
-  transform: translate(30px, -90px); /* Move os botões */
+  gap: 8px;
+  margin-top: -30px;
+  z-index: 2;
+  transform: translate(30px, -90px);
 }
 
-/* Estilização geral dos botões */
 .btn-upload,
 .btn-delete {
   background-color: #FFD269;
@@ -57,10 +67,9 @@
   cursor: pointer;
   transition: 0.3s;
   font-size: 16px;
-  z-index: 3; /* Sobreposição garantida */
+  z-index: 3;
 }
 
-/* Cores de Hover */
 .btn-upload:hover {
   opacity: .6;
   transition: all 0.5 s;
@@ -71,13 +80,58 @@
   transition: all 0.5 s;
 }
 
-/* Responsividade */
+.container-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 50px;
+}
+
+.container-inputs span {
+  font-size: 14px;
+  margin-bottom: 1px;
+}
+
+.container-inputs input {
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 15px;
+  flex: none;
+}
+
+.input-nome {
+  width: 300px;
+  height: 40px;
+}
+
+.input-e-mail {
+  width: 250px;
+  height: 36px;
+}
+
+.select-cargo {
+  width: 220px;
+  height: 36px;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.button-container {
+  margin-top: 25px;
+}
+
 @media (max-width: 600px) {
   .user-photo {
     width: 120px;
     height: 100px;
   }
-  .btn-upload, .btn-delete {
+
+  .btn-upload,
+  .btn-delete {
     width: 25px;
     height: 25px;
     font-size: 14px;
