@@ -7,20 +7,6 @@
 
 <hr>
 
-<h2>📌 Aviso Importante</h2>
-<p>
-  Esta aplicação <strong>precisa do backend rodando</strong> para funcionar corretamente.
-</p>
-<p>
-  Você também deve editar a base da URL da API antes de executar ou fazer o deploy. Para isso:
-</p>
-<ul>
-  <li>Acesse o arquivo: <code>src/services/api.js</code></li>
-  <li>Altere o valor de <code>baseURL</code> para o endereço da sua API backend (exemplo: <code>http://localhost:3001</code> ou a URL do seu servidor)</li>
-</ul>
-
-<hr>
-
 <h2>📋 Descrição</h2>
 <p>
   O <strong>Petcare Frontend</strong> é uma aplicação feita com <strong>JavaScript, React, HTML, CSS e Vite</strong>. Ela fornece a interface visual para os usuários interagirem com o sistema de petshop.
@@ -36,7 +22,21 @@
 
 <hr>
 
-<h2>🚀 Como rodar a aplicação localmente (passo a passo para leigos)</h2>
+<h2>📌 Aviso Importante</h2>
+<p>
+  Esta aplicação <strong>precisa do backend rodando</strong> para funcionar corretamente.
+</p>
+<p>
+  Você também deve editar a base da URL da API antes de executar ou fazer o deploy. Para isso:
+</p>
+<ul>
+  <li>Acesse o arquivo: <code>src/services/api.js</code></li>
+  <li>Altere o valor de <code>baseURL</code> para o endereço da sua API backend (exemplo: <code>http://localhost:3001</code> ou a URL do seu servidor)</li>
+</ul>
+
+<hr>
+
+<h2>🚀 Como rodar a aplicação localmente</h2>
 
 <h3>1. Instale o Node.js</h3>
 <p>
