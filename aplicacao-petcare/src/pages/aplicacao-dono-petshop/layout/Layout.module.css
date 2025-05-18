@@ -10,13 +10,12 @@
 
 .content {
   transition: padding 0.8s ease-in-out;
-  padding: 27px 25px 0;
+  padding: 27px 25px;
   background-color: white;
 }
 
 .content.sidebar-open {
   padding-left: 250px; 
-  overflow: hidden;
 }
 
 .content.sidebar-closed {

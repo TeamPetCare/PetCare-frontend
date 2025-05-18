@@ -28,8 +28,6 @@
 }
 .scrollable-table {
   border-radius: 10px;
-  max-height: 65vh;
-  overflow-y: auto;
 }
 
 .table-container {
@@ -50,7 +48,7 @@ tr {
 
   th:first-child,
   th:nth-child(2) {
-    padding-left: 0.7em;
+    padding-left: 0.8em;
   }
 }
 .content-div {

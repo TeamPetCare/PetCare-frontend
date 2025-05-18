@@ -75,12 +75,12 @@ const TablePagamentos = () => {
                       {item.name}
                     </div>
                     <div className={styles["plano-tipo"]}>
-                      {item.plan.planType.name}
+                      {/* {item.plan.planType.name} */}
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span
+                  {/* <span
                     className={
                       item.plan.active == false
                         ? styles["status-pendente"]
@@ -88,10 +88,10 @@ const TablePagamentos = () => {
                     }
                   >
                     {item.plan.active ? "Ativo" : "Inativo"}
-                  </span>
+                  </span> */}
                 </td>
                 <td>
-                  <span
+                  {/* <span
                     className={
                       item.plan.active == false
                         ? styles["valor-faltante-pendente"]
@@ -99,7 +99,7 @@ const TablePagamentos = () => {
                     }
                   >
                     R${item.plan.price}
-                  </span>
+                  </span> */}
                 </td>
               </tr>
             ))}
