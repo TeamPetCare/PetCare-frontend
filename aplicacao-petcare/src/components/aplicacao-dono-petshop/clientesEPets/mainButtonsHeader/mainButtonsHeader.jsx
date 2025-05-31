@@ -26,7 +26,7 @@ function MainButtonsHeader({ selectedData, onCreateClickCliente, onDeleteClickCl
       {/*PETS*/}
       {/* Condição para mostrar o botão de DELETAR de acordo com o filtro DO PET */}
       {filter === "Pets" && (
-        <button className={`${styles["custom-btn"]} ${styles["delete"]}`}>
+        <button className={`${styles["custom-btn"]} ${styles["delete"]}`} onClick={onDeleteClickPet}>
           <RiDeleteBinLine />
           Deletar Pet(s)
         </button>

@@ -25,6 +25,7 @@ const TablePagamentos = () => {
     const loadPetsAndPlansData = async () => {
       try {
         const petsEPlanos = await getAllPetsAndPlans();
+        
         setDadosPetsEPlanos(petsEPlanos);
         setDadosOrdenados(petsEPlanos); 
       } catch (error) {
@@ -62,17 +63,24 @@ const TablePagamentos = () => {
             </tr>
           </thead>
           <tbody>
-            {dadosOrdenados.map((item, index) => (
-              <tr key={index}>
-                <td className={styles["cliente-info"]}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <div className={styles["cliente-nome"]} title={item.name}>
-                      {item.name}
+            {dadosOrdenados
+              .filter((item) => item.plan) // Só inclui pets com plano
+              .map((item, index) => (
+                <tr key={index}>
+                  <td className={styles["cliente-info"]}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div className={styles["cliente-nome"]} title={item.name}>
+                        {item.name}
+                      </div>
+                      {/* Exibe o plano se houver um plano válido */}
+                      <div className={styles["plano-tipo"]}>
+                        {item.plan?.planType?.name || "Nenhum plano"}
+                      </div>
                     </div>
                     <div className={styles["plano-tipo"]}>
                       {/* {item.plan.planType.name} */}

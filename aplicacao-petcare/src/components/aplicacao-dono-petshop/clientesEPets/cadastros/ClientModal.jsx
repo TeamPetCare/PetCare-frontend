@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import userService from '../../../../services/userService';
+import clientStyles from './ClientModal.module.css';
 import styles from './ModalWrapper.module.css';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
@@ -11,6 +12,8 @@ import {
 } from 'react-icons/fa';
 import Modal from "react-bootstrap/Modal";
 import StepProgressBar from '../../../shared/steps/StepProgressBar'
+import InputMask from 'react-input-mask';
+
 
 const ClientModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({

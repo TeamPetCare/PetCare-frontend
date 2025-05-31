@@ -81,6 +81,10 @@ const EditedEventModalCampo = ({
   };
 
   const formatPaymentMethod = (method) => {
+    if (!method) {
+      return "Método não especificado"; // Ou qualquer valor que você queira retornar
+    }
+  
     const formattedMethods = {
       PIX: "Pix",
       CARTAO_CREDITO: "Cartão Crédito",
@@ -106,7 +110,7 @@ const EditedEventModalCampo = ({
           options={clientes}
           titulo={"Selecione um cliente*"}
           icon={PiUserCircleThin}
-          selectedItem={editedEvent.pet.user.name || ""} // Passa o nome do cliente aqui
+          selectedItem={editedEvent.pet?.user?.name || ""} // Passa o nome do cliente aqui
           className={styles["container-dropdown"]}
           exibirInformacao={true}
           isDisabled={true}
@@ -194,7 +198,7 @@ const EditedEventModalCampo = ({
             titulo={"Selecione uma forma de pagamento*"}
             icon={SiContactlesspayment}
             selectedItem={formatPaymentMethod(
-              editedEvent.payment.paymentMethod
+              editedEvent.payment?.paymentMethod
             )}
             className={styles["container-dropdown"]}
             exibirInformacao={false}
@@ -210,10 +214,10 @@ const EditedEventModalCampo = ({
                   type="radio"
                   name="paymentStatus"
                   value="false"
-                  checked={editedEvent.payment.paymentStatus === false}
+                  checked={editedEvent.payment?.paymentStatus === false}
                   onChange={handleSelectChange} 
                   disabled={
-                    !isEditing || editedEvent.payment.paymentMethod == "PIX"
+                    !isEditing || editedEvent.payment?.paymentMethod == "PIX"
                   }
                 />
                 Pendente
@@ -223,10 +227,10 @@ const EditedEventModalCampo = ({
                   type="radio"
                   name="paymentStatus"
                   value="true"
-                  checked={editedEvent.payment.paymentStatus === true}
+                  checked={editedEvent.payment?.paymentStatus === true}
                   onChange={handleSelectChange} 
                   disabled={
-                    !isEditing || editedEvent.payment.paymentMethod == "PIX"
+                    !isEditing || editedEvent.payment?.paymentMethod == "PIX"
                   }
                 />
                 Pago
