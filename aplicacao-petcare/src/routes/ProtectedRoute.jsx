@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import tokenService from '../services/tokenService';
+import { ThreeDot } from "react-loading-indicators";
 import { toast } from 'react-toastify';
 
 const ProtectedRoute = ({ children }) => {
@@ -39,7 +40,22 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (isAuthenticated === null) {
-    return <div>Carregando...</div>; // Exibe um carregamento enquanto verifica o token
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <ThreeDot
+          variant="bounce"
+          color="#005472"
+          size="small"
+          text=""
+          textColor=""
+        />
+      </div>
+    );
   }
 
   if (!isAuthenticated) {

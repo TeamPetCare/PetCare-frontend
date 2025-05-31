@@ -3,7 +3,17 @@ import { toast } from 'react-toastify';
 import userService from '../../../../services/userService';
 import clientStyles from './ClientModal.module.css';
 import styles from './ModalWrapper.module.css';
+import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import {
+  FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHashtag,
+  FaBuilding, FaCity, FaAddressCard
+} from 'react-icons/fa';
+import Modal from "react-bootstrap/Modal";
+import StepProgressBar from '../../../shared/steps/StepProgressBar'
 import InputMask from 'react-input-mask';
+
 
 const ClientModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -19,9 +29,42 @@ const ClientModal = ({ isOpen, onClose }) => {
     cpfClient: '',
   });
 
+  const [isLoadingCep, setIsLoadingCep] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleCepBlur = async () => {
+    const cepLimpo = formData.cep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) return;
+
+    try {
+      setIsLoadingCep(true);
+      const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+      const data = response.data;
+
+      if (data.erro) {
+        toast.error('CEP não encontrado.');
+        return;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      setFormData((prevData) => ({
+        ...prevData,
+        street: data.logradouro || '',
+        district: data.bairro || '',
+        city: data.localidade || '',
+      }));
+    } catch (error) {
+      console.error('Erro ao buscar o endereço:', error);
+      toast.error('Erro ao buscar o endereço. Verifique o CEP e tente novamente.');
+    } finally {
+      setIsLoadingCep(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -38,7 +81,11 @@ const ClientModal = ({ isOpen, onClose }) => {
         petIds: [],
       };
       await userService.createUser(userData);
+      setCurrentStep(2);
       toast.success('Usuário cadastrado com sucesso!');
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       onClose();
     } catch (err) {
       console.error('Erro ao criar usuário:', err);
@@ -46,155 +93,182 @@ const ClientModal = ({ isOpen, onClose }) => {
     }
   };
 
-  if (!isOpen) return null;
+  const steps = ["Editar Agendamento", "Confirmação"];
 
   return (
-    <>
-      <div className={styles.backdrop} onClick={onClose}></div>
-      <div className={`${styles.modal} ${clientStyles.customModal}`}>
-        <h2 className={clientStyles.title}>Cadastrar Cliente</h2>
-        <p className={clientStyles.subtitle}>*Campos obrigatórios</p>
+    <Modal
+      show={isOpen}
+      onHide={onClose}
+      backdrop="static"
+      keyboard={false}
+      size="lg"
+      centered
+    >
+      <Modal.Header closeButton className={styles.modalHeader}>
+        <StepProgressBar steps={steps} currentStep={currentStep} />
+      </Modal.Header>
 
-        <div className={clientStyles.formGroup}>
-          {/* Nome e WhatsApp */}
-          <div className={clientStyles.row}>
-            <div className={`${clientStyles.field} ${clientStyles.wideInput}`}>
-              <label className={clientStyles.label}>
-                Nome <span>*</span>
-              </label>
-              <input
-                  placeholder="Nome completo"
-                type="text"
-                name="name"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${clientStyles.field} ${clientStyles.narrowInput}`}>
-              <label className={clientStyles.label}>
-                Número de WhatsApp <span>*</span>
-              </label>
-              <InputMask
-                mask="(99) 99999-9999"
-                value={formData.phoneNumber}
-                onChange={(e) => handleInputChange(e)}
-                name="phoneNumber"
-                className={clientStyles.input}
-              />
-            </div>
-          </div>
-
-          {/* Email e CPF */}
-          <div className={clientStyles.row}>
-            <div className={clientStyles.field}>
-              <label className={clientStyles.label}>
-                Email <span>*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={clientStyles.field}>
-              <label className={clientStyles.label}>
-                CPF <span>*</span>
-              </label>
-              <input
-                type="text"
-                name="cpfClient"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-
-          {/* Endereço */}
-          <h3 className={clientStyles.subtitleAddress}>Endereço</h3>
-          <div className={clientStyles.row}>
-            <div className={`${clientStyles.field} ${clientStyles.narrowInput}`}>
-              <label className={clientStyles.label}>
-                CEP <span>*</span>
-              </label>
-              <input
-                type="text"
-                name="cep"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${clientStyles.field} ${clientStyles.wideInput}`}>
-              <label className={clientStyles.label}>
-                Logradouro <span>*</span>
-              </label>
-              <input
-                type="text"
-                name="street"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${clientStyles.field} ${clientStyles.narrowInput}`}>
-              <label className={clientStyles.label}>
-                Número <span>*</span>
-              </label>
-              <input
-                type="text"
-                name="number"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-
-          <div className={clientStyles.row}>
-            <div className={`${clientStyles.field} ${clientStyles.narrowInput}`}>
-              <label className={clientStyles.label}>
-                Complemento
-              </label>
-              <input
-                type="text"
-                name="complement"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${clientStyles.field} ${clientStyles.wideInput}`}>
-              <label className={clientStyles.label}>
-                Bairro <span>*</span>
-              </label>
-              <input
-                type="text"
-                name="district"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className={`${clientStyles.field} ${clientStyles.narrowInput}`}>
-              <label className={clientStyles.label}>
-                Cidade <span>*</span>
-              </label>
-              <input
-                type="text"
-                name="city"
-                className={clientStyles.input}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
+      <Modal.Body>
+        <div className={styles.modalTitle}>
+          <h2>Cadastrar Cliente</h2>
+          <p>*Campos Obrigatórios.</p>
         </div>
 
-        <div className={clientStyles.buttonGroup}>
-          <button className={clientStyles.cancelButton} onClick={onClose}>
+        <Form>
+          <div className={styles.containerInputs}>
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaUser /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="name"
+                placeholder="Nome Completo*"
+                onChange={handleInputChange}
+                value={formData.name}
+                required
+              />
+            </InputGroup>
+
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaAddressCard /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="cpfClient"
+                placeholder="CPF*"
+                onChange={handleInputChange}
+                value={formData.cpfClient}
+              />
+            </InputGroup>
+          </div>
+
+          <div className={styles.containerInputs}>
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaEnvelope /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="email"
+                name="email"
+                placeholder="E-mail*"
+                onChange={handleInputChange}
+                value={formData.email}
+              />
+            </InputGroup>
+
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaPhone /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="phoneNumber"
+                placeholder="Telefone*"
+                onChange={handleInputChange}
+                value={formData.phoneNumber}
+              />
+            </InputGroup>
+          </div>
+
+          <InputGroup className="mb-2">
+            <InputGroup.Text className={styles.iconForm}><FaMapMarkerAlt /></InputGroup.Text>
+            <Form.Control
+              className={styles.inputForm}
+              type="text"
+              name="cep"
+              placeholder="CEP*"
+              onChange={handleInputChange}
+              onBlur={handleCepBlur}
+              value={formData.cep}
+            />
+          </InputGroup>
+
+          {isLoadingCep && <p>⏳ Buscando endereço...</p>}
+
+          <InputGroup className="mb-2">
+            <InputGroup.Text className={styles.iconForm}><FaMapMarkerAlt /></InputGroup.Text>
+            <Form.Control
+              className={styles.inputForm}
+              type="text"
+              name="street"
+              placeholder="Logradouro*"
+              onChange={handleInputChange}
+              value={formData.street}
+            />
+          </InputGroup>
+
+          <div className={styles.containerInputs}>
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaBuilding /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="district"
+                placeholder="Bairro*"
+                onChange={handleInputChange}
+                value={formData.district}
+              />
+            </InputGroup>
+
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaHashtag /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="number"
+                placeholder="Número*"
+                onChange={handleInputChange}
+                value={formData.number}
+              />
+            </InputGroup>
+          </div>
+
+          <div className={styles.containerInputs}>
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaBuilding /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="complement"
+                placeholder="Complemento"
+                onChange={handleInputChange}
+                value={formData.complement}
+              />
+            </InputGroup>
+
+            <InputGroup className="mb-2">
+              <InputGroup.Text className={styles.iconForm}><FaCity /></InputGroup.Text>
+              <Form.Control
+                className={styles.inputForm}
+                type="text"
+                name="city"
+                placeholder="Cidade*"
+                onChange={handleInputChange}
+                value={formData.city}
+              />
+            </InputGroup>
+          </div>
+        </Form>
+      </Modal.Body>
+
+      <Modal.Footer>
+        <div className="d-flex w-100 gap-3">
+          <button
+            className={`${styles.btnCancelar} w-50`}
+            type="button"
+            onClick={onClose}
+          >
             Cancelar
           </button>
-          <button className={clientStyles.submitButton} onClick={handleSubmit}>
+          <button
+            className={`${styles.btnCadastrar} w-50`}
+            type="button"
+            onClick={handleSubmit}
+          >
             Cadastrar
           </button>
         </div>
-      </div>
-    </>
+      </Modal.Footer>
+
+    </Modal>
   );
 };
 

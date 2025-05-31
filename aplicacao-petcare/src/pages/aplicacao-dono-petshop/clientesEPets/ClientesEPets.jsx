@@ -241,23 +241,15 @@ const ClientesEPets = () => {
         const clientesFormatados = data.map((cliente) => ({
           id: cliente.id,
           cliente: cliente.name,
-          WhatsApp: cliente.cellphone,
-          rua: cliente.street,
-          numero: cliente.number,
+          whatsapp: cliente.cellphone,
           bairro: cliente.district,
-          complemento: cliente.complement,
-          cep: cliente.cep,
-          numeroDePets: cliente.pet.length,
-          dtUltimoAgendamento: cliente.lastSchedule
-            ? new Date(cliente.lastSchedule).toLocaleDateString('pt-BR', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            })
-            : "Sem dados", // Substituir por "Sem dados" se for null
-          // dtUAISO: cliente.lastSchedule ? new Date(cliente.lastSchedule).toISOString() : null,
-          totalAgendamentos: cliente.totalSchedules,
-
+          numero_de_pets: cliente.pet.length,
+          dt_ultimo_agendamento: new Date(cliente.lastSchedule).toLocaleDateString('pt-BR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          }),
+          total_agendamentos: cliente.totalSchedules,
         }));
         setclientesData(clientesFormatados);
         setLoading(false); // Desativa o loading após a resposta
@@ -302,15 +294,7 @@ const ClientesEPets = () => {
             }),
             total_agendamentos: pet.totalSchedules,
             observacoes: pet.petObservations,
-            dtUltimoAgendamento: new Date(pet.lastSchedule).toLocaleDateString('pt-BR', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-            }),
-            dtUANISO: pet.lastSchedule ? new Date(pet.lastSchedule).toISOString().slice(0, -5) : null,
-            totalAgendamentos: pet.totalSchedules,
-            plano: pet.plan?.planType?.name || "Nenhum Plano."
-
+            // plano: pet.plan.planType.name
           }))
         );
         setPetsData(petsFormatados);
@@ -345,8 +329,7 @@ const ClientesEPets = () => {
             }),
             porte: pet.size.sizeType,
             observacoes: pet.petObservations,
-            plano: pet.plan?.planType?.name || "Nenhum Plano."
-
+            // plano: pet.plan.planType.name
           }));
         });
         setclientesEPetsData(clientesEPetsFormatados);
@@ -414,16 +397,11 @@ const ClientesEPets = () => {
 
   const columnNamesClientes = {
     cliente: "Cliente",
-    WhatsApp: "WhatsApp",
-
-    rua: "Rua",
-    numero: "Nº Rua",
+    whatsapp: "WhatsApp",
     bairro: "Bairro",
-    complemento: "Complemento",
-    cep: "CEP",
-    numeroDePets: "Número de Pets",
-    dtUltimoAgendamento: "Último Agendamento",
-    totalAgendamentos: "Total Agendamentos "
+    numero_de_pets: "Número de Pets",
+    dt_ultimo_agendamento: "Último Agendamento",
+    total_agendamentos: "Total Agendamentos "
   };
 
   const sortableColumnsClientes = [
@@ -452,7 +430,6 @@ const ClientesEPets = () => {
 
   const sortableColumnsPets = [
     "dt_nascimento",
-
     "dt_ultimo_agendamento",
     "total_agendamentos"
   ];
@@ -573,9 +550,10 @@ const ClientesEPets = () => {
     <div>
       <div className={styles["header-container"]}>
         <DropDownFilter options={filterOptions} onFilterChange={handleFilterChange} />
-        <MainButtonsHeader filter={currentFilter}
+        <MainButtonsHeader
+          filter={currentFilter}
+          selectedData={selectedData}
           onDeleteClickCliente={selectedData.length > 0 ? handleShow : null}
-          onDeleteClickPet={selectedData.length > 0 ? handleShowP : null}
           onCreateClickCliente={openModal}
           onCreatePet={handleShowAddPet}
           onAssignPlain={handleShowAssignPlain}
@@ -620,45 +598,11 @@ const ClientesEPets = () => {
       {/* // Para o modal de atribuir plano */}
       {showAssignPlain && <PlanModal isOpen={showAssignPlain} onClose={handleCloseAssignPlain} pets={petsData} />}
 
-      {/* Modal de deletar Cliente */}
+      {/* Modal de deletar */}
       {show && <ModalDelete show={show} handleClose={handleClose} onDelete={deletarClientes} />}
 
-      {/* Modal de deletar Pet */}
-      {showP && <ModalDelete show={showP} handleClose={handleCloseP} onDelete={deletarPets} />}
-
-      {/* Modal de update de Cliente*/}
-      {showPut && selectedData.length > 0 && (
-
-        <ModalPut
-          showPut={showPut}
-          handleClosePut={handleClosePut}
-          cliente={clienteAtual}
-          setClienteAtual={setClienteAtual} // Passar o setter diretamente
-          onPut={() => atualizarClientes(clienteAtual)}
-          dados={selectedData}
-          nonEditableFields={['id', 'numeroDePets', 'totalAgendamentos']}
-          title="Editar Cliente"
-        />
-
-      )}
-
-      {/* Modal de update de Pet */}
-      {showPutP && selectedData.length > 0 && (
-
-        <ModalPutPet
-          showPut={showPutP}
-          handleClosePut={handleClosePutP}
-          pet={petAtual}
-          setPetAtual={setpetAtual} // Passar o setter diretamente
-          onPut={() => atualizarPets(petAtual)}
-          nonEditableFields={['id', 'dtUltimoAgendamento', 'totalAgendamentos', 'plano']}
-          title="Editar Pet"
-        />
-
-      )}
-
-
-
+      {/* Modal de update */}
+      {showPut && <ModalPut showPut={showPut} handleClosePut={handleClosePut} onPut={deletarClientes} dados={selectedData} title="Editar Cliente" />}
     </div>
   );
 };

@@ -9,7 +9,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 1001;
-  padding: 24px;
+  padding: 1rem;
 }
 
 
@@ -60,4 +60,56 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
   z-index: 1000;
+}
+
+.inputForm, .iconForm {
+  font-size: .8em !important
+}
+
+.containerInputs {
+  display: flex;
+  gap: 0.5em;
+}
+
+.modalTitle {
+  margin-bottom: 1em;
+  h2 {
+    font-size: 1.1em;
+  }
+  p {
+    font-size: .8em;
+  }
+}
+
+.btnCancelar, .btnCadastrar {
+  padding: 0.4em 0.9em;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin: 0;
+  border-radius: 0.35em;
+  border: none;
+  font-family: "Montserrat";
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btnCadastrar {
+  background-color: var(--cor-primaria-azul-escuro);
+  color: #fff;
+}
+
+.btnCadastrar:hover {
+  opacity: 0.85;
+}
+
+.btnCancelar {
+  background-color: transparent;
+  border: 1px solid var(--cor-cinza-claro);
+  color: black;
+}
+
+.btnCancelar:hover {
+  background-color: var(--cor-cinza-claro);
+  color: black;
+  border: 1px solid var(--cor-cinza-claro);
 }

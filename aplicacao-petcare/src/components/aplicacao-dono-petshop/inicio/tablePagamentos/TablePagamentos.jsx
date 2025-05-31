@@ -82,33 +82,35 @@ const TablePagamentos = () => {
                         {item.plan?.planType?.name || "Nenhum plano"}
                       </div>
                     </div>
-                  </td>
-                  <td>
-                    {/* Exibe o status apenas se houver plano */}
-                    <span
-                      className={
-                        item.plan.active === false
-                          ? styles["status-pendente"]
-                          : styles["status-pago"]
-                      }
-                    >
-                      {item.plan.active ? "Ativo" : "Inativo"}
-                    </span>
-                  </td>
-                  <td>
-                    {/* Exibe o valor do plano se houver plano */}
-                    <span
-                      className={
-                        item.plan?.active === false
-                          ? styles["valor-faltante-pendente"]
-                          : styles["valor-faltante-pago"]
-                      }
-                    >
-                      R${item.plan.price}
-                    </span>
-                  </td>
-                </tr>
-              ))}
+                    <div className={styles["plano-tipo"]}>
+                      {/* {item.plan.planType.name} */}
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  {/* <span
+                    className={
+                      item.plan.active == false
+                        ? styles["status-pendente"]
+                        : styles["status-pago"]
+                    }
+                  >
+                    {item.plan.active ? "Ativo" : "Inativo"}
+                  </span> */}
+                </td>
+                <td>
+                  {/* <span
+                    className={
+                      item.plan.active == false
+                        ? styles["valor-faltante-pendente"]
+                        : styles["valor-faltante-pago"]
+                    }
+                  >
+                    R${item.plan.price}
+                  </span> */}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
