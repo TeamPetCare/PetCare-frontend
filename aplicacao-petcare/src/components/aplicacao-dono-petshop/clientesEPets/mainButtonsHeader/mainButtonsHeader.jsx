@@ -9,13 +9,13 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { PiBoundingBoxFill } from "react-icons/pi";
 import { MdAssignment } from "react-icons/md";
 
-function MainButtonsHeader({ onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
+function MainButtonsHeader({ selectedData, onCreateClickCliente, onDeleteClickCliente, filter, onGenerateReport, onCreatePet, onAssignPlain, }) {
   return (
     <div className={styles["containers-btn"]}>
 
       {/*CLIENTES*/}
       {/* Condição para mostrar ou esconder o botão de DELETAR DO CLIENTE*/}
-      {filter === "Clientes" && (
+      {filter === "Clientes" && selectedData.length > 0 && (
         <button className={`${styles["custom-btn"]} ${styles["delete"]}`} onClick={onDeleteClickCliente}>
           <RiDeleteBinLine />
           Deletar Cliente(s)
