@@ -85,8 +85,8 @@ const TablePagamentos = () => {
                     <div className={styles["plano-tipo"]}>
                       {/* {item.plan.planType.name} */}
                     </div>
-                  </div>
                 </td>
+
                 <td>
                   {/* <span
                     className={
@@ -98,6 +98,7 @@ const TablePagamentos = () => {
                     {item.plan.active ? "Ativo" : "Inativo"}
                   </span> */}
                 </td>
+
                 <td>
                   {/* <span
                     className={
