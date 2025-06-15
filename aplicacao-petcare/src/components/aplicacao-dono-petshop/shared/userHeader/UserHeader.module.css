@@ -6,14 +6,25 @@
 }
 
 .container-notifications {
-    svg {
-        cursor: pointer;
-        transition: fill 0.6s ease-in-out;
-    }
-    svg:hover {
-        fill: var(--cor-primaria-azul-escuro);
-    }
+  position: relative;
+  display: inline-block;
+
+  svg {
+    cursor: pointer;
+    transition: fill 0.6s ease-in-out;
+  }
+
+  svg:hover {
+    fill: var(--cor-primaria-azul-escuro);
+  }
 }
+
+.notification-dot {
+  position: absolute;
+  top: 6px;
+  right: -1px;
+}
+
 
 .container-user {
   display: flex;

@@ -40,6 +40,8 @@ const EditedEventModalCampo = ({
     };
 
     loadFuncionarios();
+
+    console.log(JSON.stringify(editedEvent))
   }, []);
 
 
