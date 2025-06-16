@@ -23,7 +23,7 @@ const EditedEventModalCampo = ({
 
   // const pets = [...new Set(events.map((event) => event.cliente.pet.nome))];
   const [funcionariosNomes, setFuncionariosNomes] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState( editedEvent.scheduleStatus);
+  const [selectedStatus, setSelectedStatus] = useState(editedEvent.scheduleStatus);
 
   useEffect(() => {
     const loadFuncionarios = async () => {
@@ -41,8 +41,11 @@ const EditedEventModalCampo = ({
 
     loadFuncionarios();
 
-    console.log(JSON.stringify(editedEvent))
   }, []);
+
+  useEffect(() => {
+    console.log("EVENTOOOO" + JSON.stringify(editedEvent))
+  }, [])
 
 
 
@@ -83,10 +86,11 @@ const EditedEventModalCampo = ({
   };
 
   const formatPaymentMethod = (method) => {
+    console.log("METODOOO " + method)
     if (!method) {
       return "Método não especificado"; // Ou qualquer valor que você queira retornar
     }
-  
+
     const formattedMethods = {
       PIX: "Pix",
       CARTAO_CREDITO: "Cartão Crédito",
@@ -200,7 +204,7 @@ const EditedEventModalCampo = ({
             titulo={"Selecione uma forma de pagamento*"}
             icon={SiContactlesspayment}
             selectedItem={formatPaymentMethod(
-              editedEvent.payment?.paymentMethod
+              editedEvent.payment.paymentMethod
             )}
             className={styles["container-dropdown"]}
             exibirInformacao={false}
@@ -215,11 +219,11 @@ const EditedEventModalCampo = ({
                 <input
                   type="radio"
                   name="paymentStatus"
-                  value="false"
-                  checked={editedEvent.payment?.paymentStatus != "APPROVED"}
-                  onChange={handleSelectChange} 
+                  value="PENDING"
+                  checked={editedEvent.payment?.paymentStatus !== "APPROVED"}
+                  onChange={handleSelectChange}
                   disabled={
-                    !isEditing || editedEvent.payment?.paymentMethod == "PIX"
+                    !isEditing || editedEvent.payment?.paymentMethod === "PIX"
                   }
                 />
                 Pendente
@@ -228,16 +232,17 @@ const EditedEventModalCampo = ({
                 <input
                   type="radio"
                   name="paymentStatus"
-                  value="true"
+                  value="APPROVED"
                   checked={editedEvent.payment?.paymentStatus === "APPROVED"}
-                  onChange={handleSelectChange} 
+                  onChange={handleSelectChange}
                   disabled={
-                    !isEditing || editedEvent.payment?.paymentMethod == "PIX"
+                    !isEditing || editedEvent.payment?.paymentMethod === "PIX"
                   }
                 />
                 Pago
               </label>
             </div>
+
           </div>
         </div>
       </div>

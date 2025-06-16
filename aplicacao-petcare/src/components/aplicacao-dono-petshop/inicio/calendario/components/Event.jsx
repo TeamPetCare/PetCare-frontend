@@ -276,7 +276,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
               {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".9em" }}>
-              Pag.: {event.payment?.paymentStatus == "APPROVED" ? "Pago" : "OIOIO"}
+              Pag.: {event.payment?.paymentStatus == "APPROVED" ? "Pago" : "Pendente"}
             </p>
           </div>
           <div

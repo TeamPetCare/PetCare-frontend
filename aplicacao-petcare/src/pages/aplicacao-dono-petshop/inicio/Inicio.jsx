@@ -54,18 +54,21 @@ const Inicio = () => {
   const loadData = async () => {
     try {
       const servicos = await getAllSchedulesMonthly(currentMonth);
-
-      const formattedEvents = servicos.map((servico) => ({
+  
+      const ativos = servicos.filter((servico) => servico.deletedAt === null);
+  
+      const formattedEvents = ativos.map((servico) => ({
         ...servico,
         start: new Date(servico.scheduleDate),
         end: new Date(formatEndTime(servico.scheduleDate, servico.scheduleTime)),
       }));
-
+  
       setAllEvents(formattedEvents);
     } catch (error) {
       console.error("Erro ao carregar serviços:", error);
     }
   };
+  
 
   return (
     <div className={styles["container"]}>
