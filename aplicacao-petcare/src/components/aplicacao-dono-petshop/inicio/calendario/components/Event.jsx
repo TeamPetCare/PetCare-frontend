@@ -240,7 +240,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
               {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".8em" }}>
-              Pag.: {event.payment.paymentStatus ? "Pago" : "Pendente"}
+              Pag.: {event.payment.paymentStatus === "APPROVED" ? "Pago" : "Pendente"}
             </p>
           </div>
         </div>
@@ -276,7 +276,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
               {formatTime(event.start)} - {formatTime(event.end)}
             </p>
             <p style={{ fontSize: ".9em" }}>
-              Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+              Pag.: {event.payment?.paymentStatus == "APPROVED" ? "Pago" : "OIOIO"}
             </p>
           </div>
           <div
@@ -305,7 +305,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
             </h3>
             <p style={{ fontSize: "1em", fontWeight: "300" }}>
               Status: {capitalizeFirstLetter(event.scheduleStatus)} | Pag.:{" "}
-              {event.paymentStatus ? "Pago" : "Pendente"}
+              {event.payment?.paymentStatus === "APPROVED" ? "Pago" : "Pendente"}
             </p>
           </div>
           <div
@@ -341,7 +341,7 @@ const Event = forwardRef(({ event, view, onCancelEvent, onUpdate }, ref) => {
               </div>
 
               <p style={{ fontSize: ".8em" }}>
-                Pag.: {event.paymentStatus ? "Pago" : "Pendente"}
+                Pag.: {event.payment?.paymentStatus === "APPROVED" ? "Pago" : "Pendente"}
               </p>
             </div>
             <p
