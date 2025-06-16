@@ -32,6 +32,8 @@ const ModalEditAgendamento = ({ show, handleClose, dados, onSave }) => {
         observacoes: dados.observacoes || "",
         horario: dados.horario || { inicio: null, fim: null },
       });
+
+      console.log(formData)
     }
 
   }, [dados]);

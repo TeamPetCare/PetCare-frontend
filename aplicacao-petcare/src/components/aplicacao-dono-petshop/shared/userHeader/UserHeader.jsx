@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { PiUserCirclePlusThin } from "react-icons/pi";
+import { GoDotFill } from "react-icons/go";
 import { useMediaQuery } from "react-responsive";
 import styles from "./UserHeader.module.css";
 import ftUser from "../../../../utils/assets/aplicacao-dono-petshop/ftUser.png";
@@ -19,7 +20,11 @@ const UserHeader = () => {
     <div className={styles["container"]}>
       <div className={styles["container-notifications"]}>
         <IoIosNotificationsOutline size={28} color="black" />
+        <span className={styles["notification-dot"]}>
+          <GoDotFill color="red" size={18} />
+        </span>
       </div>
+
       <Link
         to="/dono-petshop/meus-dados"
         className={styles["link-user-profile"]}

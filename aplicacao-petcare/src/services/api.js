@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://54.158.98.142/api',
+  baseURL: 'http://api.pet-care.software/api',
 });
 
 // Intercepta requisições para adicionar o token de autorização

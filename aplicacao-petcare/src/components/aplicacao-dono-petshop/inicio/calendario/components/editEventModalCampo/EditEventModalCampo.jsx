@@ -40,6 +40,8 @@ const EditedEventModalCampo = ({
     };
 
     loadFuncionarios();
+
+    console.log(JSON.stringify(editedEvent))
   }, []);
 
 
@@ -214,7 +216,7 @@ const EditedEventModalCampo = ({
                   type="radio"
                   name="paymentStatus"
                   value="false"
-                  checked={editedEvent.payment?.paymentStatus === false}
+                  checked={editedEvent.payment?.paymentStatus != "APPROVED"}
                   onChange={handleSelectChange} 
                   disabled={
                     !isEditing || editedEvent.payment?.paymentMethod == "PIX"
@@ -227,7 +229,7 @@ const EditedEventModalCampo = ({
                   type="radio"
                   name="paymentStatus"
                   value="true"
-                  checked={editedEvent.payment?.paymentStatus === true}
+                  checked={editedEvent.payment?.paymentStatus === "APPROVED"}
                   onChange={handleSelectChange} 
                   disabled={
                     !isEditing || editedEvent.payment?.paymentMethod == "PIX"

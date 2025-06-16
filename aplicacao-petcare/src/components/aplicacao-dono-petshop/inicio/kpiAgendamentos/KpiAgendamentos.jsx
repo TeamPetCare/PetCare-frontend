@@ -33,10 +33,10 @@ const KpiAgendamentos = ({ dadosAgendamentos, month }) => {
   useEffect(() => {
     const totalAtendimentos = eventosFiltrados.length;
     const naoPagos = eventosFiltrados.filter(
-      (item) => item.payment?.paymentStatus === false
+      (item) => item.payment?.paymentStatus === "PENDING"
     ).length;
     const pagos = eventosFiltrados.filter(
-      (item) => item.payment?.paymentStatus === true
+      (item) => item.payment?.paymentStatus === "APPROVED"
     ).length;
 
     setQtdNaoPagos(naoPagos);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCheckCircle } from "react-icons/fa"; // Ícone de conclusão
+import { FaStar, FaCheckCircle } from "react-icons/fa"; // Ícone de conclusão
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import styles from "./EditEventModal.module.css";
@@ -27,8 +27,8 @@ const EditEventModal = ({
   };
   useEffect(() => {
   }, [editedEvent]);
-  
-  
+
+
 
   // Função para renderizar os títulos das etapas
   const renderStepTitles = () => {
@@ -38,9 +38,8 @@ const EditEventModal = ({
         {steps.map((step) => (
           <li
             key={step.index}
-            className={`${styles.stepBox} ${
-              step.index === currentStep ? styles.active : ""
-            }`}
+            className={`${styles.stepBox} ${step.index === currentStep ? styles.active : ""
+              }`}
           >
             {step.index}. {step.title}
           </li>
@@ -49,8 +48,8 @@ const EditEventModal = ({
     );
   };
 
-  const progressWidth = `${(currentStep / 1) * 100}%`; 
-  const isComplete = currentStep === 1; 
+  const progressWidth = `${(currentStep / 1) * 100}%`;
+  const isComplete = currentStep === 1;
 
   return (
     <Modal
@@ -87,10 +86,19 @@ const EditEventModal = ({
         <div className={styles["modal-title"]}>
           <h2>Editar Agendamento</h2>
           <p>*Campos Obrigatórios.</p>
+
+          {editedEvent.scheduleStatus === "CONCLUIDO" && editedEvent.review != null && (
+            <div style={{ display: "flex", gap: "4px", marginTop: "5px" }}>
+              <strong style={{ fontSize: "13px", color: "#005472" }}>Nota do Atendimento: </strong> 
+              {Array(editedEvent.review).fill(0).map((_, index) => (
+                <FaStar key={index} color="#FFD700" />
+              ))}
+            </div>
+          )}
         </div>
 
         <EditedEventModalCampo
-        key={editedEvent.id}
+          key={editedEvent.id}
           editedEvent={editedEvent}
           handleChange={handleChange}
           isEditing={isEditing}
