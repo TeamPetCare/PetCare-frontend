@@ -38,7 +38,7 @@ function MainButtonsHeader({
         className={`${styles["custom-btn"]} ${styles["report"]}`}
         onClick={onGenerateReport}
       >
-        <LuCloudDownload/>
+        <LuDownloadCloud />
         Gerar Relatório
       </button>
      

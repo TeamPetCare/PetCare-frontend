@@ -53,7 +53,7 @@ function MainButtonsHeader({ selectedData, onCreateClickCliente, onDeleteClickCl
       </button>
 
       <button className={`${styles["custom-btn"]} ${styles["report"]}`} onClick={onGenerateReport}>
-        <LuCloudDownload/>
+        <LuDownloadCloud />
         Gerar Relatório
       </button>
     </div>

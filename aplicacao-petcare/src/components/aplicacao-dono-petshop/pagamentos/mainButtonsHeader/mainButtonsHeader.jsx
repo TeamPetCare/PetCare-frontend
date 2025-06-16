@@ -14,7 +14,7 @@ function MainButtonsHeader({ onGenerateReport }) {
   return (
     <div className={styles["containers-btn"]}>
       <button className={`${styles["custom-btn"]} ${styles["report"]}`} onClick={onGenerateReport}>
-        <LuCloudDownload/>
+        <LuDownloadCloud />
         Gerar Relatório
       </button>
     </div>
