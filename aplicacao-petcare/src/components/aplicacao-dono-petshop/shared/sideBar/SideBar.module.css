@@ -119,7 +119,7 @@
   position: fixed;
   top: 28px;
   left: 15px;
-  z-index: 1000;
+  /* z-index: 1000; */
   cursor: pointer;
   color: var(--cor-primaria-azul-escuro);
 }
